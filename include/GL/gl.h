@@ -1,6 +1,6 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.0.1
+ * Version:  6.0.2
  *
  * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
@@ -60,6 +60,9 @@
 #  else /* for use with static link lib build of Win32 edition only */
 #    define GLAPI extern
 #  endif /* _STATIC_MESA support */
+#  define GLAPIENTRY __stdcall
+#elif defined(__CYGWIN__) && defined(USE_OPENGL32) /* use native windows opengl32 */
+#  define GLAPI extern
 #  define GLAPIENTRY __stdcall
 #else
 /* non-Windows compilation */
