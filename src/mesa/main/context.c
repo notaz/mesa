@@ -1,4 +1,4 @@
-/* $Id: context.c,v 1.188.2.2 2002/12/12 13:02:41 keithw Exp $ */
+/* $Id: context.c,v 1.188.2.3 2003/04/01 19:02:16 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -990,6 +990,8 @@ init_attrib_groups( GLcontext *ctx )
    ASSIGN_4V( ctx->Current.Attrib[VERT_ATTRIB_COLOR0], 1.0, 1.0, 1.0, 1.0 );
    ASSIGN_4V( ctx->Current.Attrib[VERT_ATTRIB_COLOR1], 0.0, 0.0, 0.0, 0.0 );
    ASSIGN_4V( ctx->Current.Attrib[VERT_ATTRIB_FOG], 0.0, 0.0, 0.0, 0.0 );
+   ASSIGN_4V( ctx->Current.Attrib[VERT_ATTRIB_SIX], 0.0, 0.0, 0.0, 1.0 );
+   ASSIGN_4V( ctx->Current.Attrib[VERT_ATTRIB_SEVEN], 0.0, 0.0, 0.0, 1.0 );
    for (i = 0; i < MAX_TEXTURE_UNITS; i++)
       ASSIGN_4V( ctx->Current.Attrib[VERT_ATTRIB_TEX0 + i], 0.0, 0.0, 0.0, 1.0 );
    ctx->Current.Index = 1;
@@ -1368,7 +1370,7 @@ init_attrib_groups( GLcontext *ctx )
    ctx->Array.Color.Ptr = NULL;
    ctx->Array.Color.Enabled = GL_FALSE;
    ctx->Array.Color.Flags = CA_CLIENT_DATA;
-   ctx->Array.SecondaryColor.Size = 4;
+   ctx->Array.SecondaryColor.Size = 3;
    ctx->Array.SecondaryColor.Type = GL_FLOAT;
    ctx->Array.SecondaryColor.Stride = 0;
    ctx->Array.SecondaryColor.StrideB = 0;
