@@ -1,6 +1,6 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.0.1
+ * Version:  6.0.2
  *
  * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
@@ -68,15 +68,8 @@ _mesa_init_vp_registers(GLcontext *ctx)
     * here - Karl
     */
    if (ctx->VertexProgram.Current->Parameters) {
-      /* Grab the state */			  
+      /* Grab the state GL state and put into registers */
       _mesa_load_state_parameters(ctx, ctx->VertexProgram.Current->Parameters);
-
-      /* And copy it into the program state */
-      for (i=0; i<ctx->VertexProgram.Current->Parameters->NumParameters; i++) {
-         MEMCPY(ctx->VertexProgram.Parameters[i], 
-                &ctx->VertexProgram.Current->Parameters->Parameters[i].Values,
-                4*sizeof(GLfloat));				
-      }				  
    }
 }
 
@@ -244,19 +237,23 @@ get_register_pointer( const struct vp_src_register *source,
    else {
       switch (source->File) {
          case PROGRAM_TEMPORARY:
+            ASSERT(source->Index < MAX_NV_VERTEX_PROGRAM_TEMPS);
             return state->Temporaries[source->Index];
          case PROGRAM_INPUT:
+            ASSERT(source->Index < MAX_NV_VERTEX_PROGRAM_INPUTS);
             return state->Inputs[source->Index];
          case PROGRAM_LOCAL_PARAM:
-            /* XXX fix */
-            return state->Temporaries[source->Index]; 
+            ASSERT(source->Index < MAX_PROGRAM_LOCAL_PARAMS);
+            return state->Current->Base.LocalParams[source->Index];
          case PROGRAM_ENV_PARAM:
+            ASSERT(source->Index < MAX_NV_VERTEX_PROGRAM_PARAMS);
             return state->Parameters[source->Index];
          case PROGRAM_STATE_VAR:
-            return state->Parameters[source->Index];
+            ASSERT(source->Index < state->Current->Parameters->NumParameters);
+            return state->Current->Parameters->Parameters[source->Index].Values;
          default:
             _mesa_problem(NULL,
-                          "Bad source register file in fetch_vector4(vp)");
+                          "Bad source register file in get_register_pointer");
             return NULL;
       }
    }
