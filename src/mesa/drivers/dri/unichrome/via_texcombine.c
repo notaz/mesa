@@ -240,7 +240,7 @@ viaTexCombineState( viaContextPtr vmesa,
 
       color |= (color_arg[0] << INPUT_B_SHIFT)
 	| (CONST_ONE << INPUT_A_SHIFT);
-
+      
       bias |= (color_arg[1] << INPUT_BiasC_SHIFT);
       ordered_constant_color[1] = constant_color[0];
       ordered_constant_color[3] = constant_color[1];
