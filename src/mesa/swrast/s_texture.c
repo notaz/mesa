@@ -3539,9 +3539,11 @@ texture_apply( const GLcontext *ctx,
 
    format = texUnit->_Current->Image[baseLevel]->Format;
 
-   if (format == GL_COLOR_INDEX || format == GL_DEPTH_COMPONENT
-       || format == GL_YCBCR_MESA) {
+   if (format == GL_COLOR_INDEX || format == GL_YCBCR_MESA) {
       format = GL_RGBA;  /* a bit of a hack */
+   }
+   else if (format == GL_DEPTH_COMPONENT) {
+      format = texUnit->_Current->DepthMode;
    }
 
    switch (texUnit->EnvMode) {
