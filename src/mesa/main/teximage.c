@@ -334,6 +334,7 @@ is_color_format(GLenum format)
       case GL_INTENSITY16:
       case 3:
       case GL_RGB:
+      case GL_BGR:
       case GL_R3_G3_B2:
       case GL_RGB4:
       case GL_RGB5:
@@ -343,6 +344,7 @@ is_color_format(GLenum format)
       case GL_RGB16:
       case 4:
       case GL_RGBA:
+      case GL_BGRA:
       case GL_RGBA2:
       case GL_RGBA4:
       case GL_RGB5_A1:
