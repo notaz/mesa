@@ -1,4 +1,4 @@
-/* $Id: wmesa.c,v 1.22.2.10 2002/09/12 17:02:52 kschultz Exp $ */
+/* $Id: wmesa.c,v 1.22.2.11 2002/10/04 15:44:32 kschultz Exp $ */
 
 /*
  * Windows (Win32) device driver for Mesa 3.4
@@ -100,7 +100,13 @@ WMesaContext WC = NULL;
 
 #ifdef COMPILE_SETPIXEL
 
-__forceinline void wmSetPixel(PWMC pwc, int iScanLine, int iPixel, BYTE r, BYTE g, BYTE b)
+#if defined(_MSC_VER) && MSC_VER >= 1200
+#define FORCEINLINE __forceinline
+#else
+#define FORCEINLINE __inline
+#endif
+
+FORCEINLINE void wmSetPixel(PWMC pwc, int iScanLine, int iPixel, BYTE r, BYTE g, BYTE b)
 {
 	pwc->wmSetPixel(pwc,iScanLine,iPixel,r,g,b);
 }
