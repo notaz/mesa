@@ -102,7 +102,7 @@ static const GLubyte *radeonGetString( GLcontext *ctx, GLenum name )
       offset = driGetRendererString( buffer, "Radeon", DRIVER_DATE,
 				     agp_mode );
 
-      sprintf( & buffer[ offset ], "%sTCL",
+      sprintf( & buffer[ offset ], " %sTCL",
 	       !(rmesa->TclFallback & RADEON_TCL_FALLBACK_TCL_DISABLE)
 	       ? "" : "NO-" );
 
@@ -561,7 +561,7 @@ radeonMakeCurrent( __DRIcontextPrivate *driContextPriv,
 	 (radeonContextPtr) driContextPriv->driverPrivate;
 
       if (RADEON_DEBUG & DEBUG_DRI)
-	 fprintf(stderr, "%s ctx %p\n", __FUNCTION__, newCtx->glCtx);
+	 fprintf(stderr, "%s ctx %p\n", __FUNCTION__, (void *)newCtx->glCtx);
 
       if ( newCtx->dri.drawable != driDrawPriv ) {
 	 driDrawableInitVBlank( driDrawPriv, newCtx->vblank_flags );
@@ -601,7 +601,7 @@ radeonUnbindContext( __DRIcontextPrivate *driContextPriv )
    radeonContextPtr rmesa = (radeonContextPtr) driContextPriv->driverPrivate;
 
    if (RADEON_DEBUG & DEBUG_DRI)
-      fprintf(stderr, "%s ctx %p\n", __FUNCTION__, rmesa->glCtx);
+      fprintf(stderr, "%s ctx %p\n", __FUNCTION__, (void *)rmesa->glCtx);
 
    return GL_TRUE;
 }

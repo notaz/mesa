@@ -40,7 +40,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #ifdef GLX_DIRECT_RENDERING
 
-#include <inttypes.h>
 #include "dri_util.h"
 #include "radeon_common.h"
 #include "texmem.h"
@@ -749,8 +748,8 @@ struct radeon_context {
    GLuint vbl_seq;
    GLuint vblank_flags;
 
-   uint64_t swap_ust;
-   uint64_t swap_missed_ust;
+   int64_t swap_ust;
+   int64_t swap_missed_ust;
 
    GLuint swap_count;
    GLuint swap_missed_count;

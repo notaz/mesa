@@ -1,4 +1,4 @@
-/* $Id: 3dnow_normal.S,v 1.6.2.1 2004/04/08 08:09:38 alanh Exp $ */
+/* $Id: 3dnow_normal.S,v 1.6.2.2 2004/04/26 10:02:29 alanh Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -27,6 +27,8 @@
 /*
  * 3Dnow assembly code by Holger Waechtler
  */
+
+#ifdef USE_3DNOW_ASM
 
 #include "matypes.h"
 #include "norm_args.h"
@@ -834,3 +836,5 @@ LLBL (G3R_end):
     POP_L      ( ESI )
     POP_L      ( EDI )
     RET
+
+#endif
