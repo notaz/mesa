@@ -1,4 +1,4 @@
-/* $Id: common_x86.c,v 1.6.4.6 2000/12/07 02:36:07 gareth Exp $ */
+/* $Id: common_x86.c,v 1.6.4.7 2001/06/06 18:12:50 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -88,7 +88,7 @@ static void message( const char *msg )
 extern void gl_test_os_katmai_support( void );
 extern void gl_test_os_katmai_exception_support( void );
 
-#if defined(__linux__) && defined(_POSIX_SOURCE)
+#if defined(__linux__) && defined(_POSIX_SOURCE) && defined(X86_FXSR_MAGIC)
 static void sigill_handler( int signal, struct sigcontext sc )
 {
    message( "SIGILL, " );
@@ -126,7 +126,7 @@ static void sigfpe_handler( int signal, struct sigcontext sc )
       gl_problem( NULL, "SSE enabling test failed badly!" );
    }
 }
-#endif /* __linux__ && _POSIX_SOURCE */
+#endif /* __linux__ && _POSIX_SOURCE && X86_FXSR_MAGIC */
 
 /* If we're running on a processor that can do SSE, let's see if we
  * are allowed to or not.  This will catch 2.4.0 or later kernels that
@@ -139,7 +139,7 @@ static void sigfpe_handler( int signal, struct sigcontext sc )
 static void check_os_katmai_support( void )
 {
 #if defined(__linux__)
-#if defined(_POSIX_SOURCE)
+#if defined(_POSIX_SOURCE) && defined(X86_FXSR_MAGIC)
    struct sigaction saved_sigill;
    struct sigaction saved_sigfpe;
 
@@ -213,7 +213,7 @@ static void check_os_katmai_support( void )
     */
    message( "Cannot test OS support for SSE, disabling to be safe.\n" );
    gl_x86_cpu_features &= ~(X86_FEATURE_XMM);
-#endif /* _POSIX_SOURCE */
+#endif /* _POSIX_SOURCE && X86_FXSR_MAGIC */
 #else
    /* Do nothing on non-Linux platforms for now.
     */
