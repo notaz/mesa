@@ -1,9 +1,8 @@
-
 /*
  * Mesa 3-D graphics library
- * Version:  4.1
+ * Version:  5.0.2
  *
- * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -73,7 +72,7 @@ static void fallback_drawelements( GLcontext *ctx, GLenum mode, GLsizei count,
 
 static void _tnl_draw_range_elements( GLcontext *ctx, GLenum mode,
 				      GLuint start, GLuint end,
-				      GLsizei count, const GLuint *indices )
+				      GLsizei count, GLuint *indices )
 
 {
    TNLcontext *tnl = TNL_CONTEXT(ctx);
