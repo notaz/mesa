@@ -1,4 +1,4 @@
-/* $Id: stencil.c,v 1.16.4.4 2001/05/17 20:19:00 brianp Exp $ */
+/* $Id: stencil.c,v 1.16.4.5 2002/01/08 14:55:48 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -1181,6 +1181,8 @@ void
 _mesa_write_stencil_span( GLcontext *ctx, GLint n, GLint x, GLint y,
                           const GLstencil stencil[] )
 {
+   const GLstencil *ssrc = stencil;
+
    if (y < 0 || y >= ctx->DrawBuffer->Height ||
        x + n <= 0 || x >= ctx->DrawBuffer->Width) {
       /* span is completely outside framebuffer */
@@ -1191,7 +1193,7 @@ _mesa_write_stencil_span( GLcontext *ctx, GLint n, GLint x, GLint y,
       GLint dx = -x;
       x = 0;
       n -= dx;
-      stencil += dx;
+      ssrc += dx;
    }
    if (x + n > ctx->DrawBuffer->Width) {
       GLint dx = x + n - ctx->DrawBuffer->Width;
@@ -1202,16 +1204,16 @@ _mesa_write_stencil_span( GLcontext *ctx, GLint n, GLint x, GLint y,
    }
 
    if (ctx->Driver.WriteStencilSpan) {
-      (*ctx->Driver.WriteStencilSpan)( ctx, n, x, y, stencil, NULL );
+      (*ctx->Driver.WriteStencilSpan)( ctx, n, x, y, ssrc, NULL );
    }
    else if (ctx->DrawBuffer->Stencil) {
       GLstencil *s = STENCIL_ADDRESS( x, y );
 #if STENCIL_BITS == 8
-      MEMCPY( s, stencil, n * sizeof(GLstencil) );
+      MEMCPY( s, ssrc, n * sizeof(GLstencil) );
 #else
       GLuint i;
       for (i=0;i<n;i++)
-         s[i] = stencil[i];
+         s[i] = ssrc[i];
 #endif
    }
 }
