@@ -119,7 +119,7 @@ generic_noop(void)
 void
 _mesa_init_no_op_table(struct _glapi_table *table, GLuint tableSize)
 {
-   typedef void (*func_ptr_t)();
+   typedef void (*func_ptr_t)(void);
    GLuint i;
    func_ptr_t *dispatch = (func_ptr_t *) table;
    for (i = 0; i < tableSize; i++) {
@@ -724,7 +724,6 @@ _mesa_init_exec_table(struct _glapi_table *exec, GLuint tableSize)
    exec->UnmapBufferARB = _mesa_UnmapBufferARB;
 #endif
 
-   /* ARB 29. GL_ARB_occlusion_query */
 #if FEATURE_ARB_occlusion_query
    exec->GenQueriesARB = _mesa_GenQueriesARB;
    exec->DeleteQueriesARB = _mesa_DeleteQueriesARB;
@@ -735,9 +734,6 @@ _mesa_init_exec_table(struct _glapi_table *exec, GLuint tableSize)
    exec->GetQueryObjectivARB = _mesa_GetQueryObjectivARB;
    exec->GetQueryObjectuivARB = _mesa_GetQueryObjectuivARB;
 #endif
-
-   /* ARB 37. GL_ARB_draw_buffers */
-   exec->DrawBuffersARB = _mesa_DrawBuffersARB;
 }
 
 /*@}*/
