@@ -1,6 +1,6 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.0
+ * Version:  6.0.2
  *
  * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
@@ -948,6 +948,8 @@ _mesa_DeletePrograms(GLsizei n, const GLuint *ids)
             if (prog->RefCount <= 0) {
                _mesa_delete_program(ctx, prog);
             }
+            /* always remove from hash table */
+            _mesa_HashRemove(ctx->Shared->Programs, ids[i]);
          }
       }
    }
