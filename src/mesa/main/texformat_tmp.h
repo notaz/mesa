@@ -17,9 +17,9 @@
 
 /*
  * Mesa 3-D graphics library
- * Version:  5.1
+ * Version:  6.0.1
  *
- * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -255,7 +255,7 @@ static void FETCH(rgb332)( const struct gl_texture_image *texImage,
    GLchan *rgba = (GLchan *) texel;
    rgba[RCOMP] = UBYTE_TO_CHAN( ((s     ) & 0xe0) * 255 / 0xe0 );
    rgba[GCOMP] = UBYTE_TO_CHAN( ((s << 3) & 0xe0) * 255 / 0xe0 );
-   rgba[BCOMP] = UBYTE_TO_CHAN( ((s << 5) & 0xc0) * 255 / 0xc0 );
+   rgba[BCOMP] = UBYTE_TO_CHAN( ((s << 6) & 0xc0) * 255 / 0xc0 );
    rgba[ACOMP] = CHAN_MAX;
 }
 
