@@ -1108,7 +1108,6 @@ void xmesa_init_pointers( GLcontext *ctx )
 {
    TNLcontext *tnl;
    struct swrast_device_driver *dd = _swrast_GetDeviceDriverReference( ctx );
-   const XMesaContext xmesa = XMESA_CONTEXT(ctx);
 
    /* Plug in our driver-specific functions here */
    ctx->Driver.GetString = get_string;
