@@ -394,7 +394,6 @@ _mesa_is_legal_format_and_type( GLenum format, GLenum type )
                return GL_FALSE;
          }
       case GL_RGB:
-      case GL_BGR:
          switch (type) {
             case GL_BYTE:
             case GL_UNSIGNED_BYTE:
@@ -408,6 +407,20 @@ _mesa_is_legal_format_and_type( GLenum format, GLenum type )
             case GL_UNSIGNED_BYTE_2_3_3_REV:
             case GL_UNSIGNED_SHORT_5_6_5:
             case GL_UNSIGNED_SHORT_5_6_5_REV:
+               return GL_TRUE;
+            default:
+               return GL_FALSE;
+         }
+      case GL_BGR:
+         switch (type) {
+            case GL_BYTE:
+            case GL_UNSIGNED_BYTE:
+            case GL_SHORT:
+            case GL_UNSIGNED_SHORT:
+            case GL_INT:
+            case GL_UNSIGNED_INT:
+            case GL_FLOAT:
+            case GL_HALF_FLOAT_NV:
                return GL_TRUE;
             default:
                return GL_FALSE;
