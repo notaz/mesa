@@ -1,9 +1,8 @@
-
 /*
  * Mesa 3-D graphics library
- * Version:  5.1
+ * Version:  6.2.1
  * 
- * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -1141,160 +1140,161 @@ generic_no_op_func(void)
 void
 _glxapi_set_no_op_table(struct _glxapi_table *t)
 {
+   typedef int (*nop_func)(void);
+   nop_func *dispatch = (nop_func *) t;
    GLuint n = _glxapi_get_dispatch_table_size();
    GLuint i;
-   void **dispatch = (void **) t;
    for (i = 0; i < n; i++) {
-      dispatch[i] = (void *) generic_no_op_func;
+      dispatch[i] = generic_no_op_func;
    }
 }
 
 
 struct name_address_pair {
    const char *Name;
-   GLvoid *Address;
+   __GLXextFuncPtr Address;
 };
 
 static struct name_address_pair GLX_functions[] = {
    /*** GLX_VERSION_1_0 ***/
-   { "glXChooseVisual", (GLvoid *) glXChooseVisual },
-   { "glXCopyContext", (GLvoid *) glXCopyContext },
-   { "glXCreateContext", (GLvoid *) glXCreateContext },
-   { "glXCreateGLXPixmap", (GLvoid *) glXCreateGLXPixmap },
-   { "glXDestroyContext", (GLvoid *) glXDestroyContext },
-   { "glXDestroyGLXPixmap", (GLvoid *) glXDestroyGLXPixmap },
-   { "glXGetConfig", (GLvoid *) glXGetConfig },
-   { "glXGetCurrentContext", (GLvoid *) glXGetCurrentContext },
-   { "glXGetCurrentDrawable", (GLvoid *) glXGetCurrentDrawable },
-   { "glXIsDirect", (GLvoid *) glXIsDirect },
-   { "glXMakeCurrent", (GLvoid *) glXMakeCurrent },
-   { "glXQueryExtension", (GLvoid *) glXQueryExtension },
-   { "glXQueryVersion", (GLvoid *) glXQueryVersion },
-   { "glXSwapBuffers", (GLvoid *) glXSwapBuffers },
-   { "glXUseXFont", (GLvoid *) glXUseXFont },
-   { "glXWaitGL", (GLvoid *) glXWaitGL },
-   { "glXWaitX", (GLvoid *) glXWaitX },
+   { "glXChooseVisual", (__GLXextFuncPtr) glXChooseVisual },
+   { "glXCopyContext", (__GLXextFuncPtr) glXCopyContext },
+   { "glXCreateContext", (__GLXextFuncPtr) glXCreateContext },
+   { "glXCreateGLXPixmap", (__GLXextFuncPtr) glXCreateGLXPixmap },
+   { "glXDestroyContext", (__GLXextFuncPtr) glXDestroyContext },
+   { "glXDestroyGLXPixmap", (__GLXextFuncPtr) glXDestroyGLXPixmap },
+   { "glXGetConfig", (__GLXextFuncPtr) glXGetConfig },
+   { "glXGetCurrentContext", (__GLXextFuncPtr) glXGetCurrentContext },
+   { "glXGetCurrentDrawable", (__GLXextFuncPtr) glXGetCurrentDrawable },
+   { "glXIsDirect", (__GLXextFuncPtr) glXIsDirect },
+   { "glXMakeCurrent", (__GLXextFuncPtr) glXMakeCurrent },
+   { "glXQueryExtension", (__GLXextFuncPtr) glXQueryExtension },
+   { "glXQueryVersion", (__GLXextFuncPtr) glXQueryVersion },
+   { "glXSwapBuffers", (__GLXextFuncPtr) glXSwapBuffers },
+   { "glXUseXFont", (__GLXextFuncPtr) glXUseXFont },
+   { "glXWaitGL", (__GLXextFuncPtr) glXWaitGL },
+   { "glXWaitX", (__GLXextFuncPtr) glXWaitX },
 
    /*** GLX_VERSION_1_1 ***/
-   { "glXGetClientString", (GLvoid *) glXGetClientString },
-   { "glXQueryExtensionsString", (GLvoid *) glXQueryExtensionsString },
-   { "glXQueryServerString", (GLvoid *) glXQueryServerString },
+   { "glXGetClientString", (__GLXextFuncPtr) glXGetClientString },
+   { "glXQueryExtensionsString", (__GLXextFuncPtr) glXQueryExtensionsString },
+   { "glXQueryServerString", (__GLXextFuncPtr) glXQueryServerString },
 
    /*** GLX_VERSION_1_2 ***/
-   { "glXGetCurrentDisplay", (GLvoid *) glXGetCurrentDisplay },
+   { "glXGetCurrentDisplay", (__GLXextFuncPtr) glXGetCurrentDisplay },
 
    /*** GLX_VERSION_1_3 ***/
-   { "glXChooseFBConfig", (GLvoid *) glXChooseFBConfig },
-   { "glXCreateNewContext", (GLvoid *) glXCreateNewContext },
-   { "glXCreatePbuffer", (GLvoid *) glXCreatePbuffer },
-   { "glXCreatePixmap", (GLvoid *) glXCreatePixmap },
-   { "glXCreateWindow", (GLvoid *) glXCreateWindow },
-   { "glXDestroyPbuffer", (GLvoid *) glXDestroyPbuffer },
-   { "glXDestroyPixmap", (GLvoid *) glXDestroyPixmap },
-   { "glXDestroyWindow", (GLvoid *) glXDestroyWindow },
-   { "glXGetCurrentReadDrawable", (GLvoid *) glXGetCurrentReadDrawable },
-   { "glXGetFBConfigAttrib", (GLvoid *) glXGetFBConfigAttrib },
-   { "glXGetFBConfigs", (GLvoid *) glXGetFBConfigs },
-   { "glXGetSelectedEvent", (GLvoid *) glXGetSelectedEvent },
-   { "glXGetVisualFromFBConfig", (GLvoid *) glXGetVisualFromFBConfig },
-   { "glXMakeContextCurrent", (GLvoid *) glXMakeContextCurrent },
-   { "glXQueryContext", (GLvoid *) glXQueryContext },
-   { "glXQueryDrawable", (GLvoid *) glXQueryDrawable },
-   { "glXSelectEvent", (GLvoid *) glXSelectEvent },
+   { "glXChooseFBConfig", (__GLXextFuncPtr) glXChooseFBConfig },
+   { "glXCreateNewContext", (__GLXextFuncPtr) glXCreateNewContext },
+   { "glXCreatePbuffer", (__GLXextFuncPtr) glXCreatePbuffer },
+   { "glXCreatePixmap", (__GLXextFuncPtr) glXCreatePixmap },
+   { "glXCreateWindow", (__GLXextFuncPtr) glXCreateWindow },
+   { "glXDestroyPbuffer", (__GLXextFuncPtr) glXDestroyPbuffer },
+   { "glXDestroyPixmap", (__GLXextFuncPtr) glXDestroyPixmap },
+   { "glXDestroyWindow", (__GLXextFuncPtr) glXDestroyWindow },
+   { "glXGetCurrentReadDrawable", (__GLXextFuncPtr) glXGetCurrentReadDrawable },
+   { "glXGetFBConfigAttrib", (__GLXextFuncPtr) glXGetFBConfigAttrib },
+   { "glXGetFBConfigs", (__GLXextFuncPtr) glXGetFBConfigs },
+   { "glXGetSelectedEvent", (__GLXextFuncPtr) glXGetSelectedEvent },
+   { "glXGetVisualFromFBConfig", (__GLXextFuncPtr) glXGetVisualFromFBConfig },
+   { "glXMakeContextCurrent", (__GLXextFuncPtr) glXMakeContextCurrent },
+   { "glXQueryContext", (__GLXextFuncPtr) glXQueryContext },
+   { "glXQueryDrawable", (__GLXextFuncPtr) glXQueryDrawable },
+   { "glXSelectEvent", (__GLXextFuncPtr) glXSelectEvent },
 
    /*** GLX_VERSION_1_4 ***/
-   { "glXGetProcAddress", (GLvoid *) glXGetProcAddress },
+   { "glXGetProcAddress", (__GLXextFuncPtr) glXGetProcAddress },
 
    /*** GLX_SGI_swap_control ***/
-   { "glXSwapIntervalSGI", (GLvoid *) glXSwapIntervalSGI },
+   { "glXSwapIntervalSGI", (__GLXextFuncPtr) glXSwapIntervalSGI },
 
    /*** GLX_SGI_video_sync ***/
-   { "glXGetVideoSyncSGI", (GLvoid *) glXGetVideoSyncSGI },
-   { "glXWaitVideoSyncSGI", (GLvoid *) glXWaitVideoSyncSGI },
+   { "glXGetVideoSyncSGI", (__GLXextFuncPtr) glXGetVideoSyncSGI },
+   { "glXWaitVideoSyncSGI", (__GLXextFuncPtr) glXWaitVideoSyncSGI },
 
    /*** GLX_SGI_make_current_read ***/
-   { "glXMakeCurrentReadSGI", (GLvoid *) glXMakeCurrentReadSGI },
-   { "glXGetCurrentReadDrawableSGI", (GLvoid *) glXGetCurrentReadDrawableSGI },
+   { "glXMakeCurrentReadSGI", (__GLXextFuncPtr) glXMakeCurrentReadSGI },
+   { "glXGetCurrentReadDrawableSGI", (__GLXextFuncPtr) glXGetCurrentReadDrawableSGI },
 
    /*** GLX_SGIX_video_source ***/
 #if defined(_VL_H)
-   { "glXCreateGLXVideoSourceSGIX", (GLvoid *) glXCreateGLXVideoSourceSGIX },
-   { "glXDestroyGLXVideoSourceSGIX", (GLvoid *) glXDestroyGLXVideoSourceSGIX },
+   { "glXCreateGLXVideoSourceSGIX", (__GLXextFuncPtr) glXCreateGLXVideoSourceSGIX },
+   { "glXDestroyGLXVideoSourceSGIX", (__GLXextFuncPtr) glXDestroyGLXVideoSourceSGIX },
 #endif
 
    /*** GLX_EXT_import_context ***/
-   { "glXFreeContextEXT", (GLvoid *) glXFreeContextEXT },
-   { "glXGetContextIDEXT", (GLvoid *) glXGetContextIDEXT },
-   { "glXGetCurrentDisplayEXT", (GLvoid *) glXGetCurrentDisplayEXT },
-   { "glXImportContextEXT", (GLvoid *) glXImportContextEXT },
-   { "glXQueryContextInfoEXT", (GLvoid *) glXQueryContextInfoEXT },
+   { "glXFreeContextEXT", (__GLXextFuncPtr) glXFreeContextEXT },
+   { "glXGetContextIDEXT", (__GLXextFuncPtr) glXGetContextIDEXT },
+   { "glXGetCurrentDisplayEXT", (__GLXextFuncPtr) glXGetCurrentDisplayEXT },
+   { "glXImportContextEXT", (__GLXextFuncPtr) glXImportContextEXT },
+   { "glXQueryContextInfoEXT", (__GLXextFuncPtr) glXQueryContextInfoEXT },
 
    /*** GLX_SGIX_fbconfig ***/
-   { "glXGetFBConfigAttribSGIX", (GLvoid *) glXGetFBConfigAttribSGIX },
-   { "glXChooseFBConfigSGIX", (GLvoid *) glXChooseFBConfigSGIX },
-   { "glXCreateGLXPixmapWithConfigSGIX", (GLvoid *) glXCreateGLXPixmapWithConfigSGIX },
-   { "glXCreateContextWithConfigSGIX", (GLvoid *) glXCreateContextWithConfigSGIX },
-   { "glXGetVisualFromFBConfigSGIX", (GLvoid *) glXGetVisualFromFBConfigSGIX },
-   { "glXGetFBConfigFromVisualSGIX", (GLvoid *) glXGetFBConfigFromVisualSGIX },
+   { "glXGetFBConfigAttribSGIX", (__GLXextFuncPtr) glXGetFBConfigAttribSGIX },
+   { "glXChooseFBConfigSGIX", (__GLXextFuncPtr) glXChooseFBConfigSGIX },
+   { "glXCreateGLXPixmapWithConfigSGIX", (__GLXextFuncPtr) glXCreateGLXPixmapWithConfigSGIX },
+   { "glXCreateContextWithConfigSGIX", (__GLXextFuncPtr) glXCreateContextWithConfigSGIX },
+   { "glXGetVisualFromFBConfigSGIX", (__GLXextFuncPtr) glXGetVisualFromFBConfigSGIX },
+   { "glXGetFBConfigFromVisualSGIX", (__GLXextFuncPtr) glXGetFBConfigFromVisualSGIX },
 
    /*** GLX_SGIX_pbuffer ***/
-   { "glXCreateGLXPbufferSGIX", (GLvoid *) glXCreateGLXPbufferSGIX },
-   { "glXDestroyGLXPbufferSGIX", (GLvoid *) glXDestroyGLXPbufferSGIX },
-   { "glXQueryGLXPbufferSGIX", (GLvoid *) glXQueryGLXPbufferSGIX },
-   { "glXSelectEventSGIX", (GLvoid *) glXSelectEventSGIX },
-   { "glXGetSelectedEventSGIX", (GLvoid *) glXGetSelectedEventSGIX },
+   { "glXCreateGLXPbufferSGIX", (__GLXextFuncPtr) glXCreateGLXPbufferSGIX },
+   { "glXDestroyGLXPbufferSGIX", (__GLXextFuncPtr) glXDestroyGLXPbufferSGIX },
+   { "glXQueryGLXPbufferSGIX", (__GLXextFuncPtr) glXQueryGLXPbufferSGIX },
+   { "glXSelectEventSGIX", (__GLXextFuncPtr) glXSelectEventSGIX },
+   { "glXGetSelectedEventSGIX", (__GLXextFuncPtr) glXGetSelectedEventSGIX },
 
    /*** GLX_SGI_cushion ***/
-   { "glXCushionSGI", (GLvoid *) glXCushionSGI },
+   { "glXCushionSGI", (__GLXextFuncPtr) glXCushionSGI },
 
    /*** GLX_SGIX_video_resize ***/
-   { "glXBindChannelToWindowSGIX", (GLvoid *) glXBindChannelToWindowSGIX },
-   { "glXChannelRectSGIX", (GLvoid *) glXChannelRectSGIX },
-   { "glXQueryChannelRectSGIX", (GLvoid *) glXQueryChannelRectSGIX },
-   { "glXQueryChannelDeltasSGIX", (GLvoid *) glXQueryChannelDeltasSGIX },
-   { "glXChannelRectSyncSGIX", (GLvoid *) glXChannelRectSyncSGIX },
+   { "glXBindChannelToWindowSGIX", (__GLXextFuncPtr) glXBindChannelToWindowSGIX },
+   { "glXChannelRectSGIX", (__GLXextFuncPtr) glXChannelRectSGIX },
+   { "glXQueryChannelRectSGIX", (__GLXextFuncPtr) glXQueryChannelRectSGIX },
+   { "glXQueryChannelDeltasSGIX", (__GLXextFuncPtr) glXQueryChannelDeltasSGIX },
+   { "glXChannelRectSyncSGIX", (__GLXextFuncPtr) glXChannelRectSyncSGIX },
 
    /*** GLX_SGIX_dmbuffer **/
 #if defined(_DM_BUFFER_H_)
-   { "glXAssociateDMPbufferSGIX", (GLvoid *) glXAssociateDMPbufferSGIX },
+   { "glXAssociateDMPbufferSGIX", (__GLXextFuncPtr) glXAssociateDMPbufferSGIX },
 #endif
 
    /*** GLX_SGIX_swap_group ***/
-   { "glXJoinSwapGroupSGIX", (GLvoid *) glXJoinSwapGroupSGIX },
+   { "glXJoinSwapGroupSGIX", (__GLXextFuncPtr) glXJoinSwapGroupSGIX },
 
    /*** GLX_SGIX_swap_barrier ***/
-   { "glXBindSwapBarrierSGIX", (GLvoid *) glXBindSwapBarrierSGIX },
-   { "glXQueryMaxSwapBarriersSGIX", (GLvoid *) glXQueryMaxSwapBarriersSGIX },
+   { "glXBindSwapBarrierSGIX", (__GLXextFuncPtr) glXBindSwapBarrierSGIX },
+   { "glXQueryMaxSwapBarriersSGIX", (__GLXextFuncPtr) glXQueryMaxSwapBarriersSGIX },
 
    /*** GLX_SUN_get_transparent_index ***/
-   { "glXGetTransparentIndexSUN", (GLvoid *) glXGetTransparentIndexSUN },
+   { "glXGetTransparentIndexSUN", (__GLXextFuncPtr) glXGetTransparentIndexSUN },
 
    /*** GLX_MESA_copy_sub_buffer ***/
-   { "glXCopySubBufferMESA", (GLvoid *) glXCopySubBufferMESA },
+   { "glXCopySubBufferMESA", (__GLXextFuncPtr) glXCopySubBufferMESA },
 
    /*** GLX_MESA_pixmap_colormap ***/
-   { "glXCreateGLXPixmapMESA", (GLvoid *) glXCreateGLXPixmapMESA },
+   { "glXCreateGLXPixmapMESA", (__GLXextFuncPtr) glXCreateGLXPixmapMESA },
 
    /*** GLX_MESA_release_buffers ***/
-   { "glXReleaseBuffersMESA", (GLvoid *) glXReleaseBuffersMESA },
+   { "glXReleaseBuffersMESA", (__GLXextFuncPtr) glXReleaseBuffersMESA },
 
    /*** GLX_MESA_set_3dfx_mode ***/
-   { "glXSet3DfxModeMESA", (GLvoid *) glXSet3DfxModeMESA },
+   { "glXSet3DfxModeMESA", (__GLXextFuncPtr) glXSet3DfxModeMESA },
 
    /*** GLX_ARB_get_proc_address ***/
-   { "glXGetProcAddressARB", (GLvoid *) glXGetProcAddressARB },
+   { "glXGetProcAddressARB", (__GLXextFuncPtr) glXGetProcAddressARB },
 
    /*** GLX_NV_vertex_array_range ***/
-   { "glXAllocateMemoryNV", (GLvoid *) glXAllocateMemoryNV },
-   { "glXFreeMemoryNV", (GLvoid *) glXFreeMemoryNV },
+   { "glXAllocateMemoryNV", (__GLXextFuncPtr) glXAllocateMemoryNV },
+   { "glXFreeMemoryNV", (__GLXextFuncPtr) glXFreeMemoryNV },
 
    /*** GLX_MESA_agp_offset ***/
-   { "glXGetAGPOffsetMESA", (GLvoid *) glXGetAGPOffsetMESA },
+   { "glXGetAGPOffsetMESA", (__GLXextFuncPtr) glXGetAGPOffsetMESA },
 
    /*** GLX_ARB_render_texture ***/
-   { "glXBindTexImageARB", (GLvoid *) glXBindTexImageARB },
-   { "glXReleaseTexImageARB", (GLvoid *) glXReleaseTexImageARB },
-   { "glXDrawableAttribARB", (GLvoid *) glXDrawableAttribARB },
+   { "glXBindTexImageARB", (__GLXextFuncPtr) glXBindTexImageARB },
+   { "glXReleaseTexImageARB", (__GLXextFuncPtr) glXReleaseTexImageARB },
+   { "glXDrawableAttribARB", (__GLXextFuncPtr) glXDrawableAttribARB },
 
    { NULL, NULL }   /* end of list */
 };
@@ -1304,7 +1304,7 @@ static struct name_address_pair GLX_functions[] = {
 /*
  * Return address of named glX function, or NULL if not found.
  */
-const GLvoid *
+__GLXextFuncPtr
 _glxapi_get_proc_address(const char *funcName)
 {
    GLuint i;
@@ -1321,17 +1321,17 @@ _glxapi_get_proc_address(const char *funcName)
  * This function does not get dispatched through the dispatch table
  * since it's really a "meta" function.
  */
-void (*glXGetProcAddressARB(const GLubyte *procName))()
+__GLXextFuncPtr
+glXGetProcAddressARB(const GLubyte *procName)
 {
-   typedef void (*gl_function)();
-   gl_function f;
+   __GLXextFuncPtr f;
 
-   f = (gl_function) _glxapi_get_proc_address((const char *) procName);
+   f = _glxapi_get_proc_address((const char *) procName);
    if (f) {
       return f;
    }
 
-   f = (gl_function) _glapi_get_proc_address((const char *) procName);
+   f = (__GLXextFuncPtr) _glapi_get_proc_address((const char *) procName);
    return f;
 }
 

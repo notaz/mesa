@@ -129,6 +129,7 @@ class PrintGlOffsets(gl_XML.FilterGLAPISpecBase):
 #error RETURN_DISPATCH must be defined
 #endif
 
+GLAPI void GLAPIENTRY gl__unused413(void);  /* silence warning */
 """
 		return
 
@@ -148,7 +149,7 @@ class PrintGlOffsets(gl_XML.FilterGLAPISpecBase):
 #error TABLE_ENTRY must be defined
 #endif
 
-static void * DISPATCH_TABLE_NAME[] = {"""
+static _glapi_proc DISPATCH_TABLE_NAME[] = {"""
 		keys = self.functions.keys()
 		keys.sort()
 		for k in keys:
@@ -175,7 +176,7 @@ static void * DISPATCH_TABLE_NAME[] = {"""
  * We list the functions which are not otherwise used.
  */
 #ifdef UNUSED_TABLE_NAME
-static const void * const UNUSED_TABLE_NAME[] = {"""
+static _glapi_proc UNUSED_TABLE_NAME[] = {"""
 
 		keys = self.functions.keys()
 		keys.sort()

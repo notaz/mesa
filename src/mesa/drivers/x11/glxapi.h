@@ -229,7 +229,7 @@ extern void
 _glxapi_set_no_op_table(struct _glxapi_table *t);
 
 
-extern const GLvoid *
+extern __GLXextFuncPtr
 _glxapi_get_proc_address(const char *funcName);
 
 

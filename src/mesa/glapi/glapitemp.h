@@ -69,6 +69,7 @@
 #error RETURN_DISPATCH must be defined
 #endif
 
+GLAPI void GLAPIENTRY gl__unused413(void);  /* silence warning */
 
 KEYWORD1 void KEYWORD2 NAME(NewList)(GLuint list, GLenum mode)
 {
@@ -2135,9 +2136,9 @@ KEYWORD1 void KEYWORD2 NAME(SampleCoverageARB)(GLclampf value, GLboolean invert)
    DISPATCH(SampleCoverageARB, (value, invert), (F, "glSampleCoverageARB(%f, %d);\n", value, invert));
 }
 
-KEYWORD1 void KEYWORD2 NAME(DrawBuffersARB)(GLsizei n, const GLenum * bufs)
+KEYWORD1 void KEYWORD2 NAME(__unused413)(void)
 {
-   DISPATCH(DrawBuffersARB, (n, bufs), (F, "glDrawBuffersARB(%d, %p);\n", n, (const void *) bufs));
+   DISPATCH(__unused413, (), (F, "gl__unused413();\n"));
 }
 
 KEYWORD1 void KEYWORD2 NAME(PolygonOffsetEXT)(GLfloat factor, GLfloat bias)
@@ -4635,11 +4636,6 @@ KEYWORD1 void KEYWORD2 NAME(SamplePatternEXT)(GLenum pattern)
    DISPATCH(SamplePatternSGIS, (pattern), (F, "glSamplePatternEXT(0x%x);\n", pattern));
 }
 
-KEYWORD1 void KEYWORD2 NAME(DrawBuffersATI)(GLsizei n, const GLenum * bufs)
-{
-   DISPATCH(DrawBuffersARB, (n, bufs), (F, "glDrawBuffersATI(%d, %p);\n", n, (const void *) bufs));
-}
-
 KEYWORD1 void KEYWORD2 NAME(BlendEquationSeparateATI)(GLenum modeRGB, GLenum modeA)
 {
    DISPATCH(BlendEquationSeparateEXT, (modeRGB, modeA), (F, "glBlendEquationSeparateATI(0x%x, 0x%x);\n", modeRGB, modeA));
@@ -4673,7 +4669,7 @@ KEYWORD1 void KEYWORD2 NAME(PointParameterfvSGIS)(GLenum pname, const GLfloat * 
 #error TABLE_ENTRY must be defined
 #endif
 
-static void * DISPATCH_TABLE_NAME[] = {
+static _glapi_proc DISPATCH_TABLE_NAME[] = {
    TABLE_ENTRY(NewList),
    TABLE_ENTRY(EndList),
    TABLE_ENTRY(CallList),
@@ -5087,7 +5083,7 @@ static void * DISPATCH_TABLE_NAME[] = {
    TABLE_ENTRY(MultTransposeMatrixfARB),
    TABLE_ENTRY(MultTransposeMatrixdARB),
    TABLE_ENTRY(SampleCoverageARB),
-   TABLE_ENTRY(DrawBuffersARB),
+   TABLE_ENTRY(__unused413),
    TABLE_ENTRY(PolygonOffsetEXT),
    TABLE_ENTRY(GetTexFilterFuncSGIS),
    TABLE_ENTRY(TexFilterFuncSGIS),
@@ -5497,7 +5493,7 @@ static void * DISPATCH_TABLE_NAME[] = {
  * We list the functions which are not otherwise used.
  */
 #ifdef UNUSED_TABLE_NAME
-static const void * const UNUSED_TABLE_NAME[] = {
+static _glapi_proc UNUSED_TABLE_NAME[] = {
    TABLE_ENTRY(ActiveTexture),
    TABLE_ENTRY(ClientActiveTexture),
    TABLE_ENTRY(MultiTexCoord1d),
@@ -5700,7 +5696,6 @@ static const void * const UNUSED_TABLE_NAME[] = {
    TABLE_ENTRY(DrawRangeElementsEXT),
    TABLE_ENTRY(SampleMaskEXT),
    TABLE_ENTRY(SamplePatternEXT),
-   TABLE_ENTRY(DrawBuffersATI),
    TABLE_ENTRY(BlendEquationSeparateATI),
    TABLE_ENTRY(BlendFuncSeparateINGR),
    TABLE_ENTRY(PointParameterfSGIS),

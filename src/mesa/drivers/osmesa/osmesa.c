@@ -1273,23 +1273,25 @@ OSMesaGetColorBuffer( OSMesaContext c, GLint *width,
 }
 
 
+typedef void (*OSMESAproc)();
 
-struct name_address {
+struct name_function
+{
    const char *Name;
-   GLvoid *Address;
+   OSMESAproc Function;
 };
 
-static struct name_address functions[] = {
-   { "OSMesaCreateContext", (void *) OSMesaCreateContext },
-   { "OSMesaCreateContextExt", (void *) OSMesaCreateContextExt },
-   { "OSMesaDestroyContext", (void *) OSMesaDestroyContext },
-   { "OSMesaMakeCurrent", (void *) OSMesaMakeCurrent },
-   { "OSMesaGetCurrentContext", (void *) OSMesaGetCurrentContext },
-   { "OSMesaPixelsStore", (void *) OSMesaPixelStore },
-   { "OSMesaGetIntegerv", (void *) OSMesaGetIntegerv },
-   { "OSMesaGetDepthBuffer", (void *) OSMesaGetDepthBuffer },
-   { "OSMesaGetColorBuffer", (void *) OSMesaGetColorBuffer },
-   { "OSMesaGetProcAddress", (void *) OSMesaGetProcAddress },
+static struct name_function functions[] = {
+   { "OSMesaCreateContext", (OSMESAproc) OSMesaCreateContext },
+   { "OSMesaCreateContextExt", (OSMESAproc) OSMesaCreateContextExt },
+   { "OSMesaDestroyContext", (OSMESAproc) OSMesaDestroyContext },
+   { "OSMesaMakeCurrent", (OSMESAproc) OSMesaMakeCurrent },
+   { "OSMesaGetCurrentContext", (OSMESAproc) OSMesaGetCurrentContext },
+   { "OSMesaPixelsStore", (OSMESAproc) OSMesaPixelStore },
+   { "OSMesaGetIntegerv", (OSMESAproc) OSMesaGetIntegerv },
+   { "OSMesaGetDepthBuffer", (OSMESAproc) OSMesaGetDepthBuffer },
+   { "OSMesaGetColorBuffer", (OSMESAproc) OSMesaGetColorBuffer },
+   { "OSMesaGetProcAddress", (OSMESAproc) OSMesaGetProcAddress },
    { NULL, NULL }
 };
 
@@ -1299,7 +1301,7 @@ OSMesaGetProcAddress( const char *funcName )
    int i;
    for (i = 0; functions[i].Name; i++) {
       if (_mesa_strcmp(functions[i].Name, funcName) == 0)
-         return (void *) functions[i].Address;
+         return (void *) functions[i].Function;
    }
    return (void *) _glapi_get_proc_address(funcName);
 }
