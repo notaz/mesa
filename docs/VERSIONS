@@ -1207,7 +1207,7 @@ Mesa Version History
 
 6.0.1  Month day, 2004
     New:
-	- no new features
+	- upgraded glext.h to version 22
     Bug fixes:
 	- glBindProgramARB didn't update all necessary state
 	- fixed build problems on OpenBSD
@@ -1225,3 +1225,4 @@ Mesa Version History
 	- glXCreateWindow() wasn't fully implemented (bug 890894)
 	- generic vertex attribute arrays didn't work in display lists
 	- vertex buffer objects' default usage and access fields were wrong
+	- glDrawArrays with start!=0 was broken
