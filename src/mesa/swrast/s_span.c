@@ -1,8 +1,8 @@
 /*
  * Mesa 3-D graphics library
- * Version:  5.1
+ * Version:  6.0.2
  *
- * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -841,7 +841,9 @@ _swrast_write_index_span( GLcontext *ctx, struct sw_span *span)
    }
 
    /* if we get here, something passed the depth test */
-   ctx->OcclusionResult = GL_TRUE;
+   if (ctx->Depth.OcclusionTest) {
+      ctx->OcclusionResult = GL_TRUE;
+   }
 
 #if FEATURE_ARB_occlusion_query
    if (ctx->Occlusion.Active) {
@@ -1054,7 +1056,9 @@ _swrast_write_rgba_span( GLcontext *ctx, struct sw_span *span)
    }
 
    /* if we get here, something passed the depth test */
-   ctx->OcclusionResult = GL_TRUE;
+   if (ctx->Depth.OcclusionTest) {
+      ctx->OcclusionResult = GL_TRUE;
+   }
 
 #if FEATURE_ARB_occlusion_query
    if (ctx->Occlusion.Active) {
@@ -1304,7 +1308,9 @@ _swrast_write_texture_span( GLcontext *ctx, struct sw_span *span)
    }
 
    /* if we get here, some fragments passed the depth test */
-   ctx->OcclusionResult = GL_TRUE;
+   if (ctx->Depth.OcclusionTest) {
+      ctx->OcclusionResult = GL_TRUE;
+   }
 
 #if FEATURE_ARB_occlusion_query
    if (ctx->Occlusion.Active) {
