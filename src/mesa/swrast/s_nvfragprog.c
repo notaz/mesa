@@ -1219,9 +1219,9 @@ execute_program( GLcontext *ctx,
                const GLuint *rawBits = (const GLuint *) a;
                fetch_vector1( ctx, &inst->SrcReg[0], machine, program, a );
                result[0] = (((rawBits[0] >>  0) & 0xff) - 128) / 127.0F;
-               result[0] = (((rawBits[0] >>  8) & 0xff) - 128) / 127.0F;
-               result[0] = (((rawBits[0] >> 16) & 0xff) - 128) / 127.0F;
-               result[0] = (((rawBits[0] >> 24) & 0xff) - 128) / 127.0F;
+               result[1] = (((rawBits[0] >>  8) & 0xff) - 128) / 127.0F;
+               result[2] = (((rawBits[0] >> 16) & 0xff) - 128) / 127.0F;
+               result[3] = (((rawBits[0] >> 24) & 0xff) - 128) / 127.0F;
                store_vector4( inst, machine, result );
             }
             break;
@@ -1231,9 +1231,21 @@ execute_program( GLcontext *ctx,
                const GLuint *rawBits = (const GLuint *) a;
                fetch_vector1( ctx, &inst->SrcReg[0], machine, program, a );
                result[0] = ((rawBits[0] >>  0) & 0xff) / 255.0F;
-               result[0] = ((rawBits[0] >>  8) & 0xff) / 255.0F;
-               result[0] = ((rawBits[0] >> 16) & 0xff) / 255.0F;
-               result[0] = ((rawBits[0] >> 24) & 0xff) / 255.0F;
+               result[1] = ((rawBits[0] >>  8) & 0xff) / 255.0F;
+               result[2] = ((rawBits[0] >> 16) & 0xff) / 255.0F;
+               result[3] = ((rawBits[0] >> 24) & 0xff) / 255.0F;
+               store_vector4( inst, machine, result );
+            }
+            break;
+         case FP_OPCODE_XPD: /* cross product */
+            {
+               GLfloat a[4], b[4], result[4];
+               fetch_vector4( ctx, &inst->SrcReg[0], machine, program, a );
+               fetch_vector4( ctx, &inst->SrcReg[1], machine, program, b );
+               result[0] = a[1] * b[2] - a[2] * b[1];
+               result[1] = a[2] * b[0] - a[0] * b[2];
+               result[2] = a[0] * b[1] - a[1] * b[0];
+               result[3] = 1.0;
                store_vector4( inst, machine, result );
             }
             break;

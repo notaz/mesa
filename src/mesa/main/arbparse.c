@@ -5136,7 +5136,7 @@ parse_fp_instruction (GLcontext * ctx, GLubyte ** inst,
             case OP_XPD_SAT:
                fp->Saturate = 1;
             case OP_XPD:
-               fp->Opcode = FP_OPCODE_X2D;
+               fp->Opcode = FP_OPCODE_XPD;
                break;
          }
 
