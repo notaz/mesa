@@ -1216,3 +1216,5 @@ Mesa Version History
 	- fixed an infinite loop in t&l module
 	- silenced some valgrind warnings about using unitialized memory
 	- fixed some compilation/link glitches on IRIX (Mike Stephens)
+	- glBindProgram wasn't getting compiled into display lists
+	- GLX_FBCONFIG_ID wasn't recognized in glXChooseFBConfig() (bug 888079)
