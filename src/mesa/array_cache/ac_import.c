@@ -197,28 +197,21 @@ static void reset_attrib( GLcontext *ctx, GLuint index )
 /*
  * Generic import function for color data
  */
-static void import( GLcontext *ctx,
-		    GLenum type,
-		    struct gl_client_array *to,
-		    struct gl_client_array *from )
+static void
+import( const GLcontext *ctx,
+        GLenum destType,
+        struct gl_client_array *to,
+        const struct gl_client_array *from )
 {
-   GLubyte *dest;
-   const GLubyte *src;
-   ACcontext *ac = AC_CONTEXT(ctx);
+   const ACcontext *ac = AC_CONTEXT(ctx);
 
-   if (type == 0) 
-      type = from->Type;
+   if (destType == 0) 
+      destType = from->Type;
 
-   /* The dest and source data addresses are the sum of the buffer
-    * object's start plus the vertex array pointer/offset.
-    */
-   dest = ADD_POINTERS(to->BufferObj->Data, to->Ptr);
-   src = ADD_POINTERS(from->BufferObj->Data, from->Ptr);
-
-   switch (type) {
+   switch (destType) {
    case GL_FLOAT:
-      _math_trans_4fc( (GLfloat (*)[4]) dest,
-                       src,
+      _math_trans_4fc( (GLfloat (*)[4]) to->Ptr,
+                       from->Ptr,
 		       from->StrideB,
 		       from->Type,
 		       from->Size,
@@ -230,8 +223,8 @@ static void import( GLcontext *ctx,
       break;
       
    case GL_UNSIGNED_BYTE:
-      _math_trans_4ub( (GLubyte (*)[4]) dest,
-                       src,
+      _math_trans_4ub( (GLubyte (*)[4]) to->Ptr,
+                       from->Ptr,
 		       from->StrideB,
 		       from->Type,
 		       from->Size,
@@ -243,8 +236,8 @@ static void import( GLcontext *ctx,
       break;
 
    case GL_UNSIGNED_SHORT:
-      _math_trans_4us( (GLushort (*)[4]) dest,
-                       src,
+      _math_trans_4us( (GLushort (*)[4]) to->Ptr,
+                       from->Ptr,
 		       from->StrideB,
 		       from->Type,
 		       from->Size,
@@ -256,7 +249,7 @@ static void import( GLcontext *ctx,
       break;
       
    default:
-      ASSERT(0);
+      _mesa_problem(ctx, "Unexpected dest format in import()");
       break;
    }
 }
