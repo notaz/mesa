@@ -1,9 +1,8 @@
-
 /*
  * Mesa 3-D graphics library
- * Version:  4.1
+ * Version:  5.0.2
  *
- * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -329,8 +328,10 @@ raster_pos4f(GLcontext *ctx, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
    /* clip to view volume */
    if (ctx->Transform.RasterPositionUnclipped) {
       /* GL_IBM_rasterpos_clip: only clip against Z */
-      if (viewclip_point_z(clip) == 0)
+      if (viewclip_point_z(clip) == 0) {
          ctx->Current.RasterPosValid = GL_FALSE;
+         return;
+      }
    }
    else if (viewclip_point(clip) == 0) {
       /* Normal OpenGL behaviour */
