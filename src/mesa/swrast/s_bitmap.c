@@ -91,7 +91,7 @@ _swrast_Bitmap( GLcontext *ctx, GLint px, GLint py,
    if (ctx->Texture._EnabledCoordUnits)
       _swrast_span_default_texcoords(ctx, &span);
 
-   for (row = 0; row < height; row++, span.y++) {
+   for (row = 0; row < height; row++) {
       const GLubyte *src = (const GLubyte *) _mesa_image_address( unpack,
                  bitmap, width, height, GL_COLOR_INDEX, GL_BITMAP, 0, row, 0 );
 
