@@ -1,6 +1,6 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.0
+ * Version:  6.0.1
  *
  * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
@@ -2210,6 +2210,13 @@ glGetProgramRegisterfvMESA(GLenum target, GLsizei len, const GLubyte *name,
                            GLfloat *v);
 
 #endif /* GL_MESA_program_debug */
+
+
+/**
+ ** NOTE!!!!!  If you add new functions to this file, or update
+ ** glext.h be sure to regenerate the gl_mangle.h file.  See comments
+ ** in that file for details.
+ **/
 
 
 /**********************************************************************
