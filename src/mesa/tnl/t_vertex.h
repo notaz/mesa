@@ -53,6 +53,8 @@ enum tnl_attr_format {
    EMIT_3UB_3F_BGR,		/* for specular color */
    EMIT_4UB_4F_RGBA,		/* for color */
    EMIT_4UB_4F_BGRA,		/* for color */
+   EMIT_4UB_4F_ARGB,		/* for color */
+   EMIT_4UB_4F_ABGR,		/* for color */
    EMIT_4CHAN_4F_RGBA,		/* for swrast color */
    EMIT_PAD,			/* leave a hole of 'offset' bytes */
    EMIT_MAX
