@@ -1301,3 +1301,5 @@ Mesa Version History
     New:
     Bug fixes:
 	- don't apply regular fog or color sum when using a fragment program
+	- glProgramEnvParameter4fARB always generated an error on
+	  GL_FRAGMENT_PROGRAM_ARB (fdo bug 1645)
