@@ -1,9 +1,8 @@
-
 /*
  * Mesa 3-D graphics library
- * Version:  4.1
+ * Version:  5.0.2
  *
- * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -118,13 +117,19 @@ _mesa_Clear( GLbitfield mask )
       if (!ctx->Depth.Mask)
          mask &= ~GL_DEPTH_BUFFER_BIT;
 
-      /* Build bitmask to send to driver Clear function */
-      ddMask = mask & (GL_DEPTH_BUFFER_BIT |
-                       GL_STENCIL_BUFFER_BIT |
-                       GL_ACCUM_BUFFER_BIT);
-      if (mask & GL_COLOR_BUFFER_BIT) {
+      /* Build the bitmask to send to device driver's Clear function.
+       * Note that the GL_COLOR_BUFFER_BIT flag will expand to 0, 1, 2 or 4
+       * of the FRONT/BACK_LEFT/RIGHT_BIT flags.
+       */
+      ddMask = 0;
+      if (mask & GL_COLOR_BUFFER_BIT)
          ddMask |= ctx->Color._DrawDestMask;
-      }
+      if ((mask & GL_DEPTH_BUFFER_BIT) && ctx->Visual.depthBits > 0)
+         ddMask |= GL_DEPTH_BUFFER_BIT;
+      if ((mask & GL_STENCIL_BUFFER_BIT) && ctx->Visual.stencilBits > 0)
+         ddMask |= GL_STENCIL_BUFFER_BIT;
+      if ((mask & GL_ACCUM_BUFFER_BIT) && ctx->Visual.accumRedBits > 0)
+         ddMask |= GL_ACCUM_BUFFER_BIT;
 
       ASSERT(ctx->Driver.Clear);
       ctx->Driver.Clear( ctx, ddMask, (GLboolean) !ctx->Scissor.Enabled,
