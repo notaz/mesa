@@ -1,4 +1,4 @@
-/* $Id: t_dd_vbtmp.h,v 1.14.2.5 2002/08/21 17:46:08 alanh Exp $ */
+/* $Id: t_dd_vbtmp.h,v 1.14.2.6 2002/10/23 10:23:55 keithw Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -708,7 +708,7 @@ static void TAG(interp)( GLcontext *ctx,
 	 }
       }
       else if (DO_PTEX) {
-	 dst->pv.q0 = 0.0;	/* must be a valid float on radeon */
+	 dst->pv.q1 = 0.0;	/* must be a valid float on radeon */
       }
       if (DO_TEX2) {
 	 if (DO_PTEX) {
