@@ -1,6 +1,6 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.1
+ * Version:  6.2
  *
  * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
@@ -834,7 +834,7 @@ _mesa_SeparableFilter2D(GLenum target, GLenum internalFormat, GLsizei width, GLs
    }
 
    /* unpack column filter */
-   _mesa_unpack_color_span_float(ctx, width, GL_RGBA,
+   _mesa_unpack_color_span_float(ctx, height, GL_RGBA,
                                  &ctx->Separable2D.Filter[colStart],
                                  format, type, column, &ctx->Unpack,
                                  0); /* transferOps */
@@ -844,7 +844,7 @@ _mesa_SeparableFilter2D(GLenum target, GLenum internalFormat, GLsizei width, GLs
       const GLfloat *scale = ctx->Pixel.ConvolutionFilterScale[2];
       const GLfloat *bias = ctx->Pixel.ConvolutionFilterBias[2];
       GLint i;
-      for (i = 0; i < width; i++) {
+      for (i = 0; i < height; i++) {
          GLfloat r = ctx->Separable2D.Filter[i * 4 + 0 + colStart];
          GLfloat g = ctx->Separable2D.Filter[i * 4 + 1 + colStart];
          GLfloat b = ctx->Separable2D.Filter[i * 4 + 2 + colStart];
