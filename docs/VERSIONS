@@ -1207,7 +1207,7 @@ Mesa Version History
 
 6.0.1  Month day, 2004
     New:
-    Changes:
+	- no new features
     Bug fixes:
 	- glBindProgramARB didn't update all necessary state
 	- fixed build problems on OpenBSD
@@ -1223,3 +1223,5 @@ Mesa Version History
 	  didn't work.
 	- fixed glOrtho bug found with gcc 3.2.2 (RH9)
 	- glXCreateWindow() wasn't fully implemented (bug 890894)
+	- generic vertex attribute arrays didn't work in display lists
+	- vertex buffer objects' default usage and access fields were wrong
