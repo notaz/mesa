@@ -1,4 +1,4 @@
-/* $Id: common_x86.c,v 1.6.4.7 2001/06/06 18:12:50 brianp Exp $ */
+/* $Id: common_x86.c,v 1.6.4.8 2001/06/06 18:28:17 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -36,7 +36,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#if defined(USE_KATMAI_ASM) && defined(__linux__) && defined(_POSIX_SOURCE)
+#if defined(USE_KATMAI_ASM) && defined(__linux__)
 #include <signal.h>
 #endif
 
