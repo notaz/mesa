@@ -352,6 +352,7 @@ irix6-n32:
 	"CXX = CC" \
 	"CFLAGS = -n32 -mips3 -O3 -ansi -woff 1174,1521,1552 -DUSE_XSHM" \
 	"CXXFLAGS = -n32 -mips3 -O3 -ansi -woff 1174,1552" \
+	"MKLIB_OPTIONS = -static" \
 	"APP_LIB_DEPS = -n32 -lglut -lGLU -lGL -lX11 -lXext -lXmu -lXi -lm"
 
 irix6-n32-dso:
