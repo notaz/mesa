@@ -277,7 +277,7 @@ static int error_position = -1;
 
 static byte *unknown = (byte *) "???";
 
-static void clear_last_error ()
+static void clear_last_error (void)
 {
     /* reset error message */
     error_message = NULL;
@@ -768,7 +768,7 @@ static void rule_append (rule **ru, rule **nr)
 /*
     returns unique grammar id
 */
-static grammar next_valid_grammar_id ()
+static grammar next_valid_grammar_id (void)
 {
     static grammar id = 0;
 
@@ -2771,23 +2771,29 @@ void grammar_get_last_error (byte *text, unsigned int size, int *pos)
                                 }\
                             }
 
-    if (p) {
-	while (*p) {
-            if (*p == '$') {
+    if (p)
+	{
+		while (*p)
+		{
+            if (*p == '$')
+            {
                 const byte *r = error_param;
 
-                while (*r) {
+                while (*r)
+                {
                     APPEND_CHARACTER(*r)
                     r++;
                 }
+
                 p++;
             }
-            else {
+            else
+            {
                 APPEND_CHARACTER(*p)
                 p++;
             }
+		}
 	}
-    }
     *pos = error_position;
 
 #undef APPEND_CHARACTER
