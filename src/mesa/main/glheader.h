@@ -1,4 +1,4 @@
-/* $Id: glheader.h,v 1.23.2.4 2002/06/12 00:28:55 brianp Exp $ */
+/* $Id: glheader.h,v 1.23.2.5 2002/10/31 00:36:12 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -46,7 +46,7 @@
 
 
 
-#ifdef XFree86LOADER
+#ifdef XFree86Module
 #include "xf86_ansic.h"
 #else
 #include <assert.h>
