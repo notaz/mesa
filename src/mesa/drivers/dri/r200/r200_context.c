@@ -143,7 +143,6 @@ static const char * const card_extensions[] =
     "GL_ATI_texture_env_combine3",
     "GL_ATI_texture_mirror_once",
     "GL_MESA_pack_invert",
-    "GL_MESA_ycbcr_texture",
     "GL_NV_blend_square",
     "GL_SGIS_generate_mipmap",
     NULL
@@ -401,6 +400,11 @@ GLboolean r200CreateContext( const __GLcontextModes *glVisual,
    _math_matrix_set_identity( &rmesa->tmpmat );
 
    driInitExtensions( ctx, card_extensions, GL_TRUE );
+   if (rmesa->r200Screen->chipset & R200_CHIPSET_REAL_R200) {
+   /* yuv textures only work with r200 chips for unknown reasons, the
+      others get the bit ordering right but don't actually do YUV-RGB conversion */
+      _mesa_enable_extension( ctx, "GL_MESA_ycbcr_texture" );
+   }
    if (rmesa->r200Screen->drmSupportsCubeMaps)
       _mesa_enable_extension( ctx, "GL_ARB_texture_cube_map" );
    if (rmesa->r200Screen->drmSupportsBlendColor) {
