@@ -1,6 +1,6 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.0.1
+ * Version:  6.0.2
  *
  * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
@@ -372,6 +372,39 @@ is_index_format(GLenum format)
       case GL_COLOR_INDEX8_EXT:
       case GL_COLOR_INDEX12_EXT:
       case GL_COLOR_INDEX16_EXT:
+         return GL_TRUE;
+      default:
+         return GL_FALSE;
+   }
+}
+
+
+/**
+ * Test if the given internal texture format is a depth component format.
+ */
+static GLboolean
+is_depth_format(GLenum internalFormat)
+{
+   switch (internalFormat) {
+      case GL_DEPTH_COMPONENT16_ARB:
+      case GL_DEPTH_COMPONENT24_ARB:
+      case GL_DEPTH_COMPONENT32_ARB:
+      case GL_DEPTH_COMPONENT:
+         return GL_TRUE;
+      default:
+         return GL_FALSE;
+   }
+}
+
+
+/**
+ * Test if the given internal texture format is a YCbCr format.
+ */
+static GLboolean
+is_ycbcr_format(GLenum internalFormat)
+{
+   switch (internalFormat) {
+      case GL_YCBCR_MESA:
          return GL_TRUE;
       default:
          return GL_FALSE;
@@ -1240,16 +1273,25 @@ texture_error_check( GLcontext *ctx, GLenum target,
       return GL_TRUE;
    }
 
-   if (format == GL_YCBCR_MESA || internalFormat == GL_YCBCR_MESA) {
+   /* make sure internal format and format basically agree */
+   if ((is_color_format(internalFormat) != is_color_format(format)) ||
+       (is_index_format(internalFormat) != is_index_format(format)) ||
+       (is_depth_format(internalFormat) != is_depth_format(format)) ||
+       (is_ycbcr_format(internalFormat) != is_ycbcr_format(format))) {
+      if (!isProxy)
+         _mesa_error(ctx, GL_INVALID_OPERATION,
+                     "glTexImage(internalFormat/format)");
+      return GL_TRUE;
+   }
+
+   /* additional checks for ycbcr textures */
+   if (internalFormat == GL_YCBCR_MESA) {
       ASSERT(ctx->Extensions.MESA_ycbcr_texture);
-      if (format != GL_YCBCR_MESA ||
-          internalFormat != GL_YCBCR_MESA ||
-          (type != GL_UNSIGNED_SHORT_8_8_MESA &&
-          type != GL_UNSIGNED_SHORT_8_8_REV_MESA)) {
+      if (type != GL_UNSIGNED_SHORT_8_8_MESA &&
+          type != GL_UNSIGNED_SHORT_8_8_REV_MESA) {
          char message[100];
          _mesa_sprintf(message,
-                 "glTexImage%d(format/type/internalFormat YCBCR mismatch",
-                 dimensions);
+                 "glTexImage%d(format/type YCBCR mismatch", dimensions);
          _mesa_error(ctx, GL_INVALID_ENUM, message);
          return GL_TRUE; /* error */
       }
@@ -1273,6 +1315,21 @@ texture_error_check( GLcontext *ctx, GLenum target,
       }
    }
 
+   /* additional checks for depth textures */
+   if (_mesa_base_tex_format(ctx, internalFormat) == GL_DEPTH_COMPONENT) {
+      /* Only 1D and 2D textures supported */
+      if (target != GL_TEXTURE_1D &&
+          target != GL_PROXY_TEXTURE_1D &&
+          target != GL_TEXTURE_2D &&
+          target != GL_PROXY_TEXTURE_2D) {
+         if (!isProxy)
+            _mesa_error(ctx, GL_INVALID_ENUM,
+                        "glTexImage(target/internalFormat)");
+         return GL_TRUE;
+      }
+   }
+
+   /* additional checks for compressed textures */
    if (is_compressed_format(ctx, internalFormat)) {
       if (target == GL_TEXTURE_2D || target == GL_PROXY_TEXTURE_2D) {
          /* OK */
