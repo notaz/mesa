@@ -5,9 +5,9 @@
 
 /*
  * Mesa 3-D graphics library
- * Version:  5.1
+ * Version:  6.0.1
  *
- * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -861,21 +861,21 @@ void _mesa_set_enable( GLcontext *ctx, GLenum cap, GLboolean state )
          CHECK_EXTENSION(NV_vertex_program, cap);
          if (ctx->VertexProgram.Enabled == state)
             return;
-         FLUSH_VERTICES(ctx, _NEW_TRANSFORM | _NEW_PROGRAM);  /* XXX OK? */
+         FLUSH_VERTICES(ctx, _NEW_PROGRAM);
          ctx->VertexProgram.Enabled = state;
          break;
       case GL_VERTEX_PROGRAM_POINT_SIZE_NV:
          CHECK_EXTENSION(NV_vertex_program, cap);
          if (ctx->VertexProgram.PointSizeEnabled == state)
             return;
-         FLUSH_VERTICES(ctx, _NEW_POINT | _NEW_PROGRAM);
+         FLUSH_VERTICES(ctx, _NEW_PROGRAM);
          ctx->VertexProgram.PointSizeEnabled = state;
          break;
       case GL_VERTEX_PROGRAM_TWO_SIDE_NV:
          CHECK_EXTENSION(NV_vertex_program, cap);
          if (ctx->VertexProgram.TwoSideEnabled == state)
             return;
-         FLUSH_VERTICES(ctx, _NEW_PROGRAM);  /* XXX OK? */
+         FLUSH_VERTICES(ctx, _NEW_PROGRAM);
          ctx->VertexProgram.TwoSideEnabled = state;
          break;
       case GL_MAP1_VERTEX_ATTRIB0_4_NV:
@@ -931,7 +931,7 @@ void _mesa_set_enable( GLcontext *ctx, GLenum cap, GLboolean state )
          CHECK_EXTENSION(NV_fragment_program, cap);
          if (ctx->FragmentProgram.Enabled == state)
             return;
-         FLUSH_VERTICES(ctx, _NEW_PROGRAM | _NEW_TEXTURE);
+         FLUSH_VERTICES(ctx, _NEW_PROGRAM);
          ctx->FragmentProgram.Enabled = state;
          break;
 #endif /* FEATURE_NV_fragment_program */
@@ -967,7 +967,7 @@ void _mesa_set_enable( GLcontext *ctx, GLenum cap, GLboolean state )
          CHECK_EXTENSION(ARB_fragment_program, cap);
          if (ctx->FragmentProgram.Enabled == state)
             return;
-         FLUSH_VERTICES(ctx, _NEW_PROGRAM | _NEW_TEXTURE);
+         FLUSH_VERTICES(ctx, _NEW_PROGRAM);
          ctx->FragmentProgram.Enabled = state;
          break;
 #endif /* FEATURE_ARB_fragment_program */
