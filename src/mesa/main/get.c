@@ -5,9 +5,9 @@
 
 /*
  * Mesa 3-D graphics library
- * Version:  6.3
+ * Version:  6.2.2
  *
- * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2005  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -380,7 +380,7 @@ _mesa_GetBooleanv( GLenum pname, GLboolean *params )
 	 *params = ctx->Visual.doubleBufferMode;
 	 break;
       case GL_DRAW_BUFFER:
-	 *params = ENUM_TO_BOOL(ctx->Color.DrawBuffer[0]);
+	 *params = ENUM_TO_BOOL(ctx->Color.DrawBuffer);
 	 break;
       case GL_EDGE_FLAG:
 	 FLUSH_CURRENT(ctx, 0);
@@ -691,10 +691,10 @@ _mesa_GetBooleanv( GLenum pname, GLboolean *params )
 	 *params = ctx->Pack.SwapBytes;
 	 break;
       case GL_PACK_SKIP_IMAGES_EXT:
-         *params = ctx->Pack.SkipImages;
+         *params = INT_TO_BOOL(ctx->Pack.SkipImages);
          break;
       case GL_PACK_IMAGE_HEIGHT_EXT:
-         *params = ctx->Pack.ImageHeight;
+         *params = INT_TO_BOOL(ctx->Pack.ImageHeight);
          break;
       case GL_PACK_INVERT_MESA:
          *params = ctx->Pack.Invert;
@@ -1247,7 +1247,7 @@ _mesa_GetBooleanv( GLenum pname, GLboolean *params )
          break;
       case GL_POST_CONVOLUTION_ALPHA_BIAS_EXT:
          CHECK_EXTENSION_B(EXT_convolution, pname);
-         *params = FLOAT_TO_BOOL(ctx->Pixel.PostConvolutionBias[2]);
+         *params = FLOAT_TO_BOOL(ctx->Pixel.PostConvolutionBias[3]);
          break;
 
       /* GL_EXT_histogram (also in 1.2 imaging) */
@@ -1691,38 +1691,6 @@ _mesa_GetBooleanv( GLenum pname, GLboolean *params )
          break;
 #endif
 
-      case GL_MAX_DRAW_BUFFERS_ARB:
-         CHECK_EXTENSION_B(ARB_draw_buffers, pname);
-         *params = INT_TO_BOOL(ctx->Const.MaxDrawBuffers);
-         break;
-      case GL_DRAW_BUFFER0_ARB:
-      case GL_DRAW_BUFFER1_ARB:
-      case GL_DRAW_BUFFER2_ARB:
-      case GL_DRAW_BUFFER3_ARB:
-      case GL_DRAW_BUFFER4_ARB:
-      case GL_DRAW_BUFFER5_ARB:
-      case GL_DRAW_BUFFER6_ARB:
-      case GL_DRAW_BUFFER7_ARB:
-      case GL_DRAW_BUFFER8_ARB:
-      case GL_DRAW_BUFFER9_ARB:
-      case GL_DRAW_BUFFER10_ARB:
-      case GL_DRAW_BUFFER11_ARB:
-      case GL_DRAW_BUFFER12_ARB:
-      case GL_DRAW_BUFFER13_ARB:
-      case GL_DRAW_BUFFER14_ARB:
-      case GL_DRAW_BUFFER15_ARB:
-         CHECK_EXTENSION_B(ARB_draw_buffers, pname);
-         {
-            GLuint i = pname - GL_DRAW_BUFFER0_ARB;
-            if (i >= ctx->Const.MaxDrawBuffers) {
-               _mesa_error(ctx, GL_INVALID_ENUM,
-                           "glGetBooleanv(GL_DRAW_BUFFERx_ARB)");
-               return;
-            }
-            *params = INT_TO_BOOL(ctx->Color.DrawBuffer[i]);
-         }
-         break;
-
       default:
          _mesa_error(ctx, GL_INVALID_ENUM, "glGetBooleanv(pname=0x%x)", pname);
    }
@@ -1979,7 +1947,7 @@ _mesa_GetDoublev( GLenum pname, GLdouble *params )
 	 *params = (GLdouble) ctx->Visual.doubleBufferMode;
 	 break;
       case GL_DRAW_BUFFER:
-	 *params = ENUM_TO_DOUBLE(ctx->Color.DrawBuffer[0]);
+	 *params = ENUM_TO_DOUBLE(ctx->Color.DrawBuffer);
 	 break;
       case GL_EDGE_FLAG:
 	 FLUSH_CURRENT(ctx, 0);
@@ -2843,7 +2811,7 @@ _mesa_GetDoublev( GLenum pname, GLdouble *params )
          break;
       case GL_POST_CONVOLUTION_ALPHA_BIAS_EXT:
          CHECK_EXTENSION_D(EXT_convolution, pname);
-         *params = (GLdouble) ctx->Pixel.PostConvolutionBias[2];
+         *params = (GLdouble) ctx->Pixel.PostConvolutionBias[3];
          break;
 
       /* GL_EXT_histogram (also in 1.2 imaging) */
@@ -3285,38 +3253,6 @@ _mesa_GetDoublev( GLenum pname, GLdouble *params )
          break;
 #endif
 
-      case GL_MAX_DRAW_BUFFERS_ARB:
-         CHECK_EXTENSION_D(ARB_draw_buffers, pname);
-         *params = (GLdouble) ctx->Const.MaxDrawBuffers;
-         break;
-      case GL_DRAW_BUFFER0_ARB:
-      case GL_DRAW_BUFFER1_ARB:
-      case GL_DRAW_BUFFER2_ARB:
-      case GL_DRAW_BUFFER3_ARB:
-      case GL_DRAW_BUFFER4_ARB:
-      case GL_DRAW_BUFFER5_ARB:
-      case GL_DRAW_BUFFER6_ARB:
-      case GL_DRAW_BUFFER7_ARB:
-      case GL_DRAW_BUFFER8_ARB:
-      case GL_DRAW_BUFFER9_ARB:
-      case GL_DRAW_BUFFER10_ARB:
-      case GL_DRAW_BUFFER11_ARB:
-      case GL_DRAW_BUFFER12_ARB:
-      case GL_DRAW_BUFFER13_ARB:
-      case GL_DRAW_BUFFER14_ARB:
-      case GL_DRAW_BUFFER15_ARB:
-         CHECK_EXTENSION_D(ARB_draw_buffers, pname);
-         {
-            GLuint i = pname - GL_DRAW_BUFFER0_ARB;
-            if (i >= ctx->Const.MaxDrawBuffers) {
-               _mesa_error(ctx, GL_INVALID_ENUM,
-                           "glGetDoublev(GL_DRAW_BUFFERx_ARB)");
-               return;
-            }
-            *params = (GLdouble) ctx->Color.DrawBuffer[i];
-         }
-         break;
-
       default:
          _mesa_error(ctx, GL_INVALID_ENUM, "glGetDoublev(pname=0x%x)", pname);
    }
@@ -3573,7 +3509,7 @@ _mesa_GetFloatv( GLenum pname, GLfloat *params )
 	 *params = (GLfloat) ctx->Visual.doubleBufferMode;
 	 break;
       case GL_DRAW_BUFFER:
-	 *params = ENUM_TO_FLOAT(ctx->Color.DrawBuffer[0]);
+	 *params = ENUM_TO_FLOAT(ctx->Color.DrawBuffer);
 	 break;
       case GL_EDGE_FLAG:
 	 FLUSH_CURRENT(ctx, 0);
@@ -4413,7 +4349,7 @@ _mesa_GetFloatv( GLenum pname, GLfloat *params )
          break;
       case GL_POST_CONVOLUTION_ALPHA_BIAS_EXT:
          CHECK_EXTENSION_F(EXT_convolution, pname);
-         *params = ctx->Pixel.PostConvolutionBias[2];
+         *params = ctx->Pixel.PostConvolutionBias[3];
          break;
 
       /* GL_EXT_histogram (also in 1.2 imaging) */
@@ -4855,38 +4791,6 @@ _mesa_GetFloatv( GLenum pname, GLfloat *params )
          break;
 #endif
 
-      case GL_MAX_DRAW_BUFFERS_ARB:
-         CHECK_EXTENSION_F(ARB_draw_buffers, pname);
-         *params = (GLfloat) ctx->Const.MaxDrawBuffers;
-         break;
-      case GL_DRAW_BUFFER0_ARB:
-      case GL_DRAW_BUFFER1_ARB:
-      case GL_DRAW_BUFFER2_ARB:
-      case GL_DRAW_BUFFER3_ARB:
-      case GL_DRAW_BUFFER4_ARB:
-      case GL_DRAW_BUFFER5_ARB:
-      case GL_DRAW_BUFFER6_ARB:
-      case GL_DRAW_BUFFER7_ARB:
-      case GL_DRAW_BUFFER8_ARB:
-      case GL_DRAW_BUFFER9_ARB:
-      case GL_DRAW_BUFFER10_ARB:
-      case GL_DRAW_BUFFER11_ARB:
-      case GL_DRAW_BUFFER12_ARB:
-      case GL_DRAW_BUFFER13_ARB:
-      case GL_DRAW_BUFFER14_ARB:
-      case GL_DRAW_BUFFER15_ARB:
-         CHECK_EXTENSION_F(ARB_draw_buffers, pname);
-         {
-            GLuint i = pname - GL_DRAW_BUFFER0_ARB;
-            if (i >= ctx->Const.MaxDrawBuffers) {
-               _mesa_error(ctx, GL_INVALID_ENUM,
-                           "glGetFloatv(GL_DRAW_BUFFERx_ARB)");
-               return;
-            }
-            *params = (GLfloat) ctx->Color.DrawBuffer[i];
-         }
-         break;
-
       default:
          _mesa_error(ctx, GL_INVALID_ENUM, "glGetFloatv(0x%x)", pname);
    }
@@ -5144,7 +5048,7 @@ _mesa_GetIntegerv( GLenum pname, GLint *params )
 	 *params = (GLint) ctx->Visual.doubleBufferMode;
 	 break;
       case GL_DRAW_BUFFER:
-	 *params = (GLint) ctx->Color.DrawBuffer[0];
+	 *params = (GLint) ctx->Color.DrawBuffer;
 	 break;
       case GL_EDGE_FLAG:
 	 FLUSH_CURRENT(ctx, 0);
@@ -6018,7 +5922,7 @@ _mesa_GetIntegerv( GLenum pname, GLint *params )
          break;
       case GL_POST_CONVOLUTION_ALPHA_BIAS_EXT:
          CHECK_EXTENSION_I(EXT_convolution, pname);
-         *params = (GLint) ctx->Pixel.PostConvolutionBias[2];
+         *params = (GLint) ctx->Pixel.PostConvolutionBias[3];
          break;
 
       /* GL_EXT_histogram (also in 1.2 imaging) */
@@ -6463,38 +6367,6 @@ _mesa_GetIntegerv( GLenum pname, GLint *params )
          break;
 #endif
 
-      case GL_MAX_DRAW_BUFFERS_ARB:
-         CHECK_EXTENSION_I(ARB_draw_buffers, pname);
-         *params = ctx->Const.MaxDrawBuffers;
-         break;
-      case GL_DRAW_BUFFER0_ARB:
-      case GL_DRAW_BUFFER1_ARB:
-      case GL_DRAW_BUFFER2_ARB:
-      case GL_DRAW_BUFFER3_ARB:
-      case GL_DRAW_BUFFER4_ARB:
-      case GL_DRAW_BUFFER5_ARB:
-      case GL_DRAW_BUFFER6_ARB:
-      case GL_DRAW_BUFFER7_ARB:
-      case GL_DRAW_BUFFER8_ARB:
-      case GL_DRAW_BUFFER9_ARB:
-      case GL_DRAW_BUFFER10_ARB:
-      case GL_DRAW_BUFFER11_ARB:
-      case GL_DRAW_BUFFER12_ARB:
-      case GL_DRAW_BUFFER13_ARB:
-      case GL_DRAW_BUFFER14_ARB:
-      case GL_DRAW_BUFFER15_ARB:
-         CHECK_EXTENSION_I(ARB_draw_buffers, pname);
-         {
-            GLuint i = pname - GL_DRAW_BUFFER0_ARB;
-            if (i >= ctx->Const.MaxDrawBuffers) {
-               _mesa_error(ctx, GL_INVALID_ENUM,
-                           "glGetIntegerv(GL_DRAW_BUFFERx_ARB)");
-               return;
-            }
-            *params = (GLint) ctx->Color.DrawBuffer[i];
-         }
-         break;
-
       default:
          _mesa_error(ctx, GL_INVALID_ENUM, "glGetIntegerv(pname=0x%x)", pname);
    }
@@ -6617,7 +6489,6 @@ _mesa_GetString( GLenum name )
    static const char *version_1_3 = "1.3 Mesa " MESA_VERSION_STRING;
    static const char *version_1_4 = "1.4 Mesa " MESA_VERSION_STRING;
    static const char *version_1_5 = "1.5 Mesa " MESA_VERSION_STRING;
-   static const char *version_2_0 = "1.5 Mesa " MESA_VERSION_STRING;/*XXX FIX*/
 
    ASSERT_OUTSIDE_BEGIN_END_WITH_RETVAL(ctx, 0);
 
@@ -6662,15 +6533,7 @@ _mesa_GetString( GLenum name )
                   if (ctx->Extensions.ARB_occlusion_query &&
                       ctx->Extensions.ARB_vertex_buffer_object &&
                       ctx->Extensions.EXT_shadow_funcs) {
-                     if (ctx->Extensions.ARB_draw_buffers &&
-                         ctx->Extensions.ARB_point_sprite &&
-                         ctx->Extensions.ARB_texture_non_power_of_two &&
-                         ctx->Extensions.EXT_stencil_two_side) {
-                        return (const GLubyte *) version_2_0;
-                     }
-                     else {
-                        return (const GLubyte *) version_1_5;
-                     }
+                     return (const GLubyte *) version_1_5;
                   }
                   else {
                      return (const GLubyte *) version_1_4;
