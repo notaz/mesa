@@ -1,6 +1,6 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.1
+ * Version:  6.2
  *
  * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
@@ -158,7 +158,7 @@ copy_conv_rgba_pixels(GLcontext *ctx, GLint srcx, GLint srcy,
    }
 
    /* If read and draw buffer are different we must do buffer switching */
-   changeBuffer = ctx->Pixel.ReadBuffer != ctx->Color.DrawBuffer[0]
+   changeBuffer = ctx->Pixel.ReadBuffer != ctx->Color.DrawBuffer
                || ctx->DrawBuffer != ctx->ReadBuffer;
 
 
@@ -175,8 +175,6 @@ copy_conv_rgba_pixels(GLcontext *ctx, GLint srcx, GLint srcy,
       return;
    }
 
-   dest = tmpImage;
-
    if (changeBuffer) {
       /* choose the read buffer */
       _swrast_use_read_buffer(ctx);
@@ -191,6 +189,7 @@ copy_conv_rgba_pixels(GLcontext *ctx, GLint srcx, GLint srcy,
                              srcy + row, rgba);
       chan_span_to_float(width, (CONST GLchan (*)[4]) rgba,
                          (GLfloat (*)[4]) dest);
+      dest += 4 * width;
    }
 
    if (changeBuffer) {
@@ -326,7 +325,7 @@ copy_rgba_pixels(GLcontext *ctx, GLint srcx, GLint srcy,
    }
 
    /* If read and draw buffer are different we must do buffer switching */
-   changeBuffer = ctx->Pixel.ReadBuffer != ctx->Color.DrawBuffer[0]
+   changeBuffer = ctx->Pixel.ReadBuffer != ctx->Color.DrawBuffer
                   || ctx->DrawBuffer != ctx->ReadBuffer;
 
    if (overlapping) {
@@ -466,7 +465,7 @@ copy_ci_pixels( GLcontext *ctx, GLint srcx, GLint srcy,
       _swrast_span_default_fog(ctx, &span);
 
    /* If read and draw buffer are different we must do buffer switching */
-   changeBuffer = ctx->Pixel.ReadBuffer != ctx->Color.DrawBuffer[0]
+   changeBuffer = ctx->Pixel.ReadBuffer != ctx->Color.DrawBuffer
                || ctx->DrawBuffer != ctx->ReadBuffer;
 
    if (overlapping) {
