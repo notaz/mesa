@@ -1,8 +1,6 @@
-/* $Id: texobj.c,v 1.62.2.3 2003/03/10 00:29:17 brianp Exp $ */
-
 /*
  * Mesa 3-D graphics library
- * Version:  5.0.1
+ * Version:  5.0.2
  *
  * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
  *
@@ -90,7 +88,7 @@ _mesa_alloc_texture_object( struct gl_shared_state *shared,
       obj->MaxAnisotropy = 1.0;
       obj->CompareFlag = GL_FALSE;                      /* SGIX_shadow */
       obj->CompareOperator = GL_TEXTURE_LEQUAL_R_SGIX;  /* SGIX_shadow */
-      obj->CompareMode = GL_LUMINANCE;    /* ARB_shadow */
+      obj->CompareMode = GL_NONE;         /* ARB_shadow */
       obj->CompareFunc = GL_LEQUAL;       /* ARB_shadow */
       obj->DepthMode = GL_LUMINANCE;      /* ARB_depth_texture */
       obj->ShadowAmbient = 0.0F;          /* ARB/SGIX_shadow_ambient */
