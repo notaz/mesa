@@ -1,4 +1,4 @@
-/* $Id: t_imm_api.c,v 1.17.2.4 2002/06/14 03:49:10 brianp Exp $ */
+/* $Id: t_imm_api.c,v 1.17.2.5 2003/02/13 10:51:31 alanh Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -189,8 +189,8 @@ _tnl_Begin( GLenum mode )
 	 return;
       }
 
-      assert( IM->SavedBeginState == 0 );
-      assert( IM->BeginState == 0 );
+      assert( (IM->SavedBeginState & (VERT_BEGIN_0|VERT_BEGIN_1)) == 0 );
+      assert( (IM->BeginState & (VERT_BEGIN_0|VERT_BEGIN_1)) == 0 );
 
       /* Not quite right.  Need to use the fallback '_aa_ArrayElement'
        * when not known to be inside begin/end and arrays are
@@ -314,7 +314,10 @@ _tnl_end( GLcontext *ctx )
    GLuint state = IM->BeginState;
    GLuint inflags = (~state) & (VERT_BEGIN_0|VERT_BEGIN_1);
 
-   assert( ctx->Driver.NeedFlush & FLUSH_STORED_VERTICES );
+   /* Not the case if vertices emitted without calling glBegin first:
+    */
+/*   assert( ctx->Driver.NeedFlush & FLUSH_STORED_VERTICES ); */
+
 
    state |= inflags << 2;	/* errors */
 
