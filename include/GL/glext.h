@@ -1351,6 +1351,10 @@ extern "C" {
 /* reuse GL_FOG */
 #endif
 
+#ifndef GL_NV_register_combiners2
+#define GL_PER_STAGE_CONSTANTS_NV         0x8535
+#endif
+
 #ifndef GL_NV_fog_distance
 #define GL_FOG_DISTANCE_MODE_NV           0x855A
 #define GL_EYE_RADIAL_NV                  0x855B
@@ -2852,6 +2856,16 @@ typedef void (APIENTRY * PFNGLGETCOMBINEROUTPUTPARAMETERFVNVPROC) (GLenum stage,
 typedef void (APIENTRY * PFNGLGETCOMBINEROUTPUTPARAMETERIVNVPROC) (GLenum stage, GLenum portion, GLenum pname, GLint *params);
 typedef void (APIENTRY * PFNGLGETFINALCOMBINERINPUTPARAMETERFVNVPROC) (GLenum variable, GLenum pname, GLfloat *params);
 typedef void (APIENTRY * PFNGLGETFINALCOMBINERINPUTPARAMETERIVNVPROC) (GLenum variable, GLenum pname, GLint *params);
+#endif
+
+#ifndef GL_NV_register_combiners2
+#define GL_NV_register_combiners2 1
+#ifdef GL_GLEXT_PROTOTYPES
+GLAPI void APIENTRY glCombinerStageParameterfvNV (GLenum, GLenum, const GLfloat *);
+GLAPI void APIENTRY glGetCombinerStageParameterfvNV (GLenum, GLenum, GLfloat *);
+#endif /* GL_GLEXT_PROTOTYPES */
+typedef void (APIENTRY * PFNGLCOMBINERSTAGEPARAMETERFVNVPROC) (GLenum stage, GLenum pname, const GLfloat *params);
+typedef void (APIENTRY * PFNGLGETCOMBINERSTAGEPARAMETERFVNVPROC) (GLenum stage, GLenum pname, GLfloat *params);
 #endif
 
 #ifndef GL_NV_fog_distance
