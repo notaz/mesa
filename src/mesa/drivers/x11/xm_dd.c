@@ -1,8 +1,8 @@
 /*
  * Mesa 3-D graphics library
- * Version:  5.1
+ * Version:  6.0.2
  *
- * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -66,14 +66,8 @@ get_buffer_size( GLframebuffer *buffer, GLuint *width, GLuint *height )
    unsigned int winwidth, winheight;
 #ifdef XFree86Server
    /* XFree86 GLX renderer */
-   if (xmBuffer->frontbuffer->width > MAX_WIDTH ||
-       xmBuffer->frontbuffer->height > MAX_HEIGHT) {
-     winwidth = buffer->Width;
-     winheight = buffer->Height;
-   } else {
-     winwidth = xmBuffer->frontbuffer->width;
-     winheight = xmBuffer->frontbuffer->height;
-   }
+   winwidth = MIN2(xmBuffer->frontbuffer->width, MAX_WIDTH);
+   winheight = MIN2(xmBuffer->frontbuffer->height, MAX_HEIGHT);
 #else
    Window root;
    int winx, winy;
