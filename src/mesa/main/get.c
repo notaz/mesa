@@ -5666,9 +5666,9 @@ _mesa_GetString( GLenum name )
    GET_CURRENT_CONTEXT(ctx);
    static const char *vendor = "Brian Paul";
    static const char *renderer = "Mesa";
-   static const char *version_1_2 = "1.2 Mesa 5.0.1";
-   static const char *version_1_3 = "1.3 Mesa 5.0.1";
-   static const char *version_1_4 = "1.4 Mesa 5.0.1";
+   static const char *version_1_2 = "1.2 Mesa 5.0.2";
+   static const char *version_1_3 = "1.3 Mesa 5.0.2";
+   static const char *version_1_4 = "1.4 Mesa 5.0.2";
 
    ASSERT_OUTSIDE_BEGIN_END_WITH_RETVAL(ctx, 0);
 
