@@ -327,9 +327,9 @@ r200CreateScreen( __DRIscreenPrivate *sPriv )
 	 (*glx_enable_extension)( psc, "GLX_MESA_swap_frame_usage" );
 
 	 if ( driCompareGLXAPIVersion( 20030818 ) >= 0 ) {
-	    sPriv->psc->allocateMemory = r200AllocateMemoryMESA;
-	    sPriv->psc->freeMemory     = r200FreeMemoryMESA;
-	    sPriv->psc->memoryOffset   = r200GetMemoryOffsetMESA;
+	    sPriv->psc->allocateMemory = (void *) r200AllocateMemoryMESA;
+	    sPriv->psc->freeMemory     = (void *) r200FreeMemoryMESA;
+	    sPriv->psc->memoryOffset   = (void *) r200GetMemoryOffsetMESA;
 
 	    (*glx_enable_extension)( psc, "GLX_MESA_allocate_memory" );
 	 }
