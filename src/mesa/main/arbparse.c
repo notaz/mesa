@@ -5991,6 +5991,7 @@ _mesa_parse_arb_program (GLcontext * ctx, const GLubyte * str, GLsizei len,
    dict_destroy (&dt);
 
    /* Initialize the arb_program struct */
+   program->Base.String = strCopy;
    program->Base.NumInstructions =
    program->Base.NumTemporaries =
    program->Base.NumParameters =
@@ -6049,7 +6050,6 @@ _mesa_parse_arb_program (GLcontext * ctx, const GLubyte * str, GLsizei len,
    var_cache_destroy (&vc_head);
 
    _mesa_free (parsed);
-   _mesa_free(strCopy);
 #if DEBUG_PARSING
    printf ("_mesa_parse_arb_program() done\n");
 #endif

@@ -178,9 +178,30 @@ _mesa_parse_arb_vertex_program(GLcontext * ctx, GLenum target,
 	
    retval = _mesa_parse_arb_program(ctx, str, len, &ap);
 
+   /*  Parse error. Allocate a dummy program and return */	
+   if (retval)
+   {
+      program->Instructions = (struct vp_instruction *)
+         _mesa_malloc(sizeof(struct vp_instruction) );
+      program->Instructions[0].Opcode = VP_OPCODE_END;
+      return;
+   }
+
+   /* Eh.. we parsed something that wasn't a vertex program. doh! */
+   if (ap.type != GL_VERTEX_PROGRAM_ARB)
+   {
+      program->Instructions = (struct vp_instruction *)
+         _mesa_malloc(sizeof(struct vp_instruction));
+      program->Instructions[0].Opcode = VP_OPCODE_END;
+      _mesa_error(ctx, GL_INVALID_OPERATION,
+                  "Parsed a non-vertex program as a vertex program");
+      return;      
+   }
+
    /* copy the relvant contents of the arb_program struct into the 
     * fragment_program struct
     */
+   program->Base.String          = ap.Base.String;
    program->Base.NumInstructions = ap.Base.NumInstructions;
    program->Base.NumTemporaries  = ap.Base.NumTemporaries;
    program->Base.NumParameters   = ap.Base.NumParameters;
@@ -191,27 +212,6 @@ _mesa_parse_arb_vertex_program(GLcontext * ctx, GLenum target,
    program->InputsRead     = ap.InputsRead;
    program->OutputsWritten = ap.OutputsWritten;
    program->Parameters     = ap.Parameters; 
-
-   /*  Parse error. Allocate a dummy program and return */	
-   if (retval)
-   {
-      program->Instructions = (struct vp_instruction *) _mesa_malloc (
-                                     sizeof(struct vp_instruction) );			  
-      program->Instructions[0].Opcode = VP_OPCODE_END;
-      return;
-   }
-
-   /* Eh.. we parsed something that wasn't a vertex program. doh! */
-   if (ap.type != GL_VERTEX_PROGRAM_ARB)
-   {
-      program->Instructions = (struct vp_instruction *) _mesa_malloc (
-                                     sizeof(struct vp_instruction) );			  
-      program->Instructions[0].Opcode = VP_OPCODE_END;
-
-      _mesa_error (ctx, GL_INVALID_OPERATION, "Parsed a non-vertex program as a vertex program");
-      return;      
-   }
-
    program->Instructions   = ap.VPInstructions;
 
 #if DEBUG_VP
