@@ -1323,3 +1323,5 @@ Mesa Version History
 	- fixed a couple per-pixel fog bugs (Soju Matsumoto)
 	- glGetBooleanv(GL_FRAGMENT_PROGRAM_BINDING_NV) was broken
 	- fixed float parsing bug in ARB frag/vert programs (bug 2520)
+	- XMesaGetDepthBuffer() returned incorrect value for bytesPerValue
+	- GL_COLOR_MATERIAL with glColor3 didn't properly set diffuse alpha
