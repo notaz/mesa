@@ -1273,7 +1273,7 @@ OSMesaGetColorBuffer( OSMesaContext c, GLint *width,
 }
 
 
-typedef void (*OSMESAproc)();
+typedef void (*OSMESAproc)(void);
 
 struct name_function
 {
