@@ -1,8 +1,8 @@
-/* $Id: glx.h,v 1.33.2.4 2002/09/20 17:36:33 brianp Exp $ */
+/* $Id: glx.h,v 1.33.2.5 2002/10/14 13:53:04 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
- * Version:  4.0.3
+ * Version:  4.0.4
  * 
  * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
  * 
@@ -154,6 +154,7 @@ extern "C" {
 #define GLX_STATIC_COLOR		0x8005
 #define GLX_GRAY_SCALE			0x8006
 #define GLX_STATIC_GRAY			0x8007
+#define GLX_TRANSPARENT_RGB		0x8008
 #define GLX_TRANSPARENT_INDEX		0x8009
 #define GLX_RGBA_TYPE			0x8014
 #define GLX_COLOR_INDEX_TYPE		0x8015
