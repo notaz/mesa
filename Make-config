@@ -1205,16 +1205,17 @@ openbsd:
 
 openstep:	
 	$(MAKE)	$(MFLAGS) -f Makefile.X11 targets \
-	"DRIVER_SOURCES = OSmesa/osmesa.c" \
+	"DRIVER_SOURCES = drivers/osmesa/osmesa.c" \
 	"GL_LIB = libGL.a" \
 	"GLU_LIB = libGLU.a" \
 	"OSMESA_LIB = libOSMesa.a" \
 	"CC = ${MYCC}" \
-	"CFLAGS = -traditional-cpp -DOPENSTEP -O4"
+	"CFLAGS = -traditional-cpp -DOPENSTEP -O4" \
+	"MKLIB_OPTIONS = -arch OpenSTEP"
 
 openstep-win32:	
 	$(MAKE)	$(MFLAGS) -f Makefile.X11 targets \
-	"DRIVER_SOURCES = OSmesa/osmesa.c" \
+	"DRIVER_SOURCES = drivers/osmesa/osmesa.c" \
 	"GL_LIB = libGL.a" \
 	"GLU_LIB = libGLU.a" \
 	"OSMESA_LIB = libOSMesa.a" \
@@ -1222,7 +1223,8 @@ openstep-win32:
 	"CXX = g++" \
 	"CFLAGS = -DOPENSTEP -O4" \
 	"CXXFLAGS = -DOPENSTEP -O4" \
-	"GLUT_CFLAGS = -fexceptions"
+	"GLUT_CFLAGS = -fexceptions" \
+	"MKLIB_OPTIONS = -arch OpenSTEP"
 
 osf1:
 	$(MAKE) $(MFLAGS) -f Makefile.X11 targets \
