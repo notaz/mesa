@@ -43,6 +43,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "swrast/swrast.h"
 
 #include "vblank.h"
+#include "mmio.h"
 
 #define R128_TIMEOUT        2048
 #define R128_IDLE_RETRY       32
@@ -225,12 +226,11 @@ static void delay( void ) {
 static int r128WaitForFrameCompletion( r128ContextPtr rmesa )
 {
    unsigned char *R128MMIO = rmesa->r128Screen->mmio.map;
-   uint32_t frame;
    int i;
    int wait = 0;
 
    while ( 1 ) {
-      frame = *(volatile unsigned int *)(R128MMIO + R128_LAST_FRAME_REG);
+      uint32_t frame = read_MMIO_LE32( R128MMIO, R128_LAST_FRAME_REG );
 
       if ( rmesa->sarea->last_frame - frame <= R128_MAX_OUTSTANDING ) {
 	 break;
