@@ -225,7 +225,7 @@ _swsetup_Translate( GLcontext *ctx, const void *vertex, SWvertex *dest )
 
    dest->win[0] = m[0]  * tmp[0] + m[12];
    dest->win[1] = m[5]  * tmp[1] + m[13];
-   dest->win[2] = m[10] * tmp[2] + m[15];
+   dest->win[2] = m[10] * tmp[2] + m[14];
    dest->win[3] =         tmp[3];
 
 
