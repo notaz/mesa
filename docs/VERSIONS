@@ -1203,3 +1203,12 @@ Mesa Version History
 	- glDeleteProgramsARB failed for ARB fragment programs (bug 876160)
 	- glDrawRangeElements tried to modify potentially read-only storage
 	- updated files for building on Windows
+
+
+6.0.1  Month day, 2004
+    New:
+    Changes:
+    Bug fixes:
+	- glBindProgramARB didn't update all necessary state
+	- fixed build problems on OpenBSD
+	- omit CVS directories from tarballs
