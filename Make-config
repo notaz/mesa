@@ -1107,8 +1107,8 @@ linux-sparc-ultra:
 	"OSMESA_LIB = libOSMesa.so" \
 	"CC = gcc" \
 	"CXX = g++" \
-	"CFLAGS = -mv8 -O2 -mtune=ultrasparc -ansi -pedantic -fPIC -D_SVID_SOURCE -D_BSD_SOURCE -I/usr/X11R6/include -DUSE_XSHM" \
-	"CXXFLAGS = -mv8 -O2 -mtune=ultrasparc -ansi -pedantic -fPIC -D_SVID_SOURCE -D_BSD_SOURCE" \
+	"CFLAGS = -mcpu=ultrasparc -O2 -mtune=ultrasparc -ansi -pedantic -fPIC -D_SVID_SOURCE -D_BSD_SOURCE -I/usr/X11R6/include -DUSE_XSHM" \
+	"CXXFLAGS = -mcpu=ultrasparc -O2 -mtune=ultrasparc -ansi -pedantic -fPIC -D_SVID_SOURCE -D_BSD_SOURCE" \
 	"GLUT_CFLAGS = -fexceptions" \
 	"GL_LIB_DEPS = -L/usr/X11R6/lib -lX11 -lXext -lm -lpthread" \
 	"OSMESA_LIB_DEPS = -L$(TOP)/lib -lGL" \
