@@ -1321,3 +1321,4 @@ Mesa Version History
 	- fixed bug in perspective correction of antialiased, textured lines
 	- querying GL_POST_CONVOLUTION_ALPHA_BIAS_EXT returned wrong value
 	- fixed a couple per-pixel fog bugs (Soju Matsumoto)
+	- glGetBooleanv(GL_FRAGMENT_PROGRAM_BINDING_NV) was broken
