@@ -1,4 +1,4 @@
-/* $Id: glheader.h,v 1.23.2.5 2002/10/31 00:36:12 brianp Exp $ */
+/* $Id: glheader.h,v 1.23.2.6 2002/11/05 21:26:07 alanh Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -61,6 +61,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #if defined(__linux__) && defined(__i386__)
 #include <fpu_control.h>
 #endif
