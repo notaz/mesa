@@ -1,8 +1,6 @@
-/* $Id: get.c,v 1.99.2.3 2003/01/22 00:42:10 brianp Exp $ */
-
 /*
  * Mesa 3-D graphics library
- * Version:  5.0.1
+ * Version:  5.0.2
  *
  * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
  *
@@ -476,8 +474,12 @@ _mesa_GetBooleanv( GLenum pname, GLboolean *params )
 	 *params = INT_TO_BOOL( ctx->CurrentListNum );
 	 break;
       case GL_LIST_MODE:
-	 *params = ENUM_TO_BOOL( ctx->ExecuteFlag
-				  ? GL_COMPILE_AND_EXECUTE : GL_COMPILE );
+         if (!ctx->CompileFlag)
+            *params = 0;
+         else if (ctx->ExecuteFlag)
+            *params = ENUM_TO_BOOL(GL_COMPILE_AND_EXECUTE);
+         else
+            *params = ENUM_TO_BOOL(GL_COMPILE);
 	 break;
       case GL_INDEX_LOGIC_OP:
 	 *params = ctx->Color.IndexLogicOpEnabled;
@@ -1368,11 +1370,12 @@ _mesa_GetBooleanv( GLenum pname, GLboolean *params )
          break;
       case GL_CURRENT_MATRIX_STACK_DEPTH_NV:
          CHECK_EXTENSION_B(NV_vertex_program, pname);
-         *params = (ctx->CurrentStack->Depth > 0) ? GL_TRUE : GL_FALSE;
+         *params = GL_TRUE;
          break;
       case GL_CURRENT_MATRIX_NV:
          CHECK_EXTENSION_B(NV_vertex_program, pname);
-         *params = (ctx->Transform.MatrixMode != 0) ? GL_TRUE : GL_FALSE;
+         for (i = 0; i < 16; i++)
+            params[i] = FLOAT_TO_BOOL(ctx->CurrentStack->Top->m[i]);
          break;
       case GL_VERTEX_PROGRAM_BINDING_NV:
          CHECK_EXTENSION_B(NV_vertex_program, pname);
@@ -1845,8 +1848,12 @@ _mesa_GetDoublev( GLenum pname, GLdouble *params )
 	 *params = (GLdouble) ctx->CurrentListNum;
 	 break;
       case GL_LIST_MODE:
-	 *params = ctx->ExecuteFlag ? ENUM_TO_DOUBLE(GL_COMPILE_AND_EXECUTE)
-	   			  : ENUM_TO_DOUBLE(GL_COMPILE);
+         if (!ctx->CompileFlag)
+            *params = 0.0;
+         else if (ctx->ExecuteFlag)
+            *params = ENUM_TO_DOUBLE(GL_COMPILE_AND_EXECUTE);
+         else
+            *params = ENUM_TO_DOUBLE(GL_COMPILE);
 	 break;
       case GL_INDEX_LOGIC_OP:
 	 *params = (GLdouble) ctx->Color.IndexLogicOpEnabled;
@@ -2734,11 +2741,12 @@ _mesa_GetDoublev( GLenum pname, GLdouble *params )
          break;
       case GL_CURRENT_MATRIX_STACK_DEPTH_NV:
          CHECK_EXTENSION_D(NV_vertex_program, pname);
-         *params = (GLdouble) ctx->CurrentStack->Depth;
+         *params = (GLdouble) ctx->CurrentStack->Depth + 1;
          break;
       case GL_CURRENT_MATRIX_NV:
          CHECK_EXTENSION_D(NV_vertex_program, pname);
-         *params = (GLdouble) ctx->Transform.MatrixMode;
+         for (i = 0; i < 16; i++)
+            params[i] = (GLdouble) ctx->CurrentStack->Top->m[i];
          break;
       case GL_VERTEX_PROGRAM_BINDING_NV:
          CHECK_EXTENSION_D(NV_vertex_program, pname);
@@ -3211,8 +3219,12 @@ _mesa_GetFloatv( GLenum pname, GLfloat *params )
 	 *params = (GLfloat) ctx->CurrentListNum;
 	 break;
       case GL_LIST_MODE:
-	 *params = ctx->ExecuteFlag ? ENUM_TO_FLOAT(GL_COMPILE_AND_EXECUTE)
-	   			  : ENUM_TO_FLOAT(GL_COMPILE);
+         if (!ctx->CompileFlag)
+            *params = 0.0F;
+         else if (ctx->ExecuteFlag)
+            *params = ENUM_TO_FLOAT(GL_COMPILE_AND_EXECUTE);
+         else
+            *params = ENUM_TO_FLOAT(GL_COMPILE);
 	 break;
       case GL_INDEX_LOGIC_OP:
 	 *params = (GLfloat) ctx->Color.IndexLogicOpEnabled;
@@ -4076,11 +4088,12 @@ _mesa_GetFloatv( GLenum pname, GLfloat *params )
          break;
       case GL_CURRENT_MATRIX_STACK_DEPTH_NV:
          CHECK_EXTENSION_F(NV_vertex_program, pname);
-         *params = (GLfloat) ctx->CurrentStack->Depth;
+         *params = (GLfloat) ctx->CurrentStack->Depth + 1;
          break;
       case GL_CURRENT_MATRIX_NV:
          CHECK_EXTENSION_F(NV_vertex_program, pname);
-         *params = (GLfloat) ctx->Transform.MatrixMode;
+         for (i = 0; i < 16; i++)
+            params[i] = ctx->CurrentStack->Top->m[i];
          break;
       case GL_VERTEX_PROGRAM_BINDING_NV:
          CHECK_EXTENSION_F(NV_vertex_program, pname);
@@ -4554,8 +4567,12 @@ _mesa_GetIntegerv( GLenum pname, GLint *params )
 	 *params = (GLint) ctx->CurrentListNum;
 	 break;
       case GL_LIST_MODE:
-	 *params = ctx->ExecuteFlag ? (GLint) GL_COMPILE_AND_EXECUTE
-	   			  : (GLint) GL_COMPILE;
+         if (!ctx->CompileFlag)
+            *params = 0;
+         else if (ctx->ExecuteFlag)
+            *params = (GLint) GL_COMPILE_AND_EXECUTE;
+         else
+            *params = (GLint) GL_COMPILE;
 	 break;
       case GL_INDEX_LOGIC_OP:
 	 *params = (GLint) ctx->Color.IndexLogicOpEnabled;
@@ -5457,11 +5474,12 @@ _mesa_GetIntegerv( GLenum pname, GLint *params )
          break;
       case GL_CURRENT_MATRIX_STACK_DEPTH_NV:
          CHECK_EXTENSION_I(NV_vertex_program, pname);
-         *params = ctx->CurrentStack->Depth;
+         *params = ctx->CurrentStack->Depth + 1;
          break;
       case GL_CURRENT_MATRIX_NV:
          CHECK_EXTENSION_I(NV_vertex_program, pname);
-         *params = (GLint) ctx->Transform.MatrixMode;
+         for (i = 0; i < 16; i++)
+            params[i] = (GLint) ctx->CurrentStack->Top->m[i];
          break;
       case GL_VERTEX_PROGRAM_BINDING_NV:
          CHECK_EXTENSION_I(NV_vertex_program, pname);
