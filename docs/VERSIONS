@@ -1312,3 +1312,12 @@ Mesa Version History
     Changes:
 	- fixed a bunch of compiler warnings found with gcc 3.4
 	- bug reports should to go bugzilla.freedesktop.org
+
+
+6.2.2  Month day, 2005
+    Bug fixes:
+	- fragment program texcoords were sometimes wrong for points and lines
+	- fixed problem with negative dot product in arbfplight, fplight demos
+	- fixed bug in perspective correction of antialiased, textured lines
+	- querying GL_POST_CONVOLUTION_ALPHA_BIAS_EXT returned wrong value
+	- fixed a couple per-pixel fog bugs (Soju Matsumoto)
