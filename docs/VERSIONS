@@ -1304,3 +1304,6 @@ Mesa Version History
 	- glProgramEnvParameter4fARB always generated an error on
 	  GL_FRAGMENT_PROGRAM_ARB (fdo bug 1645)
 	- glVertexAttrib3svNV and glVertexAttrib3svARB were broken
+	- fixed width/height mix-up in glSeparableFilter2D()
+	- fixed regression in glCopyPixels + convolution
+
