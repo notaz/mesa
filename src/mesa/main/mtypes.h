@@ -1,4 +1,3 @@
-/* $Id: mtypes.h,v 1.97.2.4 2003/06/04 16:55:16 idr Exp $ */
 
 /*
  * Mesa 3-D graphics library
