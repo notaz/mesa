@@ -1,10 +1,8 @@
-/* $Id: s_lines.c,v 1.32 2002/10/30 19:59:33 brianp Exp $ */
-
 /*
  * Mesa 3-D graphics library
- * Version:  5.0
+ * Version:  5.0.2
  *
- * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -65,7 +63,12 @@ compute_stipple_mask( GLcontext *ctx, GLuint len, GLubyte mask[] )
 static void
 draw_wide_line( GLcontext *ctx, struct sw_span *span, GLboolean xMajor )
 {
+   GLchan colors[MAX_WIDTH][4];
    GLint width, start;
+   GLboolean mutable = (ctx->Color.BlendEnabled ||
+                        ctx->Texture._EnabledUnits ||
+                        ctx->Fog.Enabled ||
+                        *((GLuint *) ctx->Color.ColorMask) != 0xffffffff);
 
    ASSERT(span->end < MAX_WIDTH);
 
@@ -75,6 +78,13 @@ draw_wide_line( GLcontext *ctx, struct sw_span *span, GLboolean xMajor )
       start = width / 2;
    else
       start = width / 2 - 1;
+
+   if (mutable) {
+      /* Backup colors because they'll get modified during span write.
+       * This is a bit of hack.  The problem is properly fixed in Mesa 5.1.
+       */
+      _mesa_memcpy(colors, span->array->rgba, span->end * 4 * sizeof(GLchan));
+   }
 
    if (xMajor) {
       GLint *y = span->array->y;
@@ -95,6 +105,12 @@ draw_wide_line( GLcontext *ctx, struct sw_span *span, GLboolean xMajor )
             _mesa_write_rgba_span(ctx, span);
          else
             _mesa_write_index_span(ctx, span);
+
+         if (w + 1 < width && mutable) {
+            /* restore original colors */
+            _mesa_memcpy(span->array->rgba, colors,
+                         span->end * 4 * sizeof(GLchan));
+         }
       }
    }
    else {
@@ -116,6 +132,11 @@ draw_wide_line( GLcontext *ctx, struct sw_span *span, GLboolean xMajor )
             _mesa_write_rgba_span(ctx, span);
          else
             _mesa_write_index_span(ctx, span);
+         if (w + 1 < width && mutable) {
+            /* restore original colors */
+            _mesa_memcpy(span->array->rgba, colors,
+                         span->end * 4 * sizeof(GLchan));
+         }
       }
    }
 }
