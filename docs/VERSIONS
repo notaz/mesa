@@ -1236,3 +1236,4 @@ Mesa Version History
 	- glProgramStringARB mistakenly required a null-terminated string
 	- fragment program XPD instruction was incorrect
 	- glGetMaterial() didn't work reliably
+	- ARB_fragment_program KIL instruction was incorrect
