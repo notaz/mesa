@@ -1,8 +1,8 @@
 /*
  * Mesa 3-D graphics library
- * Version:  5.1
+ * Version:  6.0.2
  *
- * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -302,7 +302,7 @@ _swrast_validate_texture_sample( GLcontext *ctx, GLuint texUnit,
    _swrast_validate_derived( ctx );
 
    /* Compute min/mag filter threshold */
-   if (tObj->MinFilter != tObj->MagFilter) {
+   if (tObj && tObj->MinFilter != tObj->MagFilter) {
       if (tObj->MagFilter == GL_LINEAR
           && (tObj->MinFilter == GL_NEAREST_MIPMAP_NEAREST ||
               tObj->MinFilter == GL_NEAREST_MIPMAP_LINEAR)) {
