@@ -260,6 +260,9 @@ extern "C" {
 #ifndef GLX_MESA_release_buffers
 #endif
 
+#ifndef GLX_MESA_agp_offset
+#endif
+
 #ifndef GLX_MESA_set_3dfx_mode
 #define GLX_3DFX_WINDOW_MODE_MESA          0x1
 #define GLX_3DFX_FULLSCREEN_MODE_MESA      0x2
@@ -566,6 +569,14 @@ typedef Bool ( * PFNGLXRELEASEBUFFERSMESAPROC) (Display *dpy, GLXDrawable drawab
 extern Bool glXSet3DfxModeMESA (int);
 #endif /* GLX_GLXEXT_PROTOTYPES */
 typedef Bool ( * PFNGLXSET3DFXMODEMESAPROC) (int mode);
+#endif
+
+#ifndef GLX_MESA_agp_offset
+#define GLX_MESA_agp_offset 1
+#ifdef GLX_GLXEXT_PROTOTYPES
+extern GLuint glXGetAGPOffsetMESA (const GLvoid *);
+#endif /* GLX_GLXEXT_PROTOTYPES */
+typedef GLuint ( * PFNGLXGETAGPOFFSETMESAPROC) (const GLvoid *);
 #endif
 
 #ifndef GLX_SGIX_visual_select_group

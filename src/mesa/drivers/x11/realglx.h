@@ -1,4 +1,4 @@
-/* $Id: realglx.h,v 1.4.2.1 2002/09/20 17:37:13 brianp Exp $ */
+/* $Id: realglx.h,v 1.4.2.2 2002/10/22 18:08:37 alanh Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -325,7 +325,7 @@ _real_glXFreeMemoryNV( GLvoid *pointer );
 
 #ifdef GLX_MESA_agp_offset
 extern GLuint
-_real_glXGetAGPOffset( const GLvoid *pointer );
+_real_glXGetAGPOffsetMESA( const GLvoid *pointer );
 #endif
 
 
