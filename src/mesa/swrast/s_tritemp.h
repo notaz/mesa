@@ -1,10 +1,8 @@
-/* $Id: s_tritemp.h,v 1.41 2002/11/13 16:51:02 brianp Exp $ */
-
 /*
  * Mesa 3-D graphics library
- * Version:  5.1
+ * Version:  3.5
  *
- * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2001  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +21,6 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-/* $XFree86: xc/extras/Mesa/src/swrast/s_tritemp.h,v 1.2 2002/02/27 21:07:54 tsi Exp $ */
 
 /*
  * Triangle Rasterizer Template
@@ -88,13 +85,10 @@
 #define INTERP_FLOAT_SPEC
 #endif
 
-#endif /* CHAN_TYPE == GL_FLOAT */
+#endif
 
 
-
-static void NAME(GLcontext *ctx, const SWvertex *v0,
-                                 const SWvertex *v1,
-                                 const SWvertex *v2 )
+/*void triangle( GLcontext *ctx, SWvertex *v0, SWvertex *v1, SWvertex *v2 )*/
 {
    typedef struct {
         const SWvertex *v0, *v1;   /* Y(v0) < Y(v1) */
@@ -1407,4 +1401,3 @@ static void NAME(GLcontext *ctx, const SWvertex *v0,
 #undef FixedToDepth
 
 #undef DO_OCCLUSION_TEST
-#undef NAME

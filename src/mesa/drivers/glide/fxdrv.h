@@ -1,4 +1,3 @@
-/* $Id: fxdrv.h,v 1.55.2.1 2003/01/08 21:33:40 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

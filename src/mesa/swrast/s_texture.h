@@ -1,4 +1,3 @@
-/* $Id: s_texture.h,v 1.13 2002/05/02 00:59:20 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

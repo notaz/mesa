@@ -1,4 +1,3 @@
-/* $Id: s_linetemp.h,v 1.14 2002/11/09 21:26:41 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

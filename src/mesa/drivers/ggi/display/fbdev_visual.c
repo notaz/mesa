@@ -1,4 +1,3 @@
-/* $Id: fbdev_visual.c,v 1.6 2000/06/11 20:11:55 jtaylor Exp $
 ******************************************************************************
 
    display-fbdev-mesa: visual handling

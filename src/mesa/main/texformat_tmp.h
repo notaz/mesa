@@ -1,4 +1,3 @@
-/* $Id: texformat_tmp.h,v 1.10 2002/10/29 20:28:50 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

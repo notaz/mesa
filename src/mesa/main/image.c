@@ -1,4 +1,3 @@
-/* $Id: image.c,v 1.69 2002/10/24 23:57:21 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

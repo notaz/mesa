@@ -1,4 +1,3 @@
-/* $Id: t_imm_elt.c,v 1.20 2002/10/29 20:29:02 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

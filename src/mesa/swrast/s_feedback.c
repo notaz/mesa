@@ -1,4 +1,3 @@
-/* $Id: s_feedback.c,v 1.9 2001/09/19 20:30:44 kschultz Exp $ */
 
 /*
  * Mesa 3-D graphics library

@@ -1,4 +1,3 @@
-/* $Id: t_context.c,v 1.30 2002/10/29 20:29:01 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

@@ -1,4 +1,3 @@
-/* $Id: s_depth.c,v 1.25 2002/10/30 19:49:30 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

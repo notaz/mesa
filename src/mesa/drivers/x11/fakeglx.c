@@ -1,4 +1,3 @@
-/* $Id: fakeglx.c,v 1.75.2.2 2003/03/27 17:57:18 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

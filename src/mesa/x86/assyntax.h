@@ -1,4 +1,3 @@
-/* $Id: assyntax.h,v 1.21 2002/06/11 01:26:58 brianp Exp $ */
 
 #ifndef __ASSYNTAX_H__
 #define __ASSYNTAX_H__

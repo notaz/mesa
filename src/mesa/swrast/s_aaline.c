@@ -1,4 +1,3 @@
-/* $Id: s_aaline.c,v 1.16.4.3 2003/03/04 19:23:52 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

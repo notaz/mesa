@@ -1,4 +1,3 @@
-/* $Id: texstore.c,v 1.47.2.7 2003/03/28 22:01:08 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

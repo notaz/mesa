@@ -1,4 +1,3 @@
-/* $Id: m_translate.c,v 1.10 2002/10/24 23:57:24 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

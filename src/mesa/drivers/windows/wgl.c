@@ -1,4 +1,3 @@
-/* $Id: wgl.c,v 1.11.4.1 2003/01/15 00:37:12 kschultz Exp $ */
 
 /*
 * This library is free software; you can redistribute it and/or

@@ -1,4 +1,3 @@
-/* $Id: fxddtex.c,v 1.46 2001/11/06 16:01:19 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

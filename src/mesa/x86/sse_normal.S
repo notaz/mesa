@@ -1,4 +1,3 @@
-/* $Id: sse_normal.S,v 1.2 2002/08/07 16:40:18 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

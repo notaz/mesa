@@ -1,4 +1,3 @@
-/* $Id: m_clip_tmp.h,v 1.8 2002/06/03 16:06:34 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

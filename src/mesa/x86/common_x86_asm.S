@@ -1,4 +1,3 @@
-/* $Id: common_x86_asm.S,v 1.13.2.3 2003/01/09 23:43:19 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

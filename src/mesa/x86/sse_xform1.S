@@ -1,4 +1,3 @@
-/* $Id: sse_xform1.S,v 1.1 2001/03/29 06:46:27 gareth Exp $ */
 
 /*
  * Mesa 3-D graphics library

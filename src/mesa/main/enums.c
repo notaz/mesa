@@ -1,4 +1,3 @@
-/* $Id: enums.c,v 1.24.2.1 2003/01/25 01:21:07 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

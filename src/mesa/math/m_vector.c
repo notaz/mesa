@@ -1,4 +1,3 @@
-/* $Id: m_vector.c,v 1.8.2.1 2002/12/04 14:24:23 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

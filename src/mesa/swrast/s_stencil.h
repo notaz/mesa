@@ -1,4 +1,3 @@
-/* $Id: s_stencil.h,v 1.9 2002/10/02 23:24:04 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

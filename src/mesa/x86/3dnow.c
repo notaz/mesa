@@ -1,4 +1,3 @@
-/* $Id: 3dnow.c,v 1.22.4.1 2003/03/28 15:42:50 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

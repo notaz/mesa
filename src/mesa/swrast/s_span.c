@@ -1,4 +1,3 @@
-/* $Id: s_span.c,v 1.52.2.2 2003/02/27 18:14:54 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

@@ -1,4 +1,3 @@
-/* $Id: GLView.cpp,v 1.7.2.2 2003/03/30 15:48:48 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

@@ -1,4 +1,3 @@
-/* $Id: m_trans_tmp.h,v 1.7 2002/01/30 16:52:02 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

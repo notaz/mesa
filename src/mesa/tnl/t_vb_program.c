@@ -1,4 +1,3 @@
-/* $Id: t_vb_program.c,v 1.16 2002/10/31 17:14:16 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

@@ -1,4 +1,3 @@
-/* $Id: t_eval_api.c,v 1.12 2002/10/24 23:57:25 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

@@ -1,4 +1,3 @@
-/* $Id: s_alpha.c,v 1.12 2002/10/04 19:10:12 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

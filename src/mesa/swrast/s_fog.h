@@ -1,4 +1,3 @@
-/* $Id: s_fog.h,v 1.9 2002/02/17 17:30:58 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

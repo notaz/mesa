@@ -1,4 +1,3 @@
-/* $Id: api_validate.c,v 1.7 2002/10/24 23:57:19 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

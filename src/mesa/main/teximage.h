@@ -1,4 +1,3 @@
-/* $Id: teximage.h,v 1.22 2002/10/18 18:03:07 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

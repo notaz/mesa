@@ -1,4 +1,3 @@
-/* $Id: dd.h,v 1.74 2002/10/11 17:41:04 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

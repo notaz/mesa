@@ -1,4 +1,3 @@
-/* $Id: glheader.h,v 1.29 2002/10/30 19:44:41 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

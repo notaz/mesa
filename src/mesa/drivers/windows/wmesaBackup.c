@@ -1,4 +1,3 @@
-/* $Id: wmesaBackup.c,v 1.3 2001/03/03 20:33:29 brianp Exp $ */
 
 /*
 *   File name   :   wmesa.c
@@ -22,6 +21,9 @@
 
 /*
  * $Log: wmesaBackup.c,v $
+ * Revision 1.3.6.1  2003/04/03 16:22:54  brianp
+ * remove $Id$ and $XFree86$ lines
+ *
  * Revision 1.3  2001/03/03 20:33:29  brianp
  * lots of gl_*() to _mesa_*() namespace clean-up
  *

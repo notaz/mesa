@@ -1,4 +1,3 @@
-/* $Id: varray.h,v 1.14 2002/06/30 15:47:01 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

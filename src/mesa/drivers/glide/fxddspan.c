@@ -1,4 +1,3 @@
-/* $Id: fxddspan.c,v 1.22 2002/11/04 20:29:04 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

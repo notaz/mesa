@@ -1,4 +1,3 @@
-/* $Id: fxglidew.h,v 1.13 2001/09/23 16:50:01 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

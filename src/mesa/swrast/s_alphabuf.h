@@ -1,4 +1,3 @@
-/* $Id: s_alphabuf.h,v 1.4 2002/03/16 00:53:15 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

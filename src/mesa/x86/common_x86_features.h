@@ -1,4 +1,3 @@
-/* $Id: common_x86_features.h,v 1.5 2002/10/29 20:28:57 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

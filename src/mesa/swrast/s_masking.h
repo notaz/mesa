@@ -1,4 +1,3 @@
-/* $Id: s_masking.h,v 1.5 2002/02/02 21:40:33 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

@@ -1,4 +1,3 @@
-/* $Id: enable.c,v 1.71.2.1 2003/03/21 13:18:16 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

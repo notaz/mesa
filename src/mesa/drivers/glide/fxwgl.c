@@ -1,4 +1,3 @@
-/* $Id: fxwgl.c,v 1.16 2002/10/24 23:57:23 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

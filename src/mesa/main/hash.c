@@ -1,4 +1,3 @@
-/* $Id: hash.c,v 1.14.2.1 2002/12/12 13:02:43 keithw Exp $ */
 
 /*
  * Mesa 3-D graphics library

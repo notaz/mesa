@@ -1,4 +1,3 @@
-/* $Id: glxapi.h,v 1.14 2002/10/08 23:16:26 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

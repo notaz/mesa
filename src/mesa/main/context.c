@@ -1,4 +1,3 @@
-/* $Id: context.c,v 1.188.2.4 2003/04/01 22:19:42 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

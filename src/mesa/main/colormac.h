@@ -1,4 +1,3 @@
-/* $Id: colormac.h,v 1.11 2002/04/04 16:51:52 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

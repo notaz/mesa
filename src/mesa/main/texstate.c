@@ -1,4 +1,3 @@
-/* $Id: texstate.c,v 1.87.2.5 2003/03/03 15:39:38 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

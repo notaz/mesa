@@ -1,4 +1,3 @@
-/* $Id: s_aalinetemp.h,v 1.21.4.1 2003/02/21 21:01:18 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

@@ -1,4 +1,3 @@
-/* $Id: x86_xform2.S,v 1.2 2002/03/07 21:40:08 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

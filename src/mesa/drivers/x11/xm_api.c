@@ -1,5 +1,3 @@
-/* $Id: xm_api.c,v 1.51.2.2 2003/03/27 17:57:19 brianp Exp $ */
-
 /*
  * Mesa 3-D graphics library
  * Version:  5.0.1
@@ -23,7 +21,6 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-/* $XFree86: xc/extras/Mesa/src/X/xm_api.c,v 1.2 2002/02/26 23:37:31 tsi Exp $ */
 
 /*
  * This file contains the implementations of all the XMesa* functions.

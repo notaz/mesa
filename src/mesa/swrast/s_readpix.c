@@ -1,4 +1,3 @@
-/* $Id: s_readpix.c,v 1.17 2002/10/24 23:57:24 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

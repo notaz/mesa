@@ -1,4 +1,3 @@
-/* $Id: x86_cliptest.S,v 1.10 2002/06/11 01:26:58 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

@@ -1,4 +1,3 @@
-/* $Id: ss_vbtmp.h,v 1.22 2002/10/29 20:29:01 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

@@ -1,4 +1,3 @@
-/* $Id: m_norm_tmp.h,v 1.12 2002/10/24 23:57:24 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

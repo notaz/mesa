@@ -1,4 +1,3 @@
-/* $Id: xmesaP.h,v 1.32.2.1 2003/01/24 15:33:00 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

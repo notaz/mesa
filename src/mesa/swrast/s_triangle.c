@@ -1,8 +1,7 @@
-/* $Id: s_triangle.c,v 1.65 2002/11/13 16:51:01 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
- * Version:  5.1
+ * Version:  5.0
  *
  * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
  *
@@ -74,37 +73,57 @@ GLboolean _mesa_cull_triangle( GLcontext *ctx,
 /*
  * Render a flat-shaded color index triangle.
  */
-#define NAME flat_ci_triangle
+static void flat_ci_triangle( GLcontext *ctx,
+			      const SWvertex *v0,
+			      const SWvertex *v1,
+			      const SWvertex *v2 )
+{
 #define INTERP_Z 1
 #define INTERP_FOG 1
-#define SETUP_CODE			\
-   span.interpMask |= SPAN_INDEX;	\
-   span.index = IntToFixed(v2->index);	\
+
+#define SETUP_CODE					\
+   span.interpMask |= SPAN_INDEX;			\
+   span.index = IntToFixed(v2->index);			\
    span.indexStep = 0;
+
 #define RENDER_SPAN( span )  _mesa_write_index_span(ctx, &span);
+
 #include "s_tritemp.h"
+}
 
 
 
 /*
  * Render a smooth-shaded color index triangle.
  */
-#define NAME smooth_ci_triangle
+static void smooth_ci_triangle( GLcontext *ctx,
+				const SWvertex *v0,
+				const SWvertex *v1,
+				const SWvertex *v2 )
+{
 #define INTERP_Z 1
 #define INTERP_FOG 1
 #define INTERP_INDEX 1
+
 #define RENDER_SPAN( span )  _mesa_write_index_span(ctx, &span);
+
 #include "s_tritemp.h"
+}
 
 
 
 /*
  * Render a flat-shaded RGBA triangle.
  */
-#define NAME flat_rgba_triangle
+static void flat_rgba_triangle( GLcontext *ctx,
+				const SWvertex *v0,
+				const SWvertex *v1,
+				const SWvertex *v2 )
+{
 #define INTERP_Z 1
 #define INTERP_FOG 1
 #define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
+
 #define SETUP_CODE				\
    ASSERT(ctx->Texture._EnabledUnits == 0);	\
    ASSERT(ctx->Light.ShadeModel==GL_FLAT);	\
@@ -117,29 +136,41 @@ GLboolean _mesa_cull_triangle( GLcontext *ctx,
    span.greenStep = 0;				\
    span.blueStep = 0;				\
    span.alphaStep = 0;
+
 #define RENDER_SPAN( span )  _mesa_write_rgba_span(ctx, &span);
+
 #include "s_tritemp.h"
+}
 
 
 
 /*
  * Render a smooth-shaded RGBA triangle.
  */
-#define NAME smooth_rgba_triangle
+static void smooth_rgba_triangle( GLcontext *ctx,
+				  const SWvertex *v0,
+				  const SWvertex *v1,
+				  const SWvertex *v2 )
+{
+
 #define INTERP_Z 1
 #define INTERP_FOG 1
 #define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
 #define INTERP_RGB 1
 #define INTERP_ALPHA 1
+
 #define SETUP_CODE				\
    {						\
       /* texturing must be off */		\
       ASSERT(ctx->Texture._EnabledUnits == 0);	\
       ASSERT(ctx->Light.ShadeModel==GL_SMOOTH);	\
    }
+
 #define RENDER_SPAN( span )  _mesa_write_rgba_span(ctx, &span);
+
 #include "s_tritemp.h"
 
+}
 
 
 /*
@@ -148,7 +179,11 @@ GLboolean _mesa_cull_triangle( GLcontext *ctx,
  *
  * No fog.
  */
-#define NAME simple_textured_triangle
+static void simple_textured_triangle( GLcontext *ctx,
+				      const SWvertex *v0,
+				      const SWvertex *v1,
+				      const SWvertex *v2 )
+{
 #define INTERP_INT_TEX 1
 #define S_SCALE twidth
 #define T_SCALE theight
@@ -186,8 +221,9 @@ GLboolean _mesa_cull_triangle( GLcontext *ctx,
    (*swrast->Driver.WriteRGBSpan)(ctx, span.end, span.x, span.y,	\
                                   (CONST GLchan (*)[3]) span.array->rgb,\
                                   NULL );
-#include "s_tritemp.h"
 
+#include "s_tritemp.h"
+}
 
 
 /*
@@ -197,7 +233,11 @@ GLboolean _mesa_cull_triangle( GLcontext *ctx,
  *
  * No fog.
  */
-#define NAME simple_z_textured_triangle
+static void simple_z_textured_triangle( GLcontext *ctx,
+					const SWvertex *v0,
+					const SWvertex *v1,
+					const SWvertex *v2 )
+{
 #define INTERP_Z 1
 #define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
 #define INTERP_INT_TEX 1
@@ -246,8 +286,9 @@ GLboolean _mesa_cull_triangle( GLcontext *ctx,
    (*swrast->Driver.WriteRGBSpan)(ctx, span.end, span.x, span.y,	\
                                   (CONST GLchan (*)[3]) span.array->rgb,\
                                   span.array->mask );
-#include "s_tritemp.h"
 
+#include "s_tritemp.h"
+}
 
 
 #if CHAN_TYPE != GL_FLOAT
@@ -526,7 +567,11 @@ affine_span(GLcontext *ctx, struct sw_span *span,
 /*
  * Render an RGB/RGBA textured triangle without perspective correction.
  */
-#define NAME affine_textured_triangle
+static void affine_textured_triangle( GLcontext *ctx,
+				      const SWvertex *v0,
+				      const SWvertex *v1,
+				      const SWvertex *v2 )
+{
 #define INTERP_Z 1
 #define INTERP_FOG 1
 #define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
@@ -588,6 +633,8 @@ affine_span(GLcontext *ctx, struct sw_span *span,
 #define RENDER_SPAN( span )   affine_span(ctx, &span, &info);
 
 #include "s_tritemp.h"
+
+}
 
 
 
@@ -798,7 +845,11 @@ fast_persp_span(GLcontext *ctx, struct sw_span *span,
  * by interpolated Q/W comes out right.
  *
  */
-#define NAME persp_textured_triangle
+static void persp_textured_triangle( GLcontext *ctx,
+				     const SWvertex *v0,
+				     const SWvertex *v1,
+				     const SWvertex *v2 )
+{
 #define INTERP_Z 1
 #define INTERP_FOG 1
 #define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
@@ -859,6 +910,8 @@ fast_persp_span(GLcontext *ctx, struct sw_span *span,
 
 #include "s_tritemp.h"
 
+}
+
 
 #endif /* CHAN_BITS != GL_FLOAT */
 
@@ -869,7 +922,11 @@ fast_persp_span(GLcontext *ctx, struct sw_span *span,
  * Render a smooth-shaded, textured, RGBA triangle.
  * Interpolate S,T,R with perspective correction, w/out mipmapping.
  */
-#define NAME general_textured_triangle
+static void general_textured_triangle( GLcontext *ctx,
+				       const SWvertex *v0,
+				       const SWvertex *v1,
+				       const SWvertex *v2 )
+{
 #define INTERP_Z 1
 #define INTERP_FOG 1
 #define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
@@ -877,8 +934,11 @@ fast_persp_span(GLcontext *ctx, struct sw_span *span,
 #define INTERP_SPEC 1
 #define INTERP_ALPHA 1
 #define INTERP_TEX 1
+
 #define RENDER_SPAN( span )   _mesa_write_texture_span(ctx, &span);
+
 #include "s_tritemp.h"
+}
 
 
 
@@ -887,7 +947,13 @@ fast_persp_span(GLcontext *ctx, struct sw_span *span,
  * Interpolate Z, RGB, Alpha, specular, fog, and N sets of texture coordinates.
  * Yup, it's slow.
  */
-#define NAME multitextured_triangle
+static void
+multitextured_triangle( GLcontext *ctx,
+                        const SWvertex *v0,
+                        const SWvertex *v1,
+                        const SWvertex *v2 )
+{
+
 #define INTERP_Z 1
 #define INTERP_FOG 1
 #define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
@@ -895,19 +961,27 @@ fast_persp_span(GLcontext *ctx, struct sw_span *span,
 #define INTERP_ALPHA 1
 #define INTERP_SPEC 1
 #define INTERP_MULTITEX 1
+
 #define RENDER_SPAN( span )   _mesa_write_texture_span(ctx, &span);
+
 #include "s_tritemp.h"
 
+}
 
 
-#define NAME occlusion_zless_triangle
+static void occlusion_zless_triangle( GLcontext *ctx,
+				      const SWvertex *v0,
+				      const SWvertex *v1,
+				      const SWvertex *v2 )
+{
+   if (ctx->OcclusionResult) {
+      return;
+   }
+
 #define DO_OCCLUSION_TEST
 #define INTERP_Z 1
 #define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
-#define SETUP_CODE			\
-   if (ctx->OcclusionResult) {		\
-      return;				\
-   }
+
 #define RENDER_SPAN( span )				\
    GLuint i;						\
    for (i = 0; i < span.end; i++) {			\
@@ -918,15 +992,14 @@ fast_persp_span(GLcontext *ctx, struct sw_span *span,
       }							\
       span.z += span.zStep;				\
    }
+
 #include "s_tritemp.h"
+}
 
-
-
-static void
-nodraw_triangle( GLcontext *ctx,
-                 const SWvertex *v0,
-                 const SWvertex *v1,
-                 const SWvertex *v2 )
+static void nodraw_triangle( GLcontext *ctx,
+			     const SWvertex *v0,
+			     const SWvertex *v1,
+			     const SWvertex *v2 )
 {
    (void) (ctx && v0 && v1 && v2);
 }

@@ -1,4 +1,3 @@
-/* $Id: 3dnow_xform3.S,v 1.2 2001/10/22 01:21:16 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

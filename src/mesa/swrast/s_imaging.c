@@ -1,4 +1,3 @@
-/* $Id: s_imaging.c,v 1.6 2002/07/09 01:22:52 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

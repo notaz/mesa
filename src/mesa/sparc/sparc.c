@@ -1,4 +1,3 @@
-/* $Id: sparc.c,v 1.8.4.1 2003/02/08 15:43:27 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

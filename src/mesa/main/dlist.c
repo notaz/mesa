@@ -1,4 +1,3 @@
-/* $Id: dlist.c,v 1.100.2.1 2003/03/03 15:39:45 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

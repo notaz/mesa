@@ -1,4 +1,3 @@
-/* $Id: imports.c,v 1.25.2.2 2003/02/28 16:28:14 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library

@@ -1,4 +1,3 @@
-/* $Id: s_points.c,v 1.19 2002/06/15 03:03:11 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
