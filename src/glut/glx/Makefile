@@ -36,7 +36,6 @@ SOURCES = \
 	glut_dstr.c \
 	glut_event.c \
 	glut_ext.c \
-	glut_fbc.c \
 	glut_fullscrn.c \
 	glut_gamemode.c \
 	glut_get.c \
@@ -105,7 +104,9 @@ clean:
 
 
 depend: $(SOURCES)
-	touch depend
-	$(MKDEP) $(MKDEP_OPTIONS) -I$(TOP)/include $(SOURCES)
+	@ echo "running $(MKDEP)"
+	@ touch depend
+	@ $(MKDEP) $(MKDEP_OPTIONS) -I$(TOP)/include $(SOURCES) \
+		> /dev/null 2>&1
 
 include depend
