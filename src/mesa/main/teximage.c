@@ -1,4 +1,4 @@
-/* $Id: teximage.c,v 1.104.2.14 2002/10/10 14:11:33 brianp Exp $ */
+/* $Id: teximage.c,v 1.104.2.15 2002/10/18 13:24:28 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -215,7 +215,10 @@ _mesa_base_tex_format( GLcontext *ctx, GLint format )
       case GL_COLOR_INDEX8_EXT:
       case GL_COLOR_INDEX12_EXT:
       case GL_COLOR_INDEX16_EXT:
-         return GL_COLOR_INDEX;
+         if (ctx->Extensions.EXT_paletted_texture)
+            return GL_COLOR_INDEX;
+         else
+            return -1;
       case GL_DEPTH_COMPONENT:
       case GL_DEPTH_COMPONENT16_SGIX:
       case GL_DEPTH_COMPONENT24_SGIX:
