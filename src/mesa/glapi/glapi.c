@@ -1,4 +1,4 @@
-/* $Id: glapi.c,v 1.58.2.2 2002/03/07 21:50:53 brianp Exp $ */
+/* $Id: glapi.c,v 1.58.2.3 2002/10/10 14:56:32 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -1912,13 +1912,6 @@ _glapi_add_entrypoint(const char *funcName, GLuint offset)
       if (index >= 0) {
          return (GLboolean) ((GLuint) index == offset);  /* bad offset! */
       }
-   }
-
-   {
-      /* make sure this offset/name pair is legal */
-      const char *name = _glapi_get_proc_name(offset);
-      if (name && strcmp(name, funcName) != 0)
-         return GL_FALSE;  /* bad name! */
    }
 
    {
