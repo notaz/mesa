@@ -1,9 +1,8 @@
-
 /*
  * Mesa 3-D graphics library
- * Version:  5.1
+ * Version:  6.0.1
  *
- * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -37,7 +36,11 @@ NAME(plot)(GLcontext *ctx, struct LineInfo *line, int ix, int iy)
 {
    const GLfloat fx = (GLfloat) ix;
    const GLfloat fy = (GLfloat) iy;
+#ifdef DO_INDEX
+   const GLfloat coverage = compute_coveragei(line, ix, iy);
+#else
    const GLfloat coverage = compute_coveragef(line, ix, iy);
+#endif
    const GLuint i = line->span.end;
 
    if (coverage == 0.0)

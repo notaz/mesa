@@ -68,7 +68,7 @@ typedef struct {
    GLchan color[4];
    GLchan specular[4];
    GLfloat fog;
-   GLuint index;
+   GLfloat index;
    GLfloat pointSize;
 } SWvertex;
 

@@ -457,8 +457,8 @@ static void NAME(GLcontext *ctx, const SWvertex *v0,
 #ifdef INTERP_INDEX
       span.interpMask |= SPAN_INDEX;
       if (ctx->Light.ShadeModel == GL_SMOOTH) {
-         GLfloat eMaj_di = (GLfloat) ((GLint) vMax->index - (GLint) vMin->index);
-         GLfloat eBot_di = (GLfloat) ((GLint) vMid->index - (GLint) vMin->index);
+         GLfloat eMaj_di = vMax->index - vMin->index;
+         GLfloat eBot_di = vMid->index - vMin->index;
          didx = oneOverArea * (eMaj_di * eBot.dy - eMaj.dy * eBot_di);
          didy = oneOverArea * (eMaj.dx * eBot_di - eMaj_di * eBot.dx);
          span.indexStep = SignedFloatToFixed(didx);
@@ -826,7 +826,7 @@ static void NAME(GLcontext *ctx, const SWvertex *v0,
                   diOuter = SignedFloatToFixed(didy + dxOuter * didx);
                }
                else {
-                  iLeft = (GLfixed) (v2->index * FIXED_SCALE);
+                  iLeft = FloatToFixed(v2->index);
                   diOuter = 0;
                }
 #endif
