@@ -1,10 +1,10 @@
-/* $Id: dlist.c,v 1.76.2.2 2002/04/09 12:13:07 keithw Exp $ */
+/* $Id: dlist.c,v 1.76.2.3 2002/11/06 15:17:38 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
- * Version:  3.5
+ * Version:  4.0.5
  *
- * Copyright (C) 1999-2001  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -5722,6 +5722,7 @@ _mesa_init_dlist_table( struct _glapi_table *table, GLuint tableSize )
 
    /* GL 1.1 */
    table->AreTexturesResident = exec_AreTexturesResident;
+   table->AreTexturesResidentEXT = exec_AreTexturesResident;
    table->BindTexture = save_BindTexture;
    table->ColorPointer = exec_ColorPointer;
    table->CopyTexImage1D = save_CopyTexImage1D;
@@ -5733,10 +5734,12 @@ _mesa_init_dlist_table( struct _glapi_table *table, GLuint tableSize )
    table->EdgeFlagPointer = exec_EdgeFlagPointer;
    table->EnableClientState = exec_EnableClientState;
    table->GenTextures = exec_GenTextures;
+   table->GenTexturesEXT = exec_GenTextures;
    table->GetPointerv = exec_GetPointerv;
    table->IndexPointer = exec_IndexPointer;
    table->InterleavedArrays = exec_InterleavedArrays;
    table->IsTexture = exec_IsTexture;
+   table->IsTextureEXT = exec_IsTexture;
    table->NormalPointer = exec_NormalPointer;
    table->PopClientAttrib = exec_PopClientAttrib;
    table->PrioritizeTextures = save_PrioritizeTextures;
@@ -5770,18 +5773,31 @@ _mesa_init_dlist_table( struct _glapi_table *table, GLuint tableSize )
    table->CopyConvolutionFilter1D = exec_CopyConvolutionFilter1D;
    table->CopyConvolutionFilter2D = exec_CopyConvolutionFilter2D;
    table->GetColorTable = exec_GetColorTable;
+   table->GetColorTableEXT = exec_GetColorTable;
    table->GetColorTableParameterfv = exec_GetColorTableParameterfv;
+   table->GetColorTableParameterfvEXT = exec_GetColorTableParameterfv;
    table->GetColorTableParameteriv = exec_GetColorTableParameteriv;
+   table->GetColorTableParameterivEXT = exec_GetColorTableParameteriv;
    table->GetConvolutionFilter = exec_GetConvolutionFilter;
+   table->GetConvolutionFilterEXT = exec_GetConvolutionFilter;
    table->GetConvolutionParameterfv = exec_GetConvolutionParameterfv;
+   table->GetConvolutionParameterfvEXT = exec_GetConvolutionParameterfv;
    table->GetConvolutionParameteriv = exec_GetConvolutionParameteriv;
+   table->GetConvolutionParameterivEXT = exec_GetConvolutionParameteriv;
    table->GetHistogram = exec_GetHistogram;
+   table->GetHistogramEXT = exec_GetHistogram;
    table->GetHistogramParameterfv = exec_GetHistogramParameterfv;
+   table->GetHistogramParameterfvEXT = exec_GetHistogramParameterfv;
    table->GetHistogramParameteriv = exec_GetHistogramParameteriv;
+   table->GetHistogramParameterivEXT = exec_GetHistogramParameteriv;
    table->GetMinmax = exec_GetMinmax;
+   table->GetMinmaxEXT = exec_GetMinmax;
    table->GetMinmaxParameterfv = exec_GetMinmaxParameterfv;
+   table->GetMinmaxParameterfvEXT = exec_GetMinmaxParameterfv;
    table->GetMinmaxParameteriv = exec_GetMinmaxParameteriv;
+   table->GetMinmaxParameterivEXT = exec_GetMinmaxParameteriv;
    table->GetSeparableFilter = exec_GetSeparableFilter;
+   table->GetSeparableFilterEXT = exec_GetSeparableFilter;
    table->Histogram = save_Histogram;
    table->Minmax = save_Minmax;
    table->ResetHistogram = save_ResetHistogram;

@@ -1,10 +1,10 @@
-/* $Id: state.c,v 1.69.2.5 2002/08/28 01:13:35 brianp Exp $ */
+/* $Id: state.c,v 1.69.2.6 2002/11/06 15:17:39 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
- * Version:  4.0.4
+ * Version:  4.0.5
  *
- * Copyright (C) 1999-2001  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -295,6 +295,7 @@ _mesa_init_exec_table(struct _glapi_table *exec, GLuint tableSize)
 
    /* 1.1 */
    exec->AreTexturesResident = _mesa_AreTexturesResident;
+   exec->AreTexturesResidentEXT = _mesa_AreTexturesResident;
    exec->BindTexture = _mesa_BindTexture;
    exec->ColorPointer = _mesa_ColorPointer;
    exec->CopyTexImage1D = _mesa_CopyTexImage1D;
@@ -306,10 +307,12 @@ _mesa_init_exec_table(struct _glapi_table *exec, GLuint tableSize)
    exec->EdgeFlagPointer = _mesa_EdgeFlagPointer;
    exec->EnableClientState = _mesa_EnableClientState;
    exec->GenTextures = _mesa_GenTextures;
+   exec->GenTexturesEXT = _mesa_GenTextures;
    exec->GetPointerv = _mesa_GetPointerv;
    exec->IndexPointer = _mesa_IndexPointer;
    exec->InterleavedArrays = _mesa_InterleavedArrays;
    exec->IsTexture = _mesa_IsTexture;
+   exec->IsTextureEXT = _mesa_IsTexture;
    exec->NormalPointer = _mesa_NormalPointer;
    exec->PopClientAttrib = _mesa_PopClientAttrib;
    exec->PrioritizeTextures = _mesa_PrioritizeTextures;
@@ -342,18 +345,31 @@ _mesa_init_exec_table(struct _glapi_table *exec, GLuint tableSize)
    exec->CopyConvolutionFilter1D = _mesa_CopyConvolutionFilter1D;
    exec->CopyConvolutionFilter2D = _mesa_CopyConvolutionFilter2D;
    exec->GetColorTable = _mesa_GetColorTable;
+   exec->GetColorTableEXT = _mesa_GetColorTable;
    exec->GetColorTableParameterfv = _mesa_GetColorTableParameterfv;
+   exec->GetColorTableParameterfvEXT = _mesa_GetColorTableParameterfv;
    exec->GetColorTableParameteriv = _mesa_GetColorTableParameteriv;
+   exec->GetColorTableParameterivEXT = _mesa_GetColorTableParameteriv;
    exec->GetConvolutionFilter = _mesa_GetConvolutionFilter;
+   exec->GetConvolutionFilterEXT = _mesa_GetConvolutionFilter;
    exec->GetConvolutionParameterfv = _mesa_GetConvolutionParameterfv;
+   exec->GetConvolutionParameterfvEXT = _mesa_GetConvolutionParameterfv;
    exec->GetConvolutionParameteriv = _mesa_GetConvolutionParameteriv;
+   exec->GetConvolutionParameterivEXT = _mesa_GetConvolutionParameteriv;
    exec->GetHistogram = _mesa_GetHistogram;
+   exec->GetHistogramEXT = _mesa_GetHistogram;
    exec->GetHistogramParameterfv = _mesa_GetHistogramParameterfv;
+   exec->GetHistogramParameterfvEXT = _mesa_GetHistogramParameterfv;
    exec->GetHistogramParameteriv = _mesa_GetHistogramParameteriv;
+   exec->GetHistogramParameterivEXT = _mesa_GetHistogramParameteriv;
    exec->GetMinmax = _mesa_GetMinmax;
+   exec->GetMinmaxEXT = _mesa_GetMinmax;
    exec->GetMinmaxParameterfv = _mesa_GetMinmaxParameterfv;
+   exec->GetMinmaxParameterfvEXT = _mesa_GetMinmaxParameterfv;
    exec->GetMinmaxParameteriv = _mesa_GetMinmaxParameteriv;
+   exec->GetMinmaxParameterivEXT = _mesa_GetMinmaxParameteriv;
    exec->GetSeparableFilter = _mesa_GetSeparableFilter;
+   exec->GetSeparableFilterEXT = _mesa_GetSeparableFilter;
    exec->Histogram = _mesa_Histogram;
    exec->Minmax = _mesa_Minmax;
    exec->ResetHistogram = _mesa_ResetHistogram;
