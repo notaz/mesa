@@ -1,6 +1,6 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.0
+ * Version:  6.0.1
  *
  * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
@@ -1875,8 +1875,10 @@ _mesa_GetTexImage( GLenum target, GLint level, GLenum format,
                GLuint indexRow[MAX_WIDTH];
                GLint col;
                for (col = 0; col < width; col++) {
+                  GLchan indx;
                   (*texImage->FetchTexel)(texImage, col, row, img,
-                                          (GLvoid *) &indexRow[col]);
+                                          (GLvoid *) &indx);
+                  indexRow[col] = indx;
                }
                _mesa_pack_index_span(ctx, width, type, dest,
                                      indexRow, &ctx->Pack,
