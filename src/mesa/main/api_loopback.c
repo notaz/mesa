@@ -1,9 +1,8 @@
-
 /*
  * Mesa 3-D graphics library
- * Version:  4.1
+ * Version:  5.0.2
  *
- * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -1504,7 +1503,7 @@ loopback_VertexAttrib3dvNV(GLuint index, const GLdouble *v)
 static void
 loopback_VertexAttrib4svNV(GLuint index, const GLshort *v)
 {
-   ATTRIB(index, (GLfloat) v[0], (GLfloat) v[1], (GLfloat) v[2], 1.0F);
+   ATTRIB(index, (GLfloat) v[0], (GLfloat) v[1], (GLfloat) v[2], (GLfloat) v[3]);
 }
 
 static void
