@@ -511,8 +511,10 @@ void _tnl_execute_cassette( GLcontext *ctx, struct immediate *IM )
 			     begin_state, saved_begin_state );
    }
 
-   if (ctx->Driver.CurrentExecPrimitive == GL_POLYGON+1)
-      ctx->Driver.NeedFlush &= ~FLUSH_STORED_VERTICES;
+   /* Don't unset FLUSH_STORED_VERTICES flag here as the driver might
+    * have other stored data of its own & be relying on the
+    * FlushVertices notification to clear it.
+    */
 }
 
 
