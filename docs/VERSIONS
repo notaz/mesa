@@ -1213,3 +1213,6 @@ Mesa Version History
 	- fixed build problems on OpenBSD
 	- omit CVS directories from tarballs
 	- glGetTexImage(GL_COLOR_INDEX) was broken
+	- fixed an infinite loop in t&l module
+	- silenced some valgrind warnings about using unitialized memory
+	- fixed some compilation/link glitches on IRIX (Mike Stephens)
