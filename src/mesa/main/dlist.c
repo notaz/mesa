@@ -1,8 +1,8 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.1
+ * Version:  6.2.2
  *
- * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2005  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -4546,7 +4546,7 @@ static void GLAPIENTRY save_DepthBoundsEXT( GLclampd zmin, GLclampd zmax )
    GET_CURRENT_CONTEXT(ctx);
    Node *n;
    ASSERT_OUTSIDE_SAVE_BEGIN_END_AND_FLUSH(ctx);
-   n = ALLOC_INSTRUCTION( ctx, OPCODE_ACTIVE_STENCIL_FACE_EXT, 2 );
+   n = ALLOC_INSTRUCTION( ctx, OPCODE_DEPTH_BOUNDS_EXT, 2 );
    if (n) {
       n[1].f = (GLfloat) zmin;
       n[2].f = (GLfloat) zmax;
