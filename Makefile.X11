@@ -1,4 +1,4 @@
-# $Id: Makefile.X11,v 1.107.2.9 2004/04/22 16:08:13 brianp Exp $
+# $Id: Makefile.X11,v 1.107.2.10 2004/04/22 16:14:34 brianp Exp $
 
 # Mesa 3-D graphics library
 # Version:  6.0.1
@@ -127,6 +127,8 @@ default:
 	@echo "  make ultrix-gcc            for DEC systems with Ultrix and GCC"
 	@echo "  make unixware              for PCs running UnixWare"
 	@echo "  make unixware-shared       for PCs running UnixWare, shared libs"
+	@echo "  make cygwin-sl             for Cygwin, shared libs"
+	@echo "  make cygwin-static         for Cygwin, static libs"
 	@echo "  make clean                 remove .o files"
 	@echo "  make realclean             remove .o, library and executable files"
 
@@ -380,6 +382,44 @@ linux-ggi linux-x86-ggi:
 		$(MAKE) -f Makefile.X11 $@ ; \
 	fi
 
+cygwin-sl cygwin-static:
+	-mkdir lib
+	if [ -d src/mesa ] ; then \
+		cd src/mesa ; \
+		touch depend ; \
+		$(MAKE) -f Makefile.cygwin $@ ; \
+	fi
+	if [ -d src/glu/sgi ] ; then \
+		cd src/glu/sgi ; \
+		touch depend ; \
+		$(MAKE) -f Makefile.cygwin $@ ; \
+	fi
+	if [ -d src/glut/glx ] ; then \
+		cd src/glut/glx ; \
+		touch depend ; \
+		$(MAKE) -f Makefile.cygwin $@ ; \
+	fi
+	if [ -d src/glw ] ; then \
+		cd src/glw ; \
+		touch depend ; \
+		$(MAKE) -f Makefile.cygwin $@ ; \
+	fi
+	if [ -d progs/demos ] ; then \
+		cd progs/demos ; \
+		$(MAKE) -f Makefile.cygwin $@ ; \
+	fi
+	if [ -d progs/xdemos ] ; then \
+		cd progs/xdemos ; \
+		$(MAKE) -f Makefile.cygwin $@ ; \
+	fi
+	if [ -d progs/samples ] ; then \
+		cd progs/samples ; \
+		$(MAKE) -f Makefile.cygwin $@ ; \
+	fi
+	if [ -d progs/redbook ] ; then \
+		cd progs/redbook ; \
+		$(MAKE) -f Makefile.cygwin $@ ; \
+	fi
 
 # if you change GGI_DEST please change it in ggimesa.conf, too.
 DESTDIR=/usr/local

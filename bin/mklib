@@ -488,6 +488,46 @@ case $ARCH in
 	fi
 	;;
 
+     CYGWIN*)
+	# GCC-based environment
+	CYGNAME="cyg${LIBNAME}"     # prefix with "cyg"
+	LIBNAME="lib${LIBNAME}"     # prefix with "lib"
+
+        if [ $STATIC = 1 ] ; then
+            echo "mklib: Making" $ARCH "static library: " ${LIBNAME}.a
+            LINK="ar"
+            OPTS="-ru"
+            # make lib
+            ${LINK} ${OPTS} ${LIBNAME}.a ${OBJECTS}
+	    ranlib ${LIBNAME}.a
+            # finish up
+            FINAL_LIBS=${LIBNAME}.a
+        else
+	    OPTS="-shared -Wl,-export-all -Wl,--out-implib=${LIBNAME}-${MAJOR}.dll.a"
+            echo "mklib: Making" $ARCH "shared library: " ${LIBNAME}-${MAJOR}.dll
+
+            if [ $CPLUSPLUS = 1 ] ; then
+                LINK="g++"
+            else
+                LINK="gcc"
+            fi
+
+            # rm any old libs
+            rm -f ${LIBNAME}-${MAJOR}.dll
+            rm -f ${LIBNAME}.dll.a
+            rm -f ${LIBNAME}.a
+
+            # make lib
+            ${LINK} ${OPTS} -o ${CYGNAME}-${MAJOR}.dll ${OBJECTS} ${DEPS}
+            # make usual symlinks
+            ln -s ${LIBNAME}-${MAJOR}.dll.a ${LIBNAME}.dll.a
+            # finish up
+            FINAL_LIBS="${LIBNAME}-${MAJOR}.dll.a ${LIBNAME}.dll.a"
+	    # special case for installing in bin
+            FINAL_BINS="${CYGNAME}-${MAJOR}.dll"
+        fi
+	;;
+
     *)
 	echo "mklib: ERROR: Don't know how to make a static/shared library for" ${ARCH}
 	echo "mklib: Please add necessary commands to mklib script."
@@ -501,4 +541,10 @@ esac
 if [ ${INSTALLDIR} != "." ] ; then
     echo "mklib: Installing" ${FINAL_LIBS} "in" ${INSTALLDIR}
     mv ${FINAL_LIBS} ${INSTALLDIR}/
+fi
+
+# Ugly as sins ...
+if [ ${INSTALLDIR} != "." -a "x${FINAL_BINS}" != "x" ] ; then
+    echo "mklib: Installing" ${FINAL_BINS} "in" ${INSTALLDIR}/../bin
+    mv ${FINAL_BINS} ${INSTALLDIR}/../bin
 fi
