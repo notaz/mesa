@@ -1,4 +1,4 @@
-/* $Id: texobj.c,v 1.50.2.2 2002/08/28 01:13:36 brianp Exp $ */
+/* $Id: texobj.c,v 1.50.2.3 2002/10/22 15:16:53 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -556,26 +556,37 @@ _mesa_DeleteTextures( GLsizei n, const GLuint *texName)
                if (delObj == unit->Current1D) {
                   unit->Current1D = ctx->Shared->Default1D;
                   ctx->Shared->Default1D->RefCount++;
+                  delObj->RefCount--;
                   if (delObj == unit->_Current)
                      unit->_Current = unit->Current1D;
                }
                else if (delObj == unit->Current2D) {
                   unit->Current2D = ctx->Shared->Default2D;
                   ctx->Shared->Default2D->RefCount++;
+                  delObj->RefCount--;
                   if (delObj == unit->_Current)
                      unit->_Current = unit->Current2D;
                }
                else if (delObj == unit->Current3D) {
                   unit->Current3D = ctx->Shared->Default3D;
                   ctx->Shared->Default3D->RefCount++;
+                  delObj->RefCount--;
                   if (delObj == unit->_Current)
                      unit->_Current = unit->Current3D;
                }
                else if (delObj == unit->CurrentCubeMap) {
                   unit->CurrentCubeMap = ctx->Shared->DefaultCubeMap;
                   ctx->Shared->DefaultCubeMap->RefCount++;
+                  delObj->RefCount--;
                   if (delObj == unit->_Current)
                      unit->_Current = unit->CurrentCubeMap;
+               }
+               else if (delObj == unit->CurrentRect) {
+                  unit->CurrentRect = ctx->Shared->DefaultRect;
+                  ctx->Shared->DefaultRect->RefCount++;
+                  delObj->RefCount--;
+                  if (delObj == unit->_Current)
+                     unit->_Current = unit->CurrentRect;
                }
             }
             ctx->NewState |= _NEW_TEXTURE;
