@@ -1205,10 +1205,11 @@ Mesa Version History
 	- updated files for building on Windows
 
 
-6.0.1  March 25, 2004
+6.0.1  April 2, 2004
     New:
 	- upgraded glext.h to version 22
 	- new build targets (Dan Schikore)
+	- new linux-x86-opteron build target (Heath Feather)
     Bug fixes:
 	- glBindProgramARB didn't update all necessary state
 	- fixed build problems on OpenBSD
@@ -1227,9 +1228,11 @@ Mesa Version History
 	- generic vertex attribute arrays didn't work in display lists
 	- vertex buffer objects' default usage and access fields were wrong
 	- glDrawArrays with start!=0 was broken
-	- fragment program PK2H and UP2H instructions were broken
+	- fragment program PK2H, UP2H, UP4B and UP4UB instructions were broken
 	- linux-osmesa16-static config didn't work
 	- fixed a few color index rendering problems (bug 910687)
 	- glInterleavedArrays didn't respect GL_CLIENT_ACTIVE_TEXTURE
 	- OSMesa RGB and BGR modes were broken
 	- glProgramStringARB mistakenly required a null-terminated string
+	- fragment program XPD instruction was incorrect
+	- glGetMaterial() didn't work reliably
