@@ -1,4 +1,4 @@
-/* $Id: stencil.c,v 1.16.4.3 2001/02/23 23:13:58 brianp Exp $ */
+/* $Id: stencil.c,v 1.16.4.4 2001/05/17 20:19:00 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -1391,7 +1391,7 @@ clear_hardware_stencil_buffer( GLcontext *ctx )
       else {
          /* clear whole buffer without masking */
          const GLint width = ctx->DrawBuffer->Width;
-         const GLint height = ctx->DrawBuffer->Width;
+         const GLint height = ctx->DrawBuffer->Height;
          const GLint x = ctx->DrawBuffer->Xmin;
          GLstencil stencil[MAX_WIDTH];
          GLint y, i;
