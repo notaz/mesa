@@ -1,6 +1,6 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.0
+ * Version:  6.0.2
  *
  * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
@@ -2856,7 +2856,7 @@ parse_string_without_adding (GLubyte ** inst, struct arb_program *Program)
 }
 
 /**
- * \return 0 if sign is plus, 1 if sign is minus
+ * \return -1 if we parse '-', return 1 otherwise
  */
 static GLuint
 parse_sign (GLubyte ** inst)
@@ -2865,14 +2865,14 @@ parse_sign (GLubyte ** inst)
 
    if (**inst == '-') {
       (*inst)++;
-      return 1;
+      return -1;
    }
    else if (**inst == '+') {
       (*inst)++;
-      return 0;
+      return 1;
    }
 
-   return 0;
+   return 1;
 }
 
 /**
@@ -2905,10 +2905,7 @@ parse_integer (GLubyte ** inst, struct arb_program *Program)
     */
    Program->Position = parse_position (inst);
 
-   if (sign)
-      value *= -1;
-
-   return value;
+   return value * sign;
 }
 
 /**
@@ -2920,9 +2917,6 @@ parse_float (GLubyte ** inst, struct arb_program *Program)
    GLuint leading_zeros =0;
    GLfloat value = 0;
 
-#if 0
-   tmp[0] = parse_sign (inst);  /* This is the sign of the number + - >0, - -> 1 */
-#endif
    tmp[1] = parse_integer (inst, Program);   /* This is the integer portion of the number */
 
    /* Now we grab the fractional portion of the number (the digits after 
@@ -2944,10 +2938,6 @@ parse_float (GLubyte ** inst, struct arb_program *Program)
       denom *= 10;
    denom *= (GLint) _mesa_pow( 10, leading_zeros );
    value += (GLfloat) tmp[2] / (GLfloat) denom;
-#if 0
-   if (tmp[0])
-      value *= -1;
-#endif
    value *= (GLfloat) _mesa_pow (10, (GLfloat) tmp[3] * (GLfloat) tmp[4]);
 
    return value;
@@ -2959,17 +2949,9 @@ parse_float (GLubyte ** inst, struct arb_program *Program)
 static GLfloat
 parse_signed_float (GLubyte ** inst, struct arb_program *Program)
 {
-   GLint negate;
-   GLfloat value;
-
-   negate = parse_sign (inst);
-
-   value = parse_float (inst, Program);
-
-   if (negate)
-      value *= -1;
-
-   return value;
+   GLint sign = parse_sign (inst);
+   GLfloat value = parse_float (inst, Program);
+   return value * sign;
 }
 
 /**
@@ -4637,7 +4619,7 @@ parse_extended_swizzle_mask (GLubyte ** inst, GLubyte * mask, GLboolean * Negate
 
    *Negate = GL_FALSE;
    for (a = 0; a < 4; a++) {
-      if (parse_sign (inst))
+      if (parse_sign (inst) == -1)
          *Negate = GL_TRUE;
 
       swz = *(*inst)++;
@@ -4847,7 +4829,7 @@ parse_vector_src_reg (GLcontext * ctx, GLubyte ** inst,
                       GLubyte * Swizzle, GLboolean *IsRelOffset)
 {
    /* Grab the sign */
-   *Negate = parse_sign (inst);
+   *Negate = (parse_sign (inst) == -1);
 
    /* And the src reg */
    if (parse_src_reg (ctx, inst, vc_head, Program, File, Index, IsRelOffset))
@@ -4868,7 +4850,7 @@ parse_scalar_src_reg (GLcontext * ctx, GLubyte ** inst,
                       GLubyte * Swizzle, GLboolean *IsRelOffset)
 {
    /* Grab the sign */
-   *Negate = parse_sign (inst);
+   *Negate = (parse_sign (inst) == -1);
 
    /* And the src reg */
    if (parse_src_reg (ctx, inst, vc_head, Program, File, Index, IsRelOffset))
