@@ -1212,3 +1212,4 @@ Mesa Version History
 	- glBindProgramARB didn't update all necessary state
 	- fixed build problems on OpenBSD
 	- omit CVS directories from tarballs
+	- glGetTexImage(GL_COLOR_INDEX) was broken
