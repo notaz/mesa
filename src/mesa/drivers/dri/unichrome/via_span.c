@@ -163,7 +163,7 @@
     GLushort p;                                                      	\
     char *buf, *read_buf;                                            	\
     p = 0;							     	\
-    if (vmesa->glCtx->Color._DrawDestMask[0] == __GL_BACK_BUFFER_MASK) {	\
+    if (vmesa->glCtx->Color._DrawDestMask == __GL_BACK_BUFFER_MASK) {	\
 	buf = (char *)(vmesa->drawMap);                              	\
 	read_buf = (char *)(vmesa->readMap);                         	\
     }                                                                	\
@@ -224,7 +224,7 @@
     GLuint p;                                                        	\
     char *buf, *read_buf;                                            	\
     p = 0;	                                                        \
-    if (vmesa->glCtx->Color._DrawDestMask[0] == __GL_BACK_BUFFER_MASK) {	\
+    if (vmesa->glCtx->Color._DrawDestMask == __GL_BACK_BUFFER_MASK) {	\
 	buf = (char *)(vmesa->drawMap);                              	\
 	read_buf = (char *)(vmesa->readMap);                         	\
     }                                                                	\
@@ -284,10 +284,10 @@
 
 
 #define WRITE_DEPTH(_x, _y, d)                      \
-    *(GLushort *)(buf + _x * 2 + _y * pitch) = d;
+    *(GLushort *)(buf + (_x) * 2 + (_y) * pitch) = d;
 
 #define READ_DEPTH(d, _x, _y)                       \
-    d = *(GLushort *)(buf + _x * 2 + _y * pitch);
+    d = *(GLushort *)(buf + (_x) * 2 + (_y) * pitch);
 
 #define TAG(x) via##x##_16
 #include "depthtmp.h"
@@ -295,10 +295,10 @@
 /* 32 bit depthbuffer functions.
  */
 #define WRITE_DEPTH(_x, _y, d)                      \
-    *(GLuint *)(buf + _x * 4 + _y * pitch) = d;
+    *(GLuint *)(buf + (_x) * 4 + (_y) * pitch) = d;
 
 #define READ_DEPTH(d, _x, _y)                       \
-    d = *(GLuint *)(buf + _x * 4 + _y * pitch);
+    d = *(GLuint *)(buf + (_x) * 4 + (_y) * pitch);
 
 #define TAG(x) via##x##_32
 #include "depthtmp.h"
@@ -307,13 +307,13 @@
  */
 /* 
 #define WRITE_DEPTH(_x, _y, d) {                     		\
-    GLuint tmp = *(GLuint *)(buf + _x * 4 + y * pitch);		\
+    GLuint tmp = *(GLuint *)(buf + (_x) * 4 + (_y) * pitch);		\
     tmp &= 0xff;						\
     tmp |= (d) & 0xffffff00;					\
-    *(GLuint *)(buf + _x * 4 + _y * pitch) = tmp;		\
+    *(GLuint *)(buf + (_x) * 4 + (_y) * pitch) = tmp;		\
 
 #define READ_DEPTH(d, _x, _y)                       		\
-    d = (*(GLuint *)(buf + _x * 4 + _y * pitch) & ~0xff) >> 8; 
+    d = (*(GLuint *)(buf + (_x) * 4 + (_y) * pitch) & ~0xff) >> 8; 
 
 #define TAG(x) via##x##_24_8
 #include "depthtmp.h"

@@ -154,7 +154,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "spantmp.h"
 
 #define READ_DEPTH(d, _x, _y)                                                 \
-    d = *(GLushort *)(buf + _x*2 + _y*pitch)
+    d = *(GLushort *)(buf + (_x)*2 + (_y)*pitch)
 
 /* 32 bit, ARGB8888 color spanline and pixel functions
  */
