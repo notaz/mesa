@@ -1232,3 +1232,4 @@ Mesa Version History
 	- fixed a few color index rendering problems (bug 910687)
 	- glInterleavedArrays didn't respect GL_CLIENT_ACTIVE_TEXTURE
 	- OSMesa RGB and BGR modes were broken
+	- glProgramStringARB mistakenly required a null-terminated string
