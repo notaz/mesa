@@ -1,4 +1,4 @@
-/* $Id: texstore.c,v 1.34.2.8 2002/09/21 17:11:08 brianp Exp $ */
+/* $Id: texstore.c,v 1.34.2.9 2002/10/31 00:37:37 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -265,7 +265,6 @@ transfer_teximage(GLcontext *ctx, GLuint dimensions,
                      + dstYoffset * (dstRowStride / sizeof(GLushort))
                      + dstXoffset * texComponents;
       ASSERT(ctx->Extensions.MESA_ycbcr_texture);
-      printf("copy ycbcr\n");
       for (img = 0; img < srcDepth; img++) {
          GLushort *destRow = dest;
          for (row = 0; row < srcHeight; row++) {
