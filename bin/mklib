@@ -272,8 +272,8 @@ case $ARCH in
 
     'OSF1')
 	VERSION="${MAJOR}.${MINOR}"
-	LIBNAME="lib${LIBNAME}.so"
 	ARNAME="lib${LIBNAME}.a"
+	LIBNAME="lib${LIBNAME}.so"
 	echo "mklib: Making OSF/1 library: " ${LIBNAME}
 	rm -f ${LIBNAME}.${VERSION}
 	ld -o ${LIBNAME}.${VERSION} -shared -no_archive -set_version ${VERSION} -soname ${LIBNAME}.${VERSION} -expect_unresolved \* -all ${OBJECTS} ${DEPS}
@@ -287,8 +287,8 @@ case $ARCH in
 
     'Darwin')
 	VERSION="${MAJOR}.${MINOR}.${TINY}"
-	LIBNAME="lib${LIBNAME}.dylib"
 	ARNAME="lib${LIBNAME}.dylib.a"
+	LIBNAME="lib${LIBNAME}.dylib"
 	echo "mklib: Making Darwin libraries: " ${LIBNAME} ${ARNAME}
 	FLAGS="-dynamiclib -multiply_defined suppress"
 	cc ${FLAGS} -o ${LIBNAME} ${OBJECTS} ${DEPS}
