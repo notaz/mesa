@@ -1,4 +1,4 @@
-$Id: VERSIONS,v 1.38.2.46 2001/05/17 19:31:55 brianp Exp $
+$Id: VERSIONS,v 1.38.2.47 2001/05/18 22:01:38 brianp Exp $
 
 
 Mesa Version History
@@ -820,6 +820,10 @@ Mesa Version History
 	- fixed a few color index mode fog bugs
 	- fixed some bad assertions in color index mode
 	- fixed FX line 'stipple' bug #420091
+	- fixed stencil buffer clear width/height typo
+	- fixed GL error glitches in gl[Client]ActiveTextureARB()
+	- fixed Windows compilation problem in texutil.c
+	- fixed 1/8-pixel AA triangle sampling error
     Changes:
 	- optimized writing mono-colored pixel spans to X pixmaps
 	- increased max viewport size to 2048 x 2048
