@@ -880,7 +880,7 @@ void _mesa_update_state( GLcontext *ctx )
    if (new_state & (_NEW_MODELVIEW|_NEW_PROJECTION))
       _mesa_update_modelview_project( ctx, new_state );
 
-   if (new_state & (_NEW_TEXTURE|_NEW_TEXTURE_MATRIX))
+   if (new_state & (_NEW_PROGRAM|_NEW_TEXTURE|_NEW_TEXTURE_MATRIX))
       _mesa_update_texture( ctx, new_state );
 
    if (new_state & (_NEW_SCISSOR|_NEW_BUFFERS))
@@ -898,7 +898,7 @@ void _mesa_update_state( GLcontext *ctx )
    if (new_state & _NEW_PROGRAM)
       update_program( ctx );
 
-   if (new_state & _NEW_ARRAY)
+   if (new_state & (_NEW_ARRAY | _NEW_PROGRAM))
       update_arrays( ctx );
 
    /* ctx->_NeedEyeCoords is now up to date.
