@@ -1,8 +1,6 @@
-/* $Id: teximage.c,v 1.124.2.1 2003/01/08 16:23:09 brianp Exp $ */
-
 /*
  * Mesa 3-D graphics library
- * Version:  5.0.1
+ * Version:  5.0.2
  *
  * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
  *
@@ -447,7 +445,8 @@ is_proxy_target(GLenum target)
    return (target == GL_PROXY_TEXTURE_1D ||
            target == GL_PROXY_TEXTURE_2D ||
            target == GL_PROXY_TEXTURE_3D ||
-           target == GL_PROXY_TEXTURE_CUBE_MAP_ARB);
+           target == GL_PROXY_TEXTURE_CUBE_MAP_ARB ||
+           target == GL_PROXY_TEXTURE_RECTANGLE_NV);
 }
 
 
