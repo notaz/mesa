@@ -2834,7 +2834,7 @@ void _mesa_update_texture( GLcontext *ctx, GLuint new_state )
    if (new_state & _NEW_TEXTURE_MATRIX)
       update_texture_matrices( ctx );
 
-   if (new_state & _NEW_TEXTURE)
+   if (new_state & (_NEW_TEXTURE | _NEW_PROGRAM))
       update_texture_state( ctx );
 }
 
