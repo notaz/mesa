@@ -1526,8 +1526,8 @@ _mesa_GetBooleanv( GLenum pname, GLboolean *params )
          break;
       case GL_FRAGMENT_PROGRAM_BINDING_NV:
          CHECK_EXTENSION_B(NV_fragment_program, pname);
-         if (ctx->VertexProgram.Current &&
-             ctx->VertexProgram.Current->Base.Id != 0)
+         if (ctx->FragmentProgram.Current &&
+             ctx->FragmentProgram.Current->Base.Id != 0)
             *params = GL_TRUE;
          else
             *params = GL_FALSE;
