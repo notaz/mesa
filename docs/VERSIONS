@@ -1205,7 +1205,7 @@ Mesa Version History
 	- updated files for building on Windows
 
 
-6.0.1  March day, 2004
+6.0.1  March 25, 2004
     New:
 	- upgraded glext.h to version 22
 	- new build targets (Dan Schikore)
