@@ -112,7 +112,7 @@ _swrast_clear_alpha_buffers( GLcontext *ctx )
 
    /* loop over four possible alpha buffers */
    for (bufferBit = 1; bufferBit <= 8; bufferBit = bufferBit << 1) {
-      if (bufferBit & ctx->Color._DrawDestMask[0]) {
+      if (bufferBit & ctx->Color._DrawDestMask) {
          GLchan *buffer;
          if (bufferBit == DD_FRONT_LEFT_BIT) {
             buffer = ctx->DrawBuffer->FrontLeftAlpha;
@@ -178,16 +178,12 @@ GLchan *get_alpha_buffer( GLcontext *ctx )
    switch (swrast->CurrentBufferBit) {
    case DD_FRONT_LEFT_BIT:
       return ctx->DrawBuffer->FrontLeftAlpha;
-      break;
    case DD_BACK_LEFT_BIT:
       return ctx->DrawBuffer->BackLeftAlpha;
-      break;
    case DD_FRONT_RIGHT_BIT:
       return ctx->DrawBuffer->FrontRightAlpha;
-      break;
    case DD_BACK_RIGHT_BIT:
       return ctx->DrawBuffer->BackRightAlpha;
-      break;
    default:
       _mesa_problem(ctx, "Bad CurrentBuffer in get_alpha_buffer()");
       return (GLchan *) ctx->DrawBuffer->FrontLeftAlpha;
