@@ -539,7 +539,7 @@ void
 _swrast_render_finish( GLcontext *ctx )
 {
    SWcontext *swrast = SWRAST_CONTEXT(ctx);
-   _mesa_flush_pb(ctx);
+   _swrast_flush(ctx);
    if (swrast->Driver.SpanRenderFinish)
       swrast->Driver.SpanRenderFinish( ctx );
 }
