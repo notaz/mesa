@@ -1,10 +1,10 @@
-/* $Id: s_pointtemp.h,v 1.10.2.2 2002/09/13 17:34:29 brianp Exp $ */
+/* $Id: s_pointtemp.h,v 1.10.2.3 2002/11/10 15:36:07 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
- * Version:  3.5
+ * Version:  4.0.5
  *
- * Copyright (C) 1999-2001  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -63,7 +63,7 @@ NAME ( GLcontext *ctx, const SWvertex *vert )
    SWcontext *swrast = SWRAST_CONTEXT(ctx);
    struct pixel_buffer *PB = swrast->PB;
 
-   const GLint z = (GLint) (vert->win[2]);
+   const GLint z = (GLint) (vert->win[2] + 0.5F);
 
 #if FLAGS & RGBA
    const GLchan red   = vert->color[0];

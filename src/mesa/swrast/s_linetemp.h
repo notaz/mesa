@@ -1,8 +1,8 @@
-/* $Id: s_linetemp.h,v 1.9.2.2 2002/03/19 15:22:41 brianp Exp $ */
+/* $Id: s_linetemp.h,v 1.9.2.3 2002/11/10 15:36:07 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
- * Version:  4.0.2
+ * Version:  4.0.5
  *
  * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
  *
@@ -231,8 +231,8 @@
      zPtr = (DEPTH_TYPE *) _mesa_zbuffer_address(ctx, x0, y0);
 #  endif
    if (depthBits <= 16) {
-      z0 = FloatToFixed(vert0->win[2]);
-      z1 = FloatToFixed(vert1->win[2]);
+      z0 = FloatToFixed(vert0->win[2]) + FIXED_HALF;
+      z1 = FloatToFixed(vert1->win[2]) + FIXED_HALF;
    }
    else {
       z0 = (int) vert0->win[2];
