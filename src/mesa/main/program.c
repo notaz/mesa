@@ -361,6 +361,9 @@ _mesa_lookup_parameter_value(struct program_parameter_list *paramList,
 {
    GLuint i;
 
+   if (!paramList)
+      return NULL;
+
    if (nameLen == -1) {
       /* name is null-terminated */
       for (i = 0; i < paramList->NumParameters; i++) {
@@ -389,6 +392,9 @@ _mesa_lookup_parameter_index(struct program_parameter_list *paramList,
                              GLsizei nameLen, const char *name)
 {
    GLint i;
+
+   if (!paramList)
+      return -1;
 
    if (nameLen == -1) {
       /* name is null-terminated */
@@ -771,6 +777,10 @@ _mesa_load_state_parameters(GLcontext *ctx,
                             struct program_parameter_list *paramList)
 {
    GLuint i;
+
+   if (!paramList)
+      return;
+
    for (i = 0; i < paramList->NumParameters; i++) {
       if (paramList->Parameters[i].Type == STATE) {
          _mesa_fetch_state(ctx, paramList->Parameters[i].StateIndexes,
