@@ -109,7 +109,7 @@ def EmitFunction(name, returnType, argTypeList, argNameList, alias, offset):
 	print '.globl gl%s' % (name)
 	print '.type gl%s,#function' % (name)
 	print 'gl%s:' % (name)
-	print '#if defined(__sparc_v9__) && !defined(__linux__)'
+	print '#if (defined(__sparc_v9__) && (!defined(__linux__) || defined(__linux_sparc_64__)))'
 	print '\tsethi\t%hi(0x00000000), %g2'
 	print '\tsethi\t%hi(0x00000000), %g1'
 	print '\tor\t%g2, %lo(0x00000000), %g2'
