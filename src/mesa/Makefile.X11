@@ -177,6 +177,7 @@ OBJECTS = $(ASM_SOURCES:.S=.o) \
 	$(DRIVER_SOURCES:.c=.o) \
 	$(ADDITIONAL_OBJ)
 
+CORE_OBJECTS = $(CORE_SOURCES:.c=.o)
 
 OSMESA_SOURCES = OSmesa/osmesa.c
 OSMESA_OBJECTS = OSmesa/osmesa.o
@@ -235,6 +236,13 @@ $(LIBDIR)/$(OSMESA_LIB): $(OSMESA_OBJECTS)
 	if [ ${OSMESA_LIB} ] ; then rm -f $(LIBDIR)/$(OSMESA_LIB)* ; fi
 	if [ ${OSMESA_LIB} ] ; then mv $(OSMESA_LIB)* $(LIBDIR) ; fi
 
+# Make an optional library with _just_ core objects
+libmesa:	$(LIBDIR)/$(MESA_LIB)
+	if [ ${MESA_LIB} ] ; then $(MAKELIB) $(MESA_LIB) $(MESA_MAJOR) $(MESA_MINOR) $(GL_TINY) $(CORE_OBJECTS) ; fi
+	if [ ${MESA_LIB} ] ; then rm -f $(LIBDIR)/$(MESA_LIB)* ; fi
+	if [ ${MESA_LIB} ] ; then mv $(MESA_LIB)* $(LIBDIR) ; fi
+
+$(LIBDIR)/$(MESA_LIB):	$(CORE_OBJECTS)
 
 include ../Make-config
 
