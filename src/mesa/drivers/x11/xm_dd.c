@@ -1108,6 +1108,7 @@ void xmesa_init_pointers( GLcontext *ctx )
 {
    TNLcontext *tnl;
    struct swrast_device_driver *dd = _swrast_GetDeviceDriverReference( ctx );
+   const XMesaContext xmesa = XMESA_CONTEXT(ctx);
 
    /* Plug in our driver-specific functions here */
    ctx->Driver.GetString = get_string;
@@ -1129,6 +1130,7 @@ void xmesa_init_pointers( GLcontext *ctx )
 #ifdef XFree86Server
    ctx->Driver.DrawPixels = _swrast_DrawPixels;
    ctx->Driver.CopyPixels = _swrast_CopyPixels;
+   (void) xmesa; /* silence warning */
 #else
    ctx->Driver.CopyPixels = /*_swrast_CopyPixels;*/xmesa_CopyPixels;
    if (xmesa->xm_visual->undithered_pf == PF_8R8G8B &&
