@@ -1,4 +1,4 @@
-/* $Id: dlist.c,v 1.44.4.1 2001/06/11 19:19:14 brianp Exp $ */
+/* $Id: dlist.c,v 1.44.4.2 2001/06/11 19:24:06 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -5661,11 +5661,22 @@ static void print_list( GLcontext *ctx, FILE *f, GLuint list )
             fprintf(f,"Error: %s %s\n", enum_string(n[1].e), (const char *)n[2].data );
             break;
 	 case OPCODE_VERTEX_CASSETTE:
-            fprintf(f,"VERTEX-CASSETTE, id %u, rows %u..%u\n", 
-		    ((struct immediate *) n[1].data)->id,
-		    n[2].ui,
-		    n[3].ui);
-	    gl_print_cassette( (struct immediate *) n[1].data );
+            {
+               struct immediate *IM; 
+               fprintf(f,"VERTEX-CASSETTE, id %u, rows %u..%u\n", 
+                       ((struct immediate *) n[1].data)->id,
+                       n[2].ui,
+                       n[3].ui);
+               IM = (struct immediate *) n[1].data; 
+               IM->Start = n[2].ui; 
+               IM->Count = n[3].ui; 
+               IM->BeginState = n[4].ui; 
+               IM->OrFlag = n[5].ui; 
+               IM->AndFlag = n[6].ui; 
+               IM->LastData = n[7].ui; 
+               IM->LastPrimitive = n[8].ui; 
+               gl_print_cassette( (struct immediate *) n[1].data );
+            }
 	    break;
 	 case OPCODE_CONTINUE:
             fprintf(f,"DISPLAY-LIST-CONTINUE\n");
