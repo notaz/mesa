@@ -1,5 +1,3 @@
-/* $Id: glx.h,v 1.38 2002/10/14 13:52:27 brianp Exp $ */
-
 /*
  * Mesa 3-D graphics library
  * Version:  4.1

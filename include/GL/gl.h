@@ -1,5 +1,3 @@
-/* $Id: gl.h,v 1.72.2.1 2003/02/28 16:29:05 brianp Exp $ */
-
 /*
  * Mesa 3-D graphics library
  * Version:  5.0.1

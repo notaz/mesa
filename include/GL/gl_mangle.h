@@ -1,4 +1,4 @@
-#if 0  /* $Id: gl_mangle.h,v 1.11.4.1 2003/02/04 02:29:45 brianp Exp $ */
+#if 0
 #define GL_MANGLE_C1 "DO NOT EDIT!!! - TO REGENERATE from gl.h, EXECUTE THIS FILE IN SHELL (/bin/sh) and save the output"
 #define GL_MANGLE_C2 "This file is used to create GL function protypes and aliases for the function names"
 	files="gl.h glext.h"
