@@ -1218,3 +1218,8 @@ Mesa Version History
 	- fixed some compilation/link glitches on IRIX (Mike Stephens)
 	- glBindProgram wasn't getting compiled into display lists
 	- GLX_FBCONFIG_ID wasn't recognized in glXChooseFBConfig() (bug 888079)
+	- two-sided lighting and vertex program didn't work (bug 887330)
+	- stores to program parameter registers in vertex state programs
+	  didn't work.
+	- fixed glOrtho bug found with gcc 3.2.2 (RH9)
+	- glXCreateWindow() wasn't fully implemented (bug 890894)
