@@ -48,6 +48,9 @@ extern void
 _mesa_init_program(GLcontext *ctx);
 
 extern void
+_mesa_free_program_data(GLcontext *ctx);
+
+extern void
 _mesa_set_program_error(GLcontext *ctx, GLint pos, const char *string);
 
 extern const GLubyte *

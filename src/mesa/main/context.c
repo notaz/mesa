@@ -6,9 +6,9 @@
 
 /*
  * Mesa 3-D graphics library
- * Version:  5.1
+ * Version:  6.0.2
  *
- * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -893,8 +893,10 @@ alloc_shared_state( GLcontext *ctx )
    if (ss->DefaultFragmentProgram)
       _mesa_delete_program(ctx, ss->DefaultFragmentProgram);
 #endif
+#if FEATURE_ARB_vertex_buffer_object
    if (ss->BufferObjects)
       _mesa_DeleteHashTable(ss->BufferObjects);
+#endif
 
    if (ss->Default1D)
       (*ctx->Driver.DeleteTexture)(ctx, ss->Default1D);
@@ -940,6 +942,13 @@ free_shared_state( GLcontext *ctx, struct gl_shared_state *ss )
 
    /* Free texture objects */
    ASSERT(ctx->Driver.DeleteTexture);
+   /* the default textures */
+   (*ctx->Driver.DeleteTexture)(ctx, ss->Default1D);
+   (*ctx->Driver.DeleteTexture)(ctx, ss->Default2D);
+   (*ctx->Driver.DeleteTexture)(ctx, ss->Default3D);
+   (*ctx->Driver.DeleteTexture)(ctx, ss->DefaultCubeMap);
+   (*ctx->Driver.DeleteTexture)(ctx, ss->DefaultRect);
+   /* all other textures */
    while (1) {
       GLuint texName = _mesa_HashFirstEntry(ss->TexObjects);
       if (texName) {
@@ -972,9 +981,16 @@ free_shared_state( GLcontext *ctx, struct gl_shared_state *ss )
    }
    _mesa_DeleteHashTable(ss->Programs);
 #endif
+#if FEATURE_ARB_vertex_program
+   _mesa_delete_program(ctx, ss->DefaultVertexProgram);
+#endif
+#if FEATURE_ARB_fragment_program
+   _mesa_delete_program(ctx, ss->DefaultFragmentProgram);
+#endif
 
+#if FEATURE_ARB_vertex_buffer_object
    _mesa_DeleteHashTable(ss->BufferObjects);
-
+#endif
    _glthread_DESTROY_MUTEX(ss->Mutex);
 
    FREE(ss);
@@ -1499,19 +1515,11 @@ _mesa_free_context_data( GLcontext *ctx )
    _mesa_free_matrix_data( ctx );
    _mesa_free_viewport_data( ctx );
    _mesa_free_colortables_data( ctx );
-#if FEATURE_NV_vertex_program
-   if (ctx->VertexProgram.Current) {
-      ctx->VertexProgram.Current->Base.RefCount--;
-      if (ctx->VertexProgram.Current->Base.RefCount <= 0)
-         _mesa_delete_program(ctx, &(ctx->VertexProgram.Current->Base));
-   }
-#endif
-#if FEATURE_NV_fragment_program
-   if (ctx->FragmentProgram.Current) {
-      ctx->FragmentProgram.Current->Base.RefCount--;
-      if (ctx->FragmentProgram.Current->Base.RefCount <= 0)
-         _mesa_delete_program(ctx, &(ctx->FragmentProgram.Current->Base));
-   }
+   _mesa_free_program_data( ctx );
+   _mesa_free_occlude_data(ctx);
+
+#if FEATURE_ARB_vertex_buffer_object
+   _mesa_delete_buffer_object(ctx, ctx->Array.NullBufferObj);
 #endif
 
    /* Shared context state (display lists, textures, etc) */
