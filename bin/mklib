@@ -471,23 +471,6 @@ case $ARCH in
 	FINAL_LIBS="${LIBNAME}"
 	;;
 
-    'example')
-	# If you're adding support for a new architecture, you can
-	# start with this:
-        if [ $STATIC = 1 ] ; then
-	    LIBNAME="lib${LIBNAME}.a"
-	    echo "mklib: Making static library for example arch: " ${LIBNAME}
-	    rm -f ${LIBNAME}
-	    ar rv ${LIBNAME} ${OBJECTS}
-	    FINAL_LIBS="${LIBNAME}"
-	else
-	    LIBNAME="lib${LIBNAME}.so"  # prefix with "lib"
-	    echo "mklib: Making shared library for example arch: " ${LIBNAME}
-	    ld -o ${LIBNAME} ${OBJECTS} ${DEPS}
-	    FINAL_LIBS="${LIBNAME}"
-	fi
-	;;
-
      CYGWIN*)
 	# GCC-based environment
 	CYGNAME="cyg${LIBNAME}"     # prefix with "cyg"
@@ -526,6 +509,23 @@ case $ARCH in
 	    # special case for installing in bin
             FINAL_BINS="${CYGNAME}-${MAJOR}.dll"
         fi
+	;;
+
+    'example')
+	# If you're adding support for a new architecture, you can
+	# start with this:
+        if [ $STATIC = 1 ] ; then
+	    LIBNAME="lib${LIBNAME}.a"
+	    echo "mklib: Making static library for example arch: " ${LIBNAME}
+	    rm -f ${LIBNAME}
+	    ar rv ${LIBNAME} ${OBJECTS}
+	    FINAL_LIBS="${LIBNAME}"
+	else
+	    LIBNAME="lib${LIBNAME}.so"  # prefix with "lib"
+	    echo "mklib: Making shared library for example arch: " ${LIBNAME}
+	    ld -o ${LIBNAME} ${OBJECTS} ${DEPS}
+	    FINAL_LIBS="${LIBNAME}"
+	fi
 	;;
 
     *)
