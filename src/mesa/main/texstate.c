@@ -1,4 +1,4 @@
-/* $Id: texstate.c,v 1.15.4.5 2001/05/04 17:26:08 brianp Exp $ */
+/* $Id: texstate.c,v 1.15.4.6 2001/05/17 22:41:47 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -1641,7 +1641,7 @@ _mesa_ActiveTextureARB( GLenum target )
       }
    }
    else {
-      gl_error(ctx, GL_INVALID_OPERATION, "glActiveTextureARB(target)");
+      gl_error(ctx, GL_INVALID_ENUM, "glActiveTextureARB(target)");
    }
 }
 
@@ -1660,7 +1660,7 @@ _mesa_ClientActiveTextureARB( GLenum target )
       ctx->Array.ActiveTexture = texUnit;
    }
    else {
-      gl_error(ctx, GL_INVALID_OPERATION, "glActiveTextureARB(target)");
+      gl_error(ctx, GL_INVALID_ENUM, "glActiveTextureARB(target)");
    }
 }
 
