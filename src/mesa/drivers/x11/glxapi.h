@@ -1,4 +1,4 @@
-/* $Id: glxapi.h,v 1.11.2.3 2002/09/20 17:37:13 brianp Exp $ */
+/* $Id: glxapi.h,v 1.11.2.4 2002/10/08 23:17:33 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -196,12 +196,14 @@ struct _glxapi_table {
    /*** GLX_MESA_set_3dfx_mode ***/
    Bool (*Set3DfxModeMESA)(int mode);
 
-   /*** GLX AGP functions ***/
+   /*** GLX_NV_vertex_array_range ***/
    void * (*AllocateMemoryNV)( GLsizei size,
                                GLfloat readFrequency,
                                GLfloat writeFrequency,
                                GLfloat priority );
    void (*FreeMemoryNV)( GLvoid *pointer );
+
+   /*** GLX_MESA_agp_offset ***/
    GLuint (*GetAGPOffsetMESA)( const GLvoid *pointer );
 };
 
