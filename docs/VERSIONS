@@ -1306,4 +1306,6 @@ Mesa Version History
 	- glVertexAttrib3svNV and glVertexAttrib3svARB were broken
 	- fixed width/height mix-up in glSeparableFilter2D()
 	- fixed regression in glCopyPixels + convolution
-
+	- glReadPixels from a clipped front color buffer didn't always work
+	- glTexImage didn't accept GL_RED/GREEN/BLUE as the format
+	- Attempting queries/accesses of VBO 0 weren't detected as errors
