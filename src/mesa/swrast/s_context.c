@@ -1,7 +1,7 @@
 
 /*
  * Mesa 3-D graphics library
- * Version:  4.0.3
+ * Version:  4.0.4
  *
  * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
  *
@@ -539,6 +539,7 @@ void
 _swrast_render_finish( GLcontext *ctx )
 {
    SWcontext *swrast = SWRAST_CONTEXT(ctx);
+   _mesa_flush_pb(ctx);
    if (swrast->Driver.SpanRenderFinish)
       swrast->Driver.SpanRenderFinish( ctx );
 }
