@@ -1,4 +1,4 @@
-/* $Id: texutil.c,v 1.5.4.7 2001/05/14 17:54:25 brianp Exp $ */
+/* $Id: texutil.c,v 1.5.4.8 2001/05/18 21:44:23 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -40,7 +40,7 @@
 #include "types.h"
 #endif
 
-#define DBG 0
+#define DEBUG_TEXUTIL 0
 
 
 struct gl_texture_convert {
@@ -63,20 +63,6 @@ typedef void (*unconvert_func)( struct gl_texture_convert *convert );
 
 #define CONVERT_STRIDE_BIT	0x1
 #define CONVERT_PACKING_BIT	0x2
-
-#ifdef __GNUC__
-#define ERROR_STRING	__FUNCTION__
-#else
-#define ERROR_STRING	__FILE__ ":" __LINE__
-#endif
-#define UNCONVERT_ERROR( format )					\
-do {									\
-   static char buffer[128];						\
-   sprintf( buffer, "illegal format %s in " ERROR_STRING "\n",		\
-	    gl_lookup_enum_by_nr( format ) );				\
-   gl_problem( NULL, buffer );						\
-} while (0)
-
 
 
 /* ================================================================
@@ -185,8 +171,7 @@ unconvert_teximage_rgba8888( struct gl_texture_convert *convert )
       break;
    }
    default:
-      UNCONVERT_ERROR( convert->format );
-      break;
+      gl_problem(NULL, "texture unconvert error");
    }
 }
 
@@ -275,8 +260,7 @@ unconvert_teximage_abgr8888( struct gl_texture_convert *convert )
       break;
    }
    default:
-      UNCONVERT_ERROR( convert->format );
-      break;
+      gl_problem(NULL, "texture unconvert error");
    }
 }
 
@@ -387,8 +371,7 @@ unconvert_teximage_argb8888( struct gl_texture_convert *convert )
       break;
    }
    default:
-      UNCONVERT_ERROR( convert->format );
-      break;
+      gl_problem(NULL, "texture unconvert error");
    }
 }
 
@@ -418,7 +401,7 @@ convert_texsubimage3d_rgb888( struct gl_texture_convert *convert )
 static void
 unconvert_teximage_rgb888( struct gl_texture_convert *convert )
 {
-   UNCONVERT_ERROR( convert->format );
+   gl_problem(NULL, "texture unconvert error");
 }
 
 
@@ -447,7 +430,7 @@ convert_texsubimage3d_bgr888( struct gl_texture_convert *convert )
 static void
 unconvert_teximage_bgr888( struct gl_texture_convert *convert )
 {
-   UNCONVERT_ERROR( convert->format );
+   gl_problem(NULL, "texture unconvert error");
 }
 
 
@@ -561,8 +544,7 @@ unconvert_teximage_rgb565( struct gl_texture_convert *convert )
       }
       break;
    default:
-      UNCONVERT_ERROR( convert->format );
-      break;
+      gl_problem(NULL, "texture unconvert error");
    }
 }
 
@@ -650,8 +632,7 @@ unconvert_teximage_argb4444( struct gl_texture_convert *convert )
       }
       break;
    default:
-      UNCONVERT_ERROR( convert->format );
-      break;
+      gl_problem(NULL, "texture unconvert error");
    }
 }
 
@@ -739,8 +720,7 @@ unconvert_teximage_argb1555( struct gl_texture_convert *convert )
       }
       break;
    default:
-      UNCONVERT_ERROR( convert->format );
-      break;
+      gl_problem(NULL, "texture unconvert error");
    }
 }
 
@@ -856,8 +836,7 @@ unconvert_teximage_al88( struct gl_texture_convert *convert )
       break;
    }
    default:
-      UNCONVERT_ERROR( convert->format );
-      break;
+      gl_problem(NULL, "texture unconvert error");
    }
 }
 
@@ -887,7 +866,7 @@ convert_texsubimage3d_rgb332( struct gl_texture_convert *convert )
 static void
 unconvert_teximage_rgb332( struct gl_texture_convert *convert )
 {
-   UNCONVERT_ERROR( convert->format );
+   gl_problem(NULL, "texture unconvert error");
 }
 
 
@@ -953,8 +932,7 @@ unconvert_teximage_ci8( struct gl_texture_convert *convert )
       MEMCPY( convert->dstImage, src, texels );
       break;
    default:
-      UNCONVERT_ERROR( convert->format );
-      break;
+      gl_problem(NULL, "texture unconvert error");
    }
 }
 
