@@ -1,4 +1,4 @@
-# $Id: Make-config,v 1.67.2.2 2003/04/07 14:48:42 brianp Exp $
+# $Id: Make-config,v 1.67.2.3 2003/05/15 13:50:47 brianp Exp $
 
 MESA_MAJOR=5
 MESA_MINOR=0
@@ -1265,7 +1265,7 @@ sunos5:
 	"GLW_LIB = libGLw.a" \
 	"OSMESA_LIB = libOSMesa.a" \
 	"CC = cc" \
-	"CPLUSPLUS = CC" \
+	"CPLUSPLUS = c++" \
 	"CFLAGS = -Xa -fast -xO4 -native -I/usr/openwin/include -I/usr/dt/include -DUSE_XSHM -DSOLARIS_2_4_BUG" \
 	"MAKELIB = ../bin/mklib.ar-ruv" \
 	"APP_LIB_DEPS = -L/usr/openwin/lib -L/usr/dt/lib -R/usr/openwin/lib -lX11 -lXext -lXmu -lXi -lm"
@@ -1278,7 +1278,7 @@ sunos5-sl:
 	"GLW_LIB = libGLw.so" \
 	"OSMESA_LIB = libOSMesa.so" \
 	"CC = cc" \
-	"CPLUSPLUS = CC" \
+	"CPLUSPLUS = c++" \
 	"CFLAGS = -KPIC -Xa -O -I/usr/openwin/include -I/usr/dt/include -DUSE_XSHM -DSOLARIS_2_4_BUG" \
 	"MAKELIB = ../bin/mklib.sunos5" \
 	"APP_LIB_DEPS = -L/usr/openwin/lib -L/usr/dt/lib -R/usr/openwin/lib -lX11 -lXext -lXmu -lXi -lm"
@@ -1291,7 +1291,7 @@ sunos5-ultra:
 	"GLW_LIB = libGLw.a" \
 	"OSMESA_LIB = libOSMesa.a" \
 	"CC = cc" \
-	"CPLUSPLUS = CC" \
+	"CPLUSPLUS = c++" \
 	"CFLAGS = -Xa -fast -xO5 -xtarget=ultra -I/usr/openwin/include -I/usr/dt/include -DUSE_XSHM -DSOLARIS_2_4_BUG" \
 	"MAKELIB = ../bin/mklib.ar-ruv" \
 	"APP_LIB_DEPS = -L/usr/openwin/lib -L/usr/dt/lib -R/usr/openwin/lib -lX11 -lXext -lXmu -lXi -lm"
@@ -1304,7 +1304,7 @@ sunos5-ultra-sl:
 	"GLW_LIB = libGLw.so" \
 	"OSMESA_LIB = libOSMesa.so" \
 	"CC = cc" \
-	"CPLUSPLUS = CC" \
+	"CPLUSPLUS = c++" \
 	"CFLAGS = -KPIC -Xa -fast -xO5 -xtarget=ultra -I/usr/openwin/include -I/usr/dt/include -DUSE_XSHM -DSOLARIS_2_4_BUG" \
 	"MAKELIB = ../bin/mklib.sunos5" \
 	"APP_LIB_DEPS = -L/usr/openwin/lib -L/usr/dt/lib -R/usr/openwin/lib -lX11 -lXext -lXmu -lXi -lm"
