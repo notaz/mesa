@@ -5937,6 +5937,21 @@ _mesa_parse_arb_program (GLcontext * ctx, const GLubyte * str, GLsizei len,
    struct var_cache *vc_head;
    dict *dt;
    GLubyte *parsed, *inst;
+   GLubyte *strCopy;
+
+   /* init to zero in case of parse error */
+   _mesa_bzero(program, sizeof(*program));
+
+   /* Need a null-terminated string for parsing */
+   strCopy = (GLubyte *) _mesa_malloc(len + 1);
+   if (!strCopy) {
+      _mesa_error (ctx, GL_OUT_OF_MEMORY, "glProgramStringARB");
+      return 1;
+   }
+   _mesa_memcpy(strCopy, str, len);
+   strCopy[len] = 0;
+   str = strCopy;
+
 
 #if DEBUG_PARSING
    fprintf (stderr, "Loading grammar text!\n");
@@ -5947,6 +5962,7 @@ _mesa_parse_arb_program (GLcontext * ctx, const GLubyte * str, GLsizei len,
       _mesa_set_program_error (ctx, error_pos, error_msg);
       _mesa_error (ctx, GL_INVALID_OPERATION,
                    "Error loading grammer rule set");
+      _mesa_free(strCopy);
       return 1;
    }
 
@@ -5963,6 +5979,7 @@ _mesa_parse_arb_program (GLcontext * ctx, const GLubyte * str, GLsizei len,
       _mesa_error (ctx, GL_INVALID_OPERATION, "Parse Error");
 
       dict_destroy (&dt);
+      _mesa_free(strCopy);
       return 1;
    }
 
@@ -6030,8 +6047,10 @@ _mesa_parse_arb_program (GLcontext * ctx, const GLubyte * str, GLsizei len,
    var_cache_destroy (&vc_head);
 
    _mesa_free (parsed);
+   _mesa_free(strCopy);
 #if DEBUG_PARSING
    printf ("_mesa_parse_arb_program() done\n");
 #endif
+
    return err;
 }
