@@ -144,12 +144,12 @@
 /*
  * Sprite (textured point)
  */
-#define FLAGS (RGBA | SPRITE)
+#define FLAGS (RGBA | SPRITE | SPECULAR)
 #define NAME sprite_point
 #include "s_pointtemp.h"
 
 
-#define FLAGS (RGBA | ATTENUATE | SPRITE)
+#define FLAGS (RGBA | SPRITE | SPECULAR | ATTENUATE)
 #define NAME atten_sprite_point
 #include "s_pointtemp.h"
 
