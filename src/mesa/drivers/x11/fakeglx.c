@@ -1,8 +1,8 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.2
+ * Version:  6.2.2
  *
- * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2005  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -932,9 +932,9 @@ choose_x_overlay_visual( Display *dpy, int scr, GLboolean rgbFlag,
 
 
 static XMesaVisual
-choose_visual( Display *dpy, int screen, const int *list,
-               GLboolean rgbModeDefault )
+choose_visual( Display *dpy, int screen, const int *list, GLboolean fbConfig )
 {
+   const GLboolean rgbModeDefault = fbConfig;
    const int *parselist;
    XVisualInfo *vis;
    int min_ci = 0;
@@ -964,8 +964,14 @@ choose_visual( Display *dpy, int screen, const int *list,
 
       switch (*parselist) {
 	 case GLX_USE_GL:
-	    /* ignore */
-	    parselist++;
+            if (fbConfig) {
+               /* invalid token */
+               return NULL;
+            }
+            else {
+               /* skip */
+               parselist++;
+            }
 	    break;
 	 case GLX_BUFFER_SIZE:
 	    parselist++;
@@ -976,18 +982,34 @@ choose_visual( Display *dpy, int screen, const int *list,
             level = *parselist++;
 	    break;
 	 case GLX_RGBA:
-	    rgb_flag = GL_TRUE;
-	    parselist++;
+            if (fbConfig) {
+               /* invalid token */
+               return NULL;
+            }
+            else {
+               rgb_flag = GL_TRUE;
+               parselist++;
+            }
 	    break;
 	 case GLX_DOUBLEBUFFER:
-	    double_flag = GL_TRUE;
-	    parselist++;
+            parselist++;
+            if (fbConfig) {
+               double_flag = *parselist++;
+            }
+            else {
+               double_flag = GL_TRUE;
+            }
 	    break;
 	 case GLX_STEREO:
-            stereo_flag = GL_TRUE;
-            return NULL;
+            parselist++;
+            if (fbConfig) {
+               stereo_flag = *parselist++;
+            }
+            else {
+               stereo_flag = GL_TRUE;
+            }
+            return NULL; /* stereo not supported */
 	 case GLX_AUX_BUFFERS:
-	    /* ignore */
 	    parselist++;
             numAux = *parselist++;
             if (numAux > MAX_AUX_BUFFERS)
@@ -1571,6 +1593,8 @@ get_config( XMesaVisual xmvis, int attrib, int *value, GLboolean fbconfig )
    ASSERT(xmvis);
    switch(attrib) {
       case GLX_USE_GL:
+         if (fbconfig)
+            return GLX_BAD_ATTRIBUTE;
          *value = (int) True;
 	 return 0;
       case GLX_BUFFER_SIZE:
@@ -1580,6 +1604,8 @@ get_config( XMesaVisual xmvis, int attrib, int *value, GLboolean fbconfig )
 	 *value = xmvis->mesa_visual.level;
 	 return 0;
       case GLX_RGBA:
+         if (fbconfig)
+            return GLX_BAD_ATTRIBUTE;
 	 if (xmvis->mesa_visual.rgbMode) {
 	    *value = True;
 	 }
