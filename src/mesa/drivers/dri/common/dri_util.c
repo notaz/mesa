@@ -53,8 +53,10 @@
 #include "drm_sarea.h"
 #include "glcontextmodes.h"
 
+#if 0
 #ifndef PFNGLXGETMSCRATEOMLPROC
 typedef GLboolean ( * PFNGLXGETMSCRATEOMLPROC) (__DRInativeDisplay *dpy, __DRIid drawable, int32_t *numerator, int32_t *denominator);
+#endif
 #endif
 
 /**
@@ -235,34 +237,13 @@ static GLboolean __driAddDrawable(void *drawHash, __DRIdrawable *pdraw)
 static __DRIdrawable *__driFindDrawable(void *drawHash, __DRIid draw)
 {
     int retcode;
-    union 
-    {
-	__DRIdrawable *pdraw;
-	void *ptr;
-    } p;
+    __DRIdrawable *pdraw;
 
-    retcode = drmHashLookup(drawHash, draw, &p.ptr);
+    retcode = drmHashLookup(drawHash, draw, (void *)&pdraw);
     if (retcode)
 	return NULL;
 
-    return p.pdraw;
-}
-
-static void __driRemoveDrawable(void *drawHash, __DRIdrawable *pdraw)
-{
-    int retcode;
-    union 
-    {
-	__DRIdrawablePrivate *pdp;
-	void *ptr;
-    } p;
-
-    p.pdp = (__DRIdrawablePrivate *)pdraw->private;
-
-    retcode = drmHashLookup(drawHash, p.pdp->draw, &p.ptr);
-    if (!retcode) { /* Found */
-	drmHashDelete(drawHash, p.pdp->draw);
-    }
+    return pdraw;
 }
 
 #ifndef DRI_NEW_INTERFACE_ONLY
@@ -320,24 +301,20 @@ static void __driGarbageCollectDrawables(void *drawHash)
 {
     __DRIid draw;
     __DRInativeDisplay *dpy;
-    union 
-    {
-	__DRIdrawable *pdraw;
-	void *ptr;
-    } p;
+    __DRIdrawable *pdraw;
 
-    if (drmHashFirst(drawHash, &draw, &p.ptr)) {
+    if (drmHashFirst(drawHash, &draw, (void *)&pdraw) == 1) {
 	do {
-	    __DRIdrawablePrivate *pdp = (__DRIdrawablePrivate *)p.pdraw->private;
+	    __DRIdrawablePrivate *pdp = (__DRIdrawablePrivate *)pdraw->private;
 	    dpy = pdp->driScreenPriv->display;
 	    if (! (*window_exists)(dpy, draw)) {
 		/* Destroy the local drawable data in the hash table, if the
 		   drawable no longer exists in the Xserver */
-		__driRemoveDrawable(drawHash, p.pdraw);
-		(*p.pdraw->destroyDrawable)(dpy, p.pdraw->private);
-		_mesa_free(p.pdraw);
+	        drmHashDelete(drawHash, draw);
+		(*pdraw->destroyDrawable)(dpy, pdraw->private);
+		_mesa_free(pdraw);
 	    }
-	} while (drmHashNext(drawHash, &draw, &p.ptr));
+	} while (drmHashNext(drawHash, &draw, (void *)&pdraw) == 1);
     }
 }
 
