@@ -101,7 +101,6 @@ GLboolean _swrast_culltriangle( GLcontext *ctx,
 #define NAME flat_rgba_triangle
 #define INTERP_Z 1
 #define INTERP_FOG 1
-#define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
 #define SETUP_CODE				\
    ASSERT(ctx->Texture._EnabledCoordUnits == 0);\
    ASSERT(ctx->Light.ShadeModel==GL_FLAT);	\
@@ -125,7 +124,6 @@ GLboolean _swrast_culltriangle( GLcontext *ctx,
 #define NAME smooth_rgba_triangle
 #define INTERP_Z 1
 #define INTERP_FOG 1
-#define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
 #define INTERP_RGB 1
 #define INTERP_ALPHA 1
 #define SETUP_CODE				\
@@ -527,7 +525,6 @@ affine_span(GLcontext *ctx, struct sw_span *span,
 #define NAME affine_textured_triangle
 #define INTERP_Z 1
 #define INTERP_FOG 1
-#define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
 #define INTERP_RGB 1
 #define INTERP_ALPHA 1
 #define INTERP_INT_TEX 1
@@ -799,7 +796,6 @@ fast_persp_span(GLcontext *ctx, struct sw_span *span,
 #define NAME persp_textured_triangle
 #define INTERP_Z 1
 #define INTERP_FOG 1
-#define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
 #define INTERP_RGB 1
 #define INTERP_ALPHA 1
 #define INTERP_TEX 1
@@ -871,7 +867,6 @@ fast_persp_span(GLcontext *ctx, struct sw_span *span,
 #define INTERP_Z 1
 #define INTERP_W 1
 #define INTERP_FOG 1
-#define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
 #define INTERP_RGB 1
 #define INTERP_SPEC 1
 #define INTERP_ALPHA 1
@@ -890,7 +885,6 @@ fast_persp_span(GLcontext *ctx, struct sw_span *span,
 #define INTERP_Z 1
 #define INTERP_W 1
 #define INTERP_FOG 1
-#define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
 #define INTERP_RGB 1
 #define INTERP_ALPHA 1
 #define INTERP_SPEC 1
@@ -906,20 +900,38 @@ fast_persp_span(GLcontext *ctx, struct sw_span *span,
 #define NAME occlusion_zless_triangle
 #define DO_OCCLUSION_TEST
 #define INTERP_Z 1
-#define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
 #define SETUP_CODE						\
+   ASSERT(ctx->Depth.Test);					\
+   ASSERT(!ctx->Depth.Mask);					\
+   ASSERT(ctx->Depth.Func == GL_LESS);				\
    if (ctx->OcclusionResult && !ctx->Occlusion.Active) {	\
       return;							\
    }
-#define RENDER_SPAN( span )				\
-   GLuint i;						\
-   for (i = 0; i < span.end; i++) {			\
-      GLdepth z = FixedToDepth(span.z);			\
-      if (z < zRow[i]) {				\
-         ctx->OcclusionResult = GL_TRUE;		\
-         ctx->Occlusion.PassedCounter++;		\
-      }							\
-      span.z += span.zStep;				\
+#define RENDER_SPAN( span )						\
+   if (ctx->Visual.depthBits <= 16) {					\
+      GLuint i;								\
+      const GLushort *zRow = (const GLushort *)				\
+         _swrast_zbuffer_address(ctx, span.x, span.y);			\
+      for (i = 0; i < span.end; i++) {					\
+         GLdepth z = FixedToDepth(span.z);				\
+         if (z < zRow[i]) {						\
+            ctx->OcclusionResult = GL_TRUE;				\
+            ctx->Occlusion.PassedCounter++;				\
+         }								\
+         span.z += span.zStep;						\
+      }									\
+   }									\
+   else {								\
+      GLuint i;								\
+      const GLuint *zRow = (const GLuint *)				\
+         _swrast_zbuffer_address(ctx, span.x, span.y);			\
+      for (i = 0; i < span.end; i++) {					\
+         if (span.z < zRow[i]) {					\
+            ctx->OcclusionResult = GL_TRUE;				\
+            ctx->Occlusion.PassedCounter++;				\
+         }								\
+         span.z += span.zStep;						\
+      }									\
    }
 #include "s_tritemp.h"
 
