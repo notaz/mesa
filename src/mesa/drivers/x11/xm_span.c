@@ -1,8 +1,8 @@
 /*
  * Mesa 3-D graphics library
- * Version:  3.5
+ * Version:  5.0.2
  *
- * Copyright (C) 1999-2001  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2003  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -3366,9 +3366,7 @@ static void write_span_index_ximage( INDEX_SPAN_ARGS )
 /*
  * Write a span of 8-bit CI pixels to a non 8-bit XImage.
  */
-static void write_span_index8_ximage( const GLcontext *ctx, GLuint n,
-                                      GLint x, GLint y, const GLubyte index[],
-                                      const GLubyte mask[] )
+static void write_span_index8_ximage( INDEX8_SPAN_ARGS )
 {
    const XMesaContext xmesa = (XMesaContext) ctx->DriverCtx;
    if (mask) {
@@ -3390,9 +3388,7 @@ static void write_span_index8_ximage( const GLcontext *ctx, GLuint n,
 /*
  * Write a span of 8-bit CI pixels to an 8-bit XImage.
  */
-static void write_span_index8_ximage8( const GLcontext *ctx, GLuint n,
-                                      GLint x, GLint y, const GLubyte index[],
-                                      const GLubyte mask[] )
+static void write_span_index8_ximage8( INDEX8_SPAN_ARGS )
 {
    const XMesaContext xmesa = (XMesaContext) ctx->DriverCtx;
    GLubyte *dst = PIXELADDR1( xmesa->xm_buffer,x,y);
