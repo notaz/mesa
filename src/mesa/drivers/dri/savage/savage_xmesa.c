@@ -598,7 +598,7 @@ static void savageXMesaWindowMoved( savageContextPtr imesa )
    if (0)
       fprintf(stderr, "savageXMesaWindowMoved\n\n");
 
-   switch (imesa->glCtx->Color._DrawDestMask[0]) {
+   switch (imesa->glCtx->Color._DrawDestMask) {
    case DD_FRONT_LEFT_BIT:
       savageXMesaSetFrontClipRects( imesa );
       break;
@@ -836,8 +836,8 @@ savageFillInModes( unsigned pixel_bits, unsigned depth_bits,
 	GLX_NONE, GLX_SWAP_UNDEFINED_OML /*, GLX_SWAP_COPY_OML */
     };
 
-    uint8_t depth_bits_array[2];
-    uint8_t stencil_bits_array[2];
+    u_int8_t depth_bits_array[2];
+    u_int8_t stencil_bits_array[2];
 
 
     depth_bits_array[0] = depth_bits;

@@ -273,7 +273,7 @@ static void r200_set_blend_state( GLcontext * ctx )
 
    default:
       fprintf( stderr, "[%s:%u] Invalid RGB blend equation (0x%04x).\n",
-         __func__, __LINE__, ctx->Color.BlendEquationRGB );
+         __FUNCTION__, __LINE__, ctx->Color.BlendEquationRGB );
       return;
    }
 
@@ -312,7 +312,7 @@ static void r200_set_blend_state( GLcontext * ctx )
 
    default:
       fprintf( stderr, "[%s:%u] Invalid A blend equation (0x%04x).\n",
-         __func__, __LINE__, ctx->Color.BlendEquationA );
+         __FUNCTION__, __LINE__, ctx->Color.BlendEquationA );
       return;
    }
 
@@ -787,7 +787,7 @@ static void r200PolygonMode( GLcontext *ctx, GLenum face, GLenum mode )
 static void r200UpdateSpecular( GLcontext *ctx )
 {
    r200ContextPtr rmesa = R200_CONTEXT(ctx);
-   uint32_t p = rmesa->hw.ctx.cmd[CTX_PP_CNTL];
+   u_int32_t p = rmesa->hw.ctx.cmd[CTX_PP_CNTL];
 
    R200_STATECHANGE( rmesa, tcl );
    R200_STATECHANGE( rmesa, vtx );
@@ -1751,7 +1751,7 @@ static void r200DrawBuffer( GLcontext *ctx, GLenum mode )
    /*
     * _DrawDestMask is easier to cope with than <mode>.
     */
-   switch ( ctx->Color._DrawDestMask[0] ) {
+   switch ( ctx->Color._DrawDestMask ) {
    case DD_FRONT_LEFT_BIT:
       FALLBACK( rmesa, R200_FALLBACK_DRAW_BUFFER, GL_FALSE );
       r200SetCliprects( rmesa, GL_FRONT_LEFT );

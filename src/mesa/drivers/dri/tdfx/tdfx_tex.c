@@ -67,7 +67,7 @@ _mesa_halve2x2_teximage2d ( GLcontext *ctx,
    GLuint bpt = 0;
    GLubyte *_s = NULL;
    GLubyte *_d = NULL;
-   GLenum _t;
+   GLenum _t = 0;
 
    if (texImage->TexFormat->MesaFormat == MESA_FORMAT_RGB565) {
       _t = GL_UNSIGNED_SHORT_5_6_5_REV;
@@ -648,6 +648,8 @@ convertPalette(FxU32 data[256], const struct gl_color_table *table)
             data[i] = (a << 24) | (r << 16) | (g << 8) | b;
         }
         return GR_TEXTABLE_PALETTE_6666_EXT;
+    default:
+	return GR_TEXTABLE_NCC0;	/* ???? */
     }
 }
 

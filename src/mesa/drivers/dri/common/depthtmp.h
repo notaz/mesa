@@ -64,6 +64,8 @@ static void TAG(WriteDepthSpan)( GLcontext *ctx,
    HW_WRITE_UNLOCK();
 }
 
+#ifndef NO_MONO
+
 static void TAG(WriteMonoDepthSpan)( GLcontext *ctx,
                                  GLuint n, GLint x, GLint y,
 				 const GLdepth depth,
@@ -99,6 +101,8 @@ static void TAG(WriteMonoDepthSpan)( GLcontext *ctx,
       }
    HW_WRITE_UNLOCK();
 }
+
+#endif
 
 static void TAG(WriteDepthPixels)( GLcontext *ctx,
 				   GLuint n,

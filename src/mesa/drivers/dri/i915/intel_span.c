@@ -38,6 +38,7 @@
 
 
 #define DBG 0
+#define NO_MONO
 
 #define LOCAL_VARS						\
    intelContextPtr intel = INTEL_CONTEXT(ctx);                    \

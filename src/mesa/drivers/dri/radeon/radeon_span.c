@@ -46,6 +46,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "radeon_tex.h"
 
 #define DBG 0
+#define NO_MONO
 
 #define LOCAL_VARS							\
    radeonContextPtr rmesa = RADEON_CONTEXT(ctx);			\

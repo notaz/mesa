@@ -70,7 +70,7 @@ static void tdfxUpdateAlphaMode( GLcontext *ctx )
 {
    tdfxContextPtr fxMesa = TDFX_CONTEXT(ctx);
    GrCmpFnc_t func;
-   GrAlphaBlendFnc_t srcRGB, dstRGB, srcA, dstA;
+   GrAlphaBlendFnc_t srcRGB, dstRGB = GR_BLEND_ZERO, srcA, dstA;
    GrAlphaBlendOp_t eqRGB, eqA;
    GrAlpha_t ref = (GLint) (ctx->Color.AlphaRef * 255.0);
    
@@ -1033,7 +1033,7 @@ static void tdfxDDDrawBuffer( GLcontext *ctx, GLenum mode )
    /*
     * _DrawDestMask is easier to cope with than <mode>.
     */
-   switch ( ctx->Color._DrawDestMask[0] ) {
+   switch ( ctx->Color._DrawDestMask ) {
    case DD_FRONT_LEFT_BIT:
       fxMesa->DrawBuffer = fxMesa->ReadBuffer = GR_BUFFER_FRONTBUFFER;
       fxMesa->new_state |= TDFX_NEW_RENDER;

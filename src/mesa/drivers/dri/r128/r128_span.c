@@ -43,6 +43,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "swrast/swrast.h"
 
 #define DBG 0
+#define NO_MONO
 
 #define HAVE_HW_DEPTH_SPANS	1
 #define HAVE_HW_DEPTH_PIXELS	1

@@ -34,7 +34,7 @@
 #include "swrast/swrast.h"
 
 #define DBG 0
-
+#define NO_MONO
 
 #define LOCAL_VARS					\
    __DRIdrawablePrivate *dPriv = mmesa->mesa_drawable;	\
