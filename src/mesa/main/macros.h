@@ -1,4 +1,4 @@
-/* $Id: macros.h,v 1.8.4.1 2001/03/02 16:40:47 gareth Exp $ */
+/* $Id: macros.h,v 1.8.4.2 2001/06/08 12:49:25 brianp Exp $ */
 
 /*
  * Mesa 3-D graphics library
@@ -356,6 +356,15 @@ do {						\
 /*
  * Copy a vector of 4 GLubytes from SRC to DST.
  */
+#if defined(__sparc__)
+/* Using the GLuint cast fails if DST or SRC are not dword-aligned */
+do {						\
+   (DST)[0] = (SRC)[0];				\
+   (DST)[1] = (SRC)[1];				\
+   (DST)[2] = (SRC)[2];				\
+   (DST)[3] = (SRC)[3];				\
+} while (0)
+#else
 #define COPY_4UBV(DST, SRC)			\
 do {						\
    if (sizeof(GLuint)==4*sizeof(GLubyte)) {	\
@@ -368,6 +377,7 @@ do {						\
       (DST)[3] = (SRC)[3];			\
    }						\
 } while (0)
+#endif
 
 
 /* Assign scalers to short vectors: */
