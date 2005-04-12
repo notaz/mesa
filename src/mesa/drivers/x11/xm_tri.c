@@ -118,6 +118,38 @@
 
 
 /*
+ * XImage, smooth, depth-buffered, PF_8A8R8G8B triangle.
+ */
+#define NAME smooth_8A8R8G8B_z_triangle
+#define INTERP_Z 1
+#define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
+#define INTERP_RGB 1
+#define PIXEL_ADDRESS(X,Y) PIXELADDR4(xmesa->xm_buffer,X,Y)
+#define PIXEL_TYPE GLuint
+#define BYTES_PER_ROW (xmesa->xm_buffer->backimage->bytes_per_line)
+#define SETUP_CODE						\
+   XMesaContext xmesa = XMESA_CONTEXT(ctx);			\
+
+#define RENDER_SPAN( span )					\
+   GLuint i;							\
+   for (i = 0; i < span.end; i++) {				\
+      const DEPTH_TYPE z = FixedToDepth(span.z);		\
+      if (z < zRow[i]) {					\
+         pRow[i] = PACK_8R8G8B(FixedToInt(span.red),		\
+            FixedToInt(span.green), FixedToInt(span.blue));	\
+         zRow[i] = z;						\
+      }								\
+      span.red += span.redStep;					\
+      span.green += span.greenStep;				\
+      span.blue += span.blueStep;				\
+      span.z += span.zStep;					\
+   }
+
+#include "swrast/s_tritemp.h"
+
+
+
+/*
  * XImage, smooth, depth-buffered, PF_8R8G8B triangle.
  */
 #define NAME smooth_8R8G8B_z_triangle
@@ -452,6 +484,33 @@
 
 
 /*
+ * XImage, flat, depth-buffered, PF_8A8R8G8B triangle.
+ */
+#define NAME flat_8A8R8G8B_z_triangle
+#define INTERP_Z 1
+#define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
+#define PIXEL_ADDRESS(X,Y) PIXELADDR4(xmesa->xm_buffer,X,Y)
+#define PIXEL_TYPE GLuint
+#define BYTES_PER_ROW (xmesa->xm_buffer->backimage->bytes_per_line)
+#define SETUP_CODE					\
+   XMesaContext xmesa = XMESA_CONTEXT(ctx);		\
+   unsigned long p = PACK_8R8G8B( v2->color[0],		\
+		 v2->color[1], v2->color[2] );
+#define RENDER_SPAN( span )				\
+   GLuint i;						\
+   for (i = 0; i < span.end; i++) {			\
+      const DEPTH_TYPE z = FixedToDepth(span.z);	\
+      if (z < zRow[i]) {				\
+	 pRow[i] = (PIXEL_TYPE) p;			\
+         zRow[i] = z;					\
+      }							\
+      span.z += span.zStep;				\
+   }
+#include "swrast/s_tritemp.h"
+
+
+
+/*
  * XImage, flat, depth-buffered, PF_8R8G8B triangle.
  */
 #define NAME flat_8R8G8B_z_triangle
@@ -751,6 +810,29 @@
 
 
 /*
+ * XImage, smooth, NON-depth-buffered, PF_8A8R8G8B triangle.
+ */
+#define NAME smooth_8A8R8G8B_triangle
+#define INTERP_RGB 1
+#define PIXEL_ADDRESS(X,Y) PIXELADDR4(xmesa->xm_buffer,X,Y)
+#define PIXEL_TYPE GLuint
+#define BYTES_PER_ROW (xmesa->xm_buffer->backimage->bytes_per_line)
+#define SETUP_CODE						\
+   XMesaContext xmesa = XMESA_CONTEXT(ctx);
+#define RENDER_SPAN( span )					\
+   GLuint i;							\
+   for (i = 0; i < span.end; i++) {				\
+      pRow[i] = PACK_8R8G8B(FixedToInt(span.red),		\
+         FixedToInt(span.green), FixedToInt(span.blue) );	\
+      span.red += span.redStep;					\
+      span.green += span.greenStep;				\
+      span.blue += span.blueStep;				\
+   }
+#include "swrast/s_tritemp.h"
+
+
+
+/*
  * XImage, smooth, NON-depth-buffered, PF_8R8G8B triangle.
  */
 #define NAME smooth_8R8G8B_triangle
@@ -1006,6 +1088,26 @@
 
 
 /*
+ * XImage, flat, NON-depth-buffered, PF_8A8R8G8B triangle.
+ */
+#define NAME flat_8A8R8G8B_triangle
+#define PIXEL_ADDRESS(X,Y) PIXELADDR4(xmesa->xm_buffer,X,Y)
+#define PIXEL_TYPE GLuint
+#define BYTES_PER_ROW (xmesa->xm_buffer->backimage->bytes_per_line)
+#define SETUP_CODE					\
+   XMesaContext xmesa = XMESA_CONTEXT(ctx);		\
+   unsigned long p = PACK_8R8G8B( v2->color[0],		\
+		 v2->color[1], v2->color[2] );
+#define RENDER_SPAN( span )				\
+   GLuint i;						\
+   for (i = 0; i < span.end; i++) {			\
+      pRow[i] = (PIXEL_TYPE) p;				\
+   }
+#include "swrast/s_tritemp.h"
+
+
+
+/*
  * XImage, flat, NON-depth-buffered, PF_8R8G8B triangle.
  */
 #define NAME flat_8R8G8B_triangle
@@ -1203,6 +1305,8 @@ void _xmesa_print_triangle_func( swrast_tri_func triFunc )
       _mesa_printf("smooth_TRUECOLOR_z_triangle\n");
    else if (triFunc ==smooth_8A8B8G8R_z_triangle)
       _mesa_printf("smooth_8A8B8G8R_z_triangle\n");
+   else if (triFunc ==smooth_8A8R8G8B_z_triangle)
+      _mesa_printf("smooth_8A8R8G8B_z_triangle\n");
    else if (triFunc ==smooth_8R8G8B_z_triangle)
       _mesa_printf("smooth_8R8G8B_z_triangle\n");
    else if (triFunc ==smooth_8R8G8B24_z_triangle)
@@ -1223,6 +1327,8 @@ void _xmesa_print_triangle_func( swrast_tri_func triFunc )
       _mesa_printf("flat_TRUECOLOR_z_triangle\n");
    else if (triFunc ==flat_8A8B8G8R_z_triangle)
       _mesa_printf("flat_8A8B8G8R_z_triangle\n");
+   else if (triFunc ==flat_8A8R8G8B_z_triangle)
+      _mesa_printf("flat_8A8R8G8B_z_triangle\n");
    else if (triFunc ==flat_8R8G8B_z_triangle)
       _mesa_printf("flat_8R8G8B_z_triangle\n");
    else if (triFunc ==flat_8R8G8B24_z_triangle)
@@ -1243,6 +1349,8 @@ void _xmesa_print_triangle_func( swrast_tri_func triFunc )
       _mesa_printf("smooth_TRUECOLOR_triangle\n");
    else if (triFunc ==smooth_8A8B8G8R_triangle)
       _mesa_printf("smooth_8A8B8G8R_triangle\n");
+   else if (triFunc ==smooth_8A8R8G8B_triangle)
+      _mesa_printf("smooth_8A8R8G8B_triangle\n");
    else if (triFunc ==smooth_8R8G8B_triangle)
       _mesa_printf("smooth_8R8G8B_triangle\n");
    else if (triFunc ==smooth_8R8G8B24_triangle)
@@ -1265,6 +1373,8 @@ void _xmesa_print_triangle_func( swrast_tri_func triFunc )
       _mesa_printf("flat_TRUEDITHER_triangle\n");
    else if (triFunc ==flat_8A8B8G8R_triangle)
       _mesa_printf("flat_8A8B8G8R_triangle\n");
+   else if (triFunc ==flat_8A8R8G8B_triangle)
+      _mesa_printf("flat_8A8R8G8B_triangle\n");
    else if (triFunc ==flat_8R8G8B_triangle)
       _mesa_printf("flat_8R8G8B_triangle\n");
    else if (triFunc ==flat_8R8G8B24_triangle)
@@ -1335,6 +1445,8 @@ static swrast_tri_func get_triangle_func( GLcontext *ctx )
 	       USE(smooth_TRUECOLOR_z_triangle);
             case PF_8A8B8G8R:
                USE(smooth_8A8B8G8R_z_triangle);
+            case PF_8A8R8G8B:
+               USE(smooth_8A8R8G8B_z_triangle);
             case PF_8R8G8B:
                USE(smooth_8R8G8B_z_triangle);
             case PF_8R8G8B24:
@@ -1372,6 +1484,8 @@ static swrast_tri_func get_triangle_func( GLcontext *ctx )
 	       USE(flat_TRUECOLOR_z_triangle);
             case PF_8A8B8G8R:
                USE(flat_8A8B8G8R_z_triangle);
+            case PF_8A8R8G8B:
+               USE(flat_8A8R8G8B_z_triangle);
             case PF_8R8G8B:
                USE(flat_8R8G8B_z_triangle);
             case PF_8R8G8B24:
@@ -1406,6 +1520,8 @@ static swrast_tri_func get_triangle_func( GLcontext *ctx )
 	       USE(smooth_TRUECOLOR_triangle);
             case PF_8A8B8G8R:
                USE(smooth_8A8B8G8R_triangle);
+            case PF_8A8R8G8B:
+               USE(smooth_8A8R8G8B_triangle);
             case PF_8R8G8B:
                USE(smooth_8R8G8B_triangle);
             case PF_8R8G8B24:
@@ -1443,6 +1559,8 @@ static swrast_tri_func get_triangle_func( GLcontext *ctx )
 	       USE(flat_TRUEDITHER_triangle);
             case PF_8A8B8G8R:
                USE(flat_8A8B8G8R_triangle);
+            case PF_8A8R8G8B:
+               USE(flat_8A8R8G8B_triangle);
             case PF_8R8G8B:
                USE(flat_8R8G8B_triangle);
             case PF_8R8G8B24:

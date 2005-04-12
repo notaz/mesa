@@ -1,8 +1,9 @@
+
 /*
  * Mesa 3-D graphics library
- * Version:  6.3
+ * Version:  5.1
  *
- * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -141,6 +142,23 @@ void xmesa_choose_point( GLcontext *ctx )
    XMesaContext xmesa = XMESA_CONTEXT(ctx);			\
    const GLubyte *color = vert1->color;				\
    GLuint pixel = PACK_8B8G8R( color[0], color[1], color[2] );
+#define PIXEL_TYPE GLuint
+#define BYTES_PER_ROW (xmesa->xm_buffer->backimage->bytes_per_line)
+#define PIXEL_ADDRESS(X,Y) PIXELADDR4(xmesa->xm_buffer,X,Y)
+#define CLIP_HACK 1
+#define PLOT(X,Y) *pixelPtr = pixel;
+#include "swrast/s_linetemp.h"
+
+
+
+/*
+ * Draw a flat-shaded, PF_8A8R8G8B line into an XImage.
+ */
+#define NAME flat_8A8R8G8B_line
+#define SETUP_CODE						\
+   XMesaContext xmesa = XMESA_CONTEXT(ctx);			\
+   const GLubyte *color = vert1->color;				\
+   GLuint pixel = PACK_8R8G8B( color[0], color[1], color[2] );
 #define PIXEL_TYPE GLuint
 #define BYTES_PER_ROW (xmesa->xm_buffer->backimage->bytes_per_line)
 #define PIXEL_ADDRESS(X,Y) PIXELADDR4(xmesa->xm_buffer,X,Y)
@@ -306,6 +324,29 @@ void xmesa_choose_point( GLcontext *ctx )
    XMesaContext xmesa = XMESA_CONTEXT(ctx);			\
    const GLubyte *color = vert1->color;				\
    GLuint pixel = PACK_8B8G8R( color[0], color[1], color[2] );
+#define INTERP_Z 1
+#define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
+#define PIXEL_TYPE GLuint
+#define BYTES_PER_ROW (xmesa->xm_buffer->backimage->bytes_per_line)
+#define PIXEL_ADDRESS(X,Y) PIXELADDR4(xmesa->xm_buffer,X,Y)
+#define CLIP_HACK 1
+#define PLOT(X,Y)		\
+	if (Z < *zPtr) {	\
+	   *zPtr = Z;		\
+	   *pixelPtr = pixel;	\
+	}
+#include "swrast/s_linetemp.h"
+
+
+
+/*
+ * Draw a flat-shaded, Z-less, PF_8A8R8G8B line into an XImage.
+ */
+#define NAME flat_8A8R8G8B_z_line
+#define SETUP_CODE						\
+   XMesaContext xmesa = XMESA_CONTEXT(ctx);			\
+   const GLubyte *color = vert1->color;				\
+   GLuint pixel = PACK_8R8G8B( color[0], color[1], color[2] );
 #define INTERP_Z 1
 #define DEPTH_TYPE DEFAULT_SOFTWARE_DEPTH_TYPE
 #define PIXEL_TYPE GLuint
@@ -491,7 +532,7 @@ static swrast_line_func get_line_func( GLcontext *ctx )
    SWcontext *swrast = SWRAST_CONTEXT(ctx);
    int depth = GET_VISUAL_DEPTH(xmesa->xm_visual);
 
-   if ((ctx->Color._DrawDestMask[0] & (DD_FRONT_LEFT_BIT | DD_BACK_LEFT_BIT)) ==0)
+   if ((ctx->Color._DrawDestMask & (DD_FRONT_LEFT_BIT | DD_BACK_LEFT_BIT)) ==0)
       return (swrast_line_func) NULL;
    if (ctx->RenderMode != GL_RENDER)      return (swrast_line_func) NULL;
    if (ctx->Line.SmoothFlag)              return (swrast_line_func) NULL;
@@ -511,6 +552,8 @@ static swrast_line_func get_line_func( GLcontext *ctx )
             return flat_TRUECOLOR_z_line;
          case PF_8A8B8G8R:
             return flat_8A8B8G8R_z_line;
+         case PF_8A8R8G8B:
+            return flat_8A8R8G8B_z_line;
          case PF_8R8G8B:
             return flat_8R8G8B_z_line;
          case PF_8R8G8B24:
@@ -537,6 +580,8 @@ static swrast_line_func get_line_func( GLcontext *ctx )
             return flat_TRUECOLOR_line;
          case PF_8A8B8G8R:
             return flat_8A8B8G8R_line;
+         case PF_8A8R8G8B:
+            return flat_8A8R8G8B_line;
          case PF_8R8G8B:
             return flat_8R8G8B_line;
          case PF_8R8G8B24:
