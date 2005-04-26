@@ -365,11 +365,9 @@ static void Init( void )
    {
       /* Green-ish fog color */
       static const GLfloat fogColor[4] = {0.5, 1.0, 0.5, 0};
-      glFogi(GL_FOG_MODE, GL_LINEAR);
       glFogfv(GL_FOG_COLOR, fogColor);
       glFogf(GL_FOG_START, 5.0);
       glFogf(GL_FOG_END, 25.0);
-      glEnable(GL_FOG);
    }
 #endif
 
