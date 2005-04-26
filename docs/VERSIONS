@@ -1325,3 +1325,6 @@ Mesa Version History
 	- fixed float parsing bug in ARB frag/vert programs (bug 2520)
 	- XMesaGetDepthBuffer() returned incorrect value for bytesPerValue
 	- GL_COLOR_MATERIAL with glColor3 didn't properly set diffuse alpha
+	- glXChooseFBConfig() crashed if attribList pointer was NULL
+	- program state.light[n].spot.direction.w was wrong value (bug 3083)
+	- fragment program fog option required glEnable(GL_FOG) - wrong.
