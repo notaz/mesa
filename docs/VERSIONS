@@ -1328,3 +1328,4 @@ Mesa Version History
 	- glXChooseFBConfig() crashed if attribList pointer was NULL
 	- program state.light[n].spot.direction.w was wrong value (bug 3083)
 	- fragment program fog option required glEnable(GL_FOG) - wrong.
+	- glColorTable() could produce a Mesa implementation error (bug 3135)
