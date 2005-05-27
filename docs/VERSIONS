@@ -1329,3 +1329,6 @@ Mesa Version History
 	- program state.light[n].spot.direction.w was wrong value (bug 3083)
 	- fragment program fog option required glEnable(GL_FOG) - wrong.
 	- glColorTable() could produce a Mesa implementation error (bug 3135)
+	- RasterPos could get corrupted by color index rendering path
+	- Removed bad XTranslateCoordinates call when rendering to Pixmaps
+	- glPopAttrib() didn't properly restore GL_TEXTURE_GEN enable state
