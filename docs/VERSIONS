@@ -1315,6 +1315,8 @@ Mesa Version History
 
 
 6.2.2  Month day, 2005
+    New:
+	- Updated GL/glext.h to version 28
     Bug fixes:
 	- fragment program texcoords were sometimes wrong for points and lines
 	- fixed problem with negative dot product in arbfplight, fplight demos
