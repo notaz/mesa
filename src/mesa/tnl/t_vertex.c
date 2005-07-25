@@ -1286,5 +1286,9 @@ void _tnl_free_vertices( GLcontext *ctx )
    if (vtx->vertex_buf) {
       ALIGN_FREE(vtx->vertex_buf);
       vtx->vertex_buf = 0;
+      if (vtx->codegen.buf) {
+         _mesa_free(vtx->codegen.buf);
+         vtx->codegen.buf = NULL;
+      }
    }
 }
