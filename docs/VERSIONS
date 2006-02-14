@@ -1432,3 +1432,12 @@ Mesa Version History
 	- GLw header files weren't installed by installmesa script (bug 5396)
 	- GL/glfbdev.h file was missing from tarballs
 	- fixed TNL initialization bug which could lead to crash (bug 5791)
+
+
+6.4.3  TBD
+    New:
+	- 
+    Bug fixes:
+	- fixed glxcontextmodes.c datatype problem (bug 5835)
+	- fixed aix-gcc build/install bugs (bug 5874)
+
