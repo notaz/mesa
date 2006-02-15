@@ -1398,6 +1398,7 @@ _mesa_parse_nv_vertex_program(GLcontext *ctx, GLenum dstTarget,
          FREE(program->Instructions);
       }
       program->Instructions = newInst;
+      program->Base.NumInstructions = parseState.numInst;
       program->InputsRead = parseState.inputsRead;
       program->OutputsWritten = parseState.outputsWritten;
       program->IsPositionInvariant = parseState.isPositionInvariant;

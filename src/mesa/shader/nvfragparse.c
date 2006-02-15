@@ -1545,6 +1545,7 @@ _mesa_parse_nv_fragment_program(GLcontext *ctx, GLenum dstTarget,
          FREE(program->Instructions);
       }
       program->Instructions = newInst;
+      program->Base.NumInstructions = parseState.numInst;
       program->InputsRead = parseState.inputsRead;
       program->OutputsWritten = parseState.outputsWritten;
       for (u = 0; u < ctx->Const.MaxTextureImageUnits; u++)
