@@ -593,14 +593,14 @@ static struct ureg get_one( struct texenv_fragment_program *p )
 static struct ureg get_half( struct texenv_fragment_program *p )
 {
    if (is_undef(p->half)) 
-      p->one = register_scalar_const(p, 0.5);
+      p->half = register_scalar_const(p, 0.5);
    return p->half;
 }
 
 static struct ureg get_zero( struct texenv_fragment_program *p )
 {
    if (is_undef(p->zero)) 
-      p->one = register_scalar_const(p, 0.0);
+      p->zero = register_scalar_const(p, 0.0);
    return p->zero;
 }
 
@@ -760,6 +760,7 @@ static struct ureg emit_combine( struct texenv_fragment_program *p,
        * result = tmp - .5
        */
       half = get_half(p);
+      tmp = get_temp(p);
       emit_arith( p, FP_OPCODE_ADD, tmp, mask, 0, src[0], src[1], undef );
       emit_arith( p, FP_OPCODE_SUB, dest, mask, saturate, tmp, half, undef );
       return dest;
