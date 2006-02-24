@@ -1442,4 +1442,5 @@ Mesa Version History
 	- fixed aix-gcc build/install bugs (bug 5874)
 	- fixed some bugs in texture env program generation
 	- glXCopyContext() didn't handle texture object bindings properly
+	- glXCopyContext() didn't copy all lighting state
 
