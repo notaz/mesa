@@ -790,7 +790,7 @@ void _mesa_set_enable( GLcontext *ctx, GLenum cap, GLboolean state )
 
       /* GL_EXT_secondary_color */
       case GL_COLOR_SUM_EXT:
-         CHECK_EXTENSION(EXT_secondary_color, cap);
+         CHECK_EXTENSION2(EXT_secondary_color, ARB_vertex_program, cap);
          if (ctx->Fog.ColorSumEnabled == state)
             return;
          FLUSH_VERTICES(ctx, _NEW_FOG);
@@ -852,7 +852,7 @@ void _mesa_set_enable( GLcontext *ctx, GLenum cap, GLboolean state )
          ctx->Point.PointSprite = state;
          break;
 
-#if FEATURE_NV_vertex_program
+#if FEATURE_NV_vertex_program || FEATURE_ARB_vertex_program
       case GL_VERTEX_PROGRAM_NV:
          CHECK_EXTENSION2(NV_vertex_program, ARB_vertex_program, cap);
          if (ctx->VertexProgram.Enabled == state)
@@ -874,6 +874,8 @@ void _mesa_set_enable( GLcontext *ctx, GLenum cap, GLboolean state )
          FLUSH_VERTICES(ctx, _NEW_PROGRAM); 
          ctx->VertexProgram.TwoSideEnabled = state;
          break;
+#endif
+#if FEATURE_NV_vertex_program
       case GL_MAP1_VERTEX_ATTRIB0_4_NV:
       case GL_MAP1_VERTEX_ATTRIB1_4_NV:
       case GL_MAP1_VERTEX_ATTRIB2_4_NV:
@@ -1066,6 +1068,12 @@ _mesa_Disable( GLenum cap )
       return GL_FALSE;					\
    }
 
+#undef CHECK_EXTENSION2
+#define CHECK_EXTENSION2(EXT1, EXT2)				\
+   if (!ctx->Extensions.EXT1 && !ctx->Extensions.EXT2) {	\
+      _mesa_error(ctx, GL_INVALID_ENUM, "glIsEnabled");		\
+      return GL_FALSE;						\
+   }
 
 /**
  * Test whether a capability is enabled.
@@ -1306,6 +1314,11 @@ _mesa_IsEnabled( GLenum cap )
             return (texUnit->Enabled & TEXTURE_CUBE_BIT) ? GL_TRUE : GL_FALSE;
          }
 
+      /* GL_EXT_secondary_color */
+      case GL_COLOR_SUM_EXT:
+         CHECK_EXTENSION2(EXT_secondary_color, ARB_vertex_program);
+         return ctx->Fog.ColorSumEnabled;
+
       /* GL_ARB_multisample */
       case GL_MULTISAMPLE_ARB:
          CHECK_EXTENSION(ARB_multisample);
@@ -1330,18 +1343,21 @@ _mesa_IsEnabled( GLenum cap )
 
       /* GL_NV_point_sprite */
       case GL_POINT_SPRITE_NV:
+         CHECK_EXTENSION2(NV_point_sprite, ARB_point_sprite)
          return ctx->Point.PointSprite;
 
-#if FEATURE_NV_vertex_program
-      case GL_VERTEX_PROGRAM_NV:
-         CHECK_EXTENSION(NV_vertex_program);
+#if FEATURE_NV_vertex_program || FEATURE_ARB_vertex_program
+      case GL_VERTEX_PROGRAM_ARB:
+         CHECK_EXTENSION2(ARB_vertex_program, NV_vertex_program);
          return ctx->VertexProgram.Enabled;
-      case GL_VERTEX_PROGRAM_POINT_SIZE_NV:
-         CHECK_EXTENSION(NV_vertex_program);
+      case GL_VERTEX_PROGRAM_POINT_SIZE_ARB:
+         CHECK_EXTENSION2(ARB_vertex_program, NV_vertex_program);
          return ctx->VertexProgram.PointSizeEnabled;
-      case GL_VERTEX_PROGRAM_TWO_SIDE_NV:
-         CHECK_EXTENSION(NV_vertex_program);
+      case GL_VERTEX_PROGRAM_TWO_SIDE_ARB:
+         CHECK_EXTENSION2(ARB_vertex_program, NV_vertex_program);
          return ctx->VertexProgram.TwoSideEnabled;
+#endif
+#if FEATURE_NV_vertex_program
       case GL_VERTEX_ATTRIB_ARRAY0_NV:
       case GL_VERTEX_ATTRIB_ARRAY1_NV:
       case GL_VERTEX_ATTRIB_ARRAY2_NV:
