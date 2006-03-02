@@ -31,14 +31,14 @@
 
 #define CHECK1(E1, str, PNAME)                         \
    if (!ctx->Extensions.E1) {                          \
-      _mesa_error(ctx, GL_INVALID_VALUE,               \
+      _mesa_error(ctx, GL_INVALID_ENUM,                \
                   "glGet" str "v(0x%x)", (int) PNAME); \
       return;                                          \
    }
     
 #define CHECK2(E1, E2, str, PNAME)                     \
    if (!ctx->Extensions.E1 && !ctx->Extensions.E2) {   \
-      _mesa_error(ctx, GL_INVALID_VALUE,               \
+      _mesa_error(ctx, GL_INVALID_ENUM,                \
                   "glGet" str "v(0x%x)", (int) PNAME); \
       return;                                          \
    }
