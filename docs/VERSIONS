@@ -1433,7 +1433,6 @@ Mesa Version History
 	- GL/glfbdev.h file was missing from tarballs
 	- fixed TNL initialization bug which could lead to crash (bug 5791)
 
-
 6.4.3  TBD
     New:
 	- 
@@ -1443,4 +1442,7 @@ Mesa Version History
 	- fixed some bugs in texture env program generation
 	- glXCopyContext() didn't handle texture object bindings properly
 	- glXCopyContext() didn't copy all lighting state
-
+	- fixed FreeBSD config (Pedro Giffuni)
+	- fixed some minor framebuffer object bugs
+	- replaced dprintf() with _glu_printf() in GLU (bug 6244)
+	- fixed a number of thread safety bugs/regressions
