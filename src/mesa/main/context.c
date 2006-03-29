@@ -1588,8 +1588,7 @@ _mesa_make_current( GLcontext *newCtx, GLframebuffer *drawBuffer,
          if (newCtx->FirstTimeCurrent) {
             /* set initial viewport and scissor size now */
             _mesa_set_viewport(newCtx, 0, 0, drawBuffer->Width, drawBuffer->Height);
-            newCtx->Scissor.Width = drawBuffer->Width;
-            newCtx->Scissor.Height = drawBuffer->Height;
+	    _mesa_set_scissor(newCtx, 0, 0, drawBuffer->Width, drawBuffer->Height );
          }
       }
 
