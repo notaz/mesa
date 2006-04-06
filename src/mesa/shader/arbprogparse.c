@@ -1619,7 +1619,7 @@ parse_result_binding (GLcontext * ctx, GLubyte ** inst, GLuint * binding,
          }
          /* for vtx programs, this is VERTEX_RESULT_POSITION */
          else {
-            *binding_idx = 0;
+            *binding_idx = VERT_RESULT_HPOS;
          }
          break;
 
@@ -1641,39 +1641,39 @@ parse_result_binding (GLcontext * ctx, GLubyte ** inst, GLuint * binding,
 
                /* secondary color */
                if (color_type) {
-                  *binding_idx = 4;
+                  *binding_idx = VERT_RESULT_BFC1;
                }
                /*  primary color */
                else {
-                  *binding_idx = 3;
+                  *binding_idx = VERT_RESULT_BFC0;
                }
             }
             /* front face */
             else {
                /* secondary color */
                if (color_type) {
-                  *binding_idx = 2;
+                  *binding_idx = VERT_RESULT_COL1;
                }
                /* primary color */
                else {
-                  *binding_idx = 1;
+                  *binding_idx = VERT_RESULT_COL0;
                }
             }
          }
          break;
 
       case VERTEX_RESULT_FOGCOORD:
-         *binding_idx = 5;
+         *binding_idx = VERT_RESULT_FOGC;
          break;
 
       case VERTEX_RESULT_POINTSIZE:
-         *binding_idx = 6;
+         *binding_idx = VERT_RESULT_PSIZ;
          break;
 
       case VERTEX_RESULT_TEXCOORD:
          if (parse_texcoord_num (ctx, inst, Program, &b))
             return 1;
-         *binding_idx = 7 + b;
+         *binding_idx = VERT_RESULT_TEX0 + b;
          break;
    }
 
@@ -2339,7 +2339,8 @@ parse_address_reg (GLcontext * ctx, GLubyte ** inst,
 {
    struct var_cache *dst;
    GLuint result;
-   (void) Index;
+   
+   *Index = 0;
 
    dst = parse_string (inst, vc_head, Program, &result);
    Program->Position = parse_position (inst);
@@ -3112,6 +3113,7 @@ parse_fp_instruction (GLcontext * ctx, GLubyte ** inst,
          break;
 
       case OP_TEX_KIL:
+         Program->UsesKill = 1;
 	 if (parse_fp_vector_src_reg(ctx, inst, vc_head, Program, &fp->SrcReg[0]))
             return 1;
          fp->Opcode = FP_OPCODE_KIL;
@@ -3251,6 +3253,11 @@ parse_vp_instruction (GLcontext * ctx, GLubyte ** inst,
 
    /* The actual opcode name */
    code = *(*inst)++;
+
+   vp->DstReg.File = 0xf;	/* mark as undef */
+   vp->SrcReg[0].File = 0xf;	/* mark as undef */
+   vp->SrcReg[1].File = 0xf;	/* mark as undef */
+   vp->SrcReg[2].File = 0xf;	/* mark as undef */
 
    /* Record the position in the program string for debugging */
    vp->StringPos = Program->Position;
@@ -3421,8 +3428,8 @@ parse_vp_instruction (GLcontext * ctx, GLubyte ** inst,
                break;
          }
 	 {
-	    GLubyte Swizzle[4]; /* FP's swizzle mask is a GLubyte, while VP's is GLuint */
-	    GLubyte Negate[4];
+	    GLubyte Swizzle[4]; 
+	    GLubyte NegateMask;
 	    GLboolean RelAddr;
 	    GLint File, Index;
 
@@ -3431,13 +3438,10 @@ parse_vp_instruction (GLcontext * ctx, GLubyte ** inst,
 
 	    if (parse_src_reg(ctx, inst, vc_head, Program, &File, &Index, &RelAddr))
 	       return 1;
-	    parse_extended_swizzle_mask (inst, Swizzle, Negate);
+	    parse_extended_swizzle_mask (inst, Swizzle, &NegateMask);
 	    vp->SrcReg[0].File = File;
 	    vp->SrcReg[0].Index = Index;
-	    vp->SrcReg[0].Negate = (Negate[0] << 0 |
-				    Negate[1] << 1 |
-				    Negate[2] << 2 |
-				    Negate[3] << 3);
+	    vp->SrcReg[0].Negate = NegateMask;
 	    vp->SrcReg[0].Swizzle = (Swizzle[0] << 0 |
 				     Swizzle[1] << 3 |
 				     Swizzle[2] << 6 |
@@ -3850,6 +3854,10 @@ parse_arb_program(GLcontext * ctx, GLubyte * inst, struct var_cache **vc_head,
                                                   (Program->Base.NumInstructions+1)*sizeof(struct vp_instruction));
 
       Program->VPInstructions[Program->Base.NumInstructions].Opcode = VP_OPCODE_END;
+      Program->VPInstructions[Program->Base.NumInstructions].DstReg.File = 0xf;
+      Program->VPInstructions[Program->Base.NumInstructions].SrcReg[0].File = 0xf;
+      Program->VPInstructions[Program->Base.NumInstructions].SrcReg[1].File = 0xf;
+      Program->VPInstructions[Program->Base.NumInstructions].SrcReg[2].File = 0xf;
       /* YYY Wrong Position in program, whatever, at least not random -> crash
 	 Program->Position = parse_position (&inst);
       */
@@ -4093,6 +4101,8 @@ _mesa_parse_arb_program (GLcontext * ctx, const GLubyte * str, GLsizei len,
    program->NumAluInstructions =
    program->NumTexInstructions =
    program->NumTexIndirections = 0;
+
+   program->UsesKill = 0;
 
    program->FPInstructions = NULL;
    program->VPInstructions = NULL;
