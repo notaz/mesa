@@ -220,6 +220,7 @@ _mesa_parse_arb_fragment_program(GLcontext * ctx, GLenum target,
    }
    program->Parameters         = ap.Parameters;
    program->FogOption          = ap.FogOption;
+   program->UsesKill           = ap.UsesKill;
 
 #if DEBUG_FP
    _mesa_debug_fp_inst(ap.Base.NumInstructions, ap.FPInstructions);
