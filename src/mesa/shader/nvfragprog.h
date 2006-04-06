@@ -117,7 +117,9 @@ enum fp_opcode {
    FP_OPCODE_UP4B,		/* NV_f_p only */
    FP_OPCODE_UP4UB,		/* NV_f_p only */
    FP_OPCODE_X2D,		/* NV_f_p only - 2d mat mul */
-   FP_OPCODE_XPD		/* ARB_f_p only - cross product */
+   FP_OPCODE_XPD,		/* ARB_f_p only - cross product */
+
+   FP_MAX_OPCODE
 };
 
 
