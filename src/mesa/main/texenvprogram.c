@@ -1008,6 +1008,10 @@ static void create_new_program(struct state_key *key, GLcontext *ctx,
       p.src_texture[unit] = undef;
 
    p.src_previous = undef;
+   p.half = undef;
+   p.zero = undef;
+   p.one = undef;
+
    p.last_tex_stage = 0;
    release_temps(&p);
 
