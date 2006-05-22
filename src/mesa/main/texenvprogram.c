@@ -1128,6 +1128,26 @@ static void rehash( struct texenvprog_cache *cache )
    cache->size = size;
 }
 
+static void clear_cache( struct texenvprog_cache *cache )
+{
+   struct texenvprog_cache_item *c, *next;
+   GLuint i;
+
+   for (i = 0; i < cache->size; i++) {
+      for (c = cache->items[i]; c; c = next) {
+	 next = c->next;
+	 FREE(c->key);
+	 FREE(c->data);
+	 FREE(c);
+      }
+      cache->items[i] = NULL;
+   }
+
+
+   cache->n_items = 0;
+}
+
+
 static void cache_item( struct texenvprog_cache *cache,
 			GLuint hash,
 			void *key,
@@ -1138,9 +1158,14 @@ static void cache_item( struct texenvprog_cache *cache,
    c->key = key;
    c->data = data;
 
-   if (++cache->n_items > cache->size * 1.5)
-      rehash(cache);
+   if (cache->n_items > cache->size * 1.5) {
+      if (cache->size < 1000)
+	 rehash(cache);
+      else 
+	 clear_cache(cache);
+   }
 
+   cache->n_items++;
    c->next = cache->items[hash % cache->size];
    cache->items[hash % cache->size] = c;
 }
@@ -1200,17 +1225,7 @@ void _mesa_TexEnvProgramCacheInit( GLcontext *ctx )
 
 void _mesa_TexEnvProgramCacheDestroy( GLcontext *ctx )
 {
-   struct texenvprog_cache_item *c, *next;
-   GLuint i;
-
-   for (i = 0; i < ctx->Texture.env_fp_cache.size; i++)
-      for (c = ctx->Texture.env_fp_cache.items[i]; c; c = next) {
-	 next = c->next;
-	 FREE(c->key);
-	 FREE(c->data);
-	 FREE(c);
-      }
-
+   clear_cache(&ctx->Texture.env_fp_cache);
    FREE(ctx->Texture.env_fp_cache.items);
 }
 
