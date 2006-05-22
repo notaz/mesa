@@ -64,6 +64,11 @@ fast_draw_pixels(GLcontext *ctx, GLint x, GLint y,
    if (swrast->_RasterMask & MULTI_DRAW_BIT)
       return GL_FALSE;
 
+   if (ctx->_ImageTransferState) {
+      /* don't handle any pixel transfer options here */
+      return GL_FALSE;
+   }
+
    if (ctx->Depth.Test)
       _swrast_span_default_z(ctx, &span);
    if (swrast->_FogEnabled)
@@ -159,8 +164,7 @@ fast_draw_pixels(GLcontext *ctx, GLint x, GLint y,
        * skip "skipRows" rows and skip "skipPixels" pixels/row.
        */
 
-      if (format == GL_RGBA && type == CHAN_TYPE
-          && ctx->_ImageTransferState==0) {
+      if (format == GL_RGBA && type == CHAN_TYPE) {
          if (ctx->Visual.rgbMode) {
             GLchan *src = (GLchan *) pixels
                + (skipRows * rowLength + skipPixels) * 4;
@@ -198,8 +202,7 @@ fast_draw_pixels(GLcontext *ctx, GLint x, GLint y,
          }
          return GL_TRUE;
       }
-      else if (format == GL_RGB && type == CHAN_TYPE
-               && ctx->_ImageTransferState == 0) {
+      else if (format == GL_RGB && type == CHAN_TYPE) {
          if (ctx->Visual.rgbMode) {
             GLchan *src = (GLchan *) pixels
                + (skipRows * rowLength + skipPixels) * 3;
@@ -236,8 +239,7 @@ fast_draw_pixels(GLcontext *ctx, GLint x, GLint y,
          }
          return GL_TRUE;
       }
-      else if (format == GL_LUMINANCE && type == CHAN_TYPE
-               && ctx->_ImageTransferState==0) {
+      else if (format == GL_LUMINANCE && type == CHAN_TYPE) {
          if (ctx->Visual.rgbMode) {
             GLchan *src = (GLchan *) pixels
                + (skipRows * rowLength + skipPixels);
@@ -298,8 +300,7 @@ fast_draw_pixels(GLcontext *ctx, GLint x, GLint y,
          }
          return GL_TRUE;
       }
-      else if (format == GL_LUMINANCE_ALPHA && type == CHAN_TYPE
-               && ctx->_ImageTransferState == 0) {
+      else if (format == GL_LUMINANCE_ALPHA && type == CHAN_TYPE) {
          if (ctx->Visual.rgbMode) {
             GLchan *src = (GLchan *) pixels
                + (skipRows * rowLength + skipPixels)*2;
@@ -413,7 +414,7 @@ fast_draw_pixels(GLcontext *ctx, GLint x, GLint y,
                return GL_TRUE;
             }
          }
-         else if (ctx->_ImageTransferState==0) {
+         else {
             /* write CI data to CI frame buffer */
             GLint row;
             if (ctx->Pixel.ZoomX==1.0F && ctx->Pixel.ZoomY==1.0F) {
