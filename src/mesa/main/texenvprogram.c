@@ -1086,9 +1086,9 @@ static void *search_cache( struct texenvprog_cache *cache,
 			   const void *key,
 			   GLuint keysize)
 {
-   struct texenvprog_cache *c;
+   struct texenvprog_cache_item *c;
 
-   for (c = cache; c; c = c->next) {
+   for (c = cache->items[hash % cache->size]; c; c = c->next) {
       if (c->hash == hash && memcmp(c->key, key, keysize) == 0)
 	 return c->data;
    }
@@ -1096,17 +1096,43 @@ static void *search_cache( struct texenvprog_cache *cache,
    return NULL;
 }
 
-static void cache_item( struct texenvprog_cache **cache,
+static void rehash( struct texenvprog_cache *cache )
+{
+   struct texenvprog_cache_item **items;
+   struct texenvprog_cache_item *c, *next;
+   GLuint size, i;
+
+   size = cache->size * 3;
+   items = (struct texenvprog_cache_item**) _mesa_malloc(size * sizeof(*items));
+   _mesa_memset(items, 0, size * sizeof(*items));
+
+   for (i = 0; i < cache->size; i++)
+      for (c = cache->items[i]; c; c = next) {
+	 next = c->next;
+	 c->next = items[c->hash % size];
+	 items[c->hash % size] = c;
+      }
+
+   FREE(cache->items);
+   cache->items = items;
+   cache->size = size;
+}
+
+static void cache_item( struct texenvprog_cache *cache,
 			GLuint hash,
 			void *key,
 			void *data )
 {
-   struct texenvprog_cache *c = MALLOC(sizeof(*c));
+   struct texenvprog_cache_item *c = MALLOC(sizeof(*c));
    c->hash = hash;
    c->key = key;
    c->data = data;
-   c->next = *cache;
-   *cache = c;
+
+   if (++cache->n_items > cache->size * 1.5)
+      rehash(cache);
+
+   c->next = cache->items[hash % cache->size];
+   cache->items[hash % cache->size] = c;
 }
 
 static GLuint hash_key( struct state_key *key )
@@ -1135,7 +1161,7 @@ void _mesa_UpdateTexEnvProgram( GLcontext *ctx )
 
    ctx->FragmentProgram._Current = ctx->_TexEnvProgram =
       (struct fragment_program *)
-      search_cache(ctx->Texture.env_fp_cache, hash, key, sizeof(*key));
+      search_cache(&ctx->Texture.env_fp_cache, hash, key, sizeof(*key));
 	
    if (!ctx->_TexEnvProgram) {
       if (0) _mesa_printf("Building new texenv proggy for key %x\n", hash);
@@ -1154,15 +1180,28 @@ void _mesa_UpdateTexEnvProgram( GLcontext *ctx )
 	
 }
 
+void _mesa_TexEnvProgramCacheInit( GLcontext *ctx )
+{
+   ctx->Texture.env_fp_cache.size = 17;
+   ctx->Texture.env_fp_cache.n_items = 0;
+   ctx->Texture.env_fp_cache.items = (struct texenvprog_cache_item **)
+      _mesa_calloc(ctx->Texture.env_fp_cache.size * 
+		   sizeof(struct texenvprog_cache_item));
+}
+
 void _mesa_TexEnvProgramCacheDestroy( GLcontext *ctx )
 {
-   struct texenvprog_cache *a, *tmp;
+   struct texenvprog_cache_item *c, *next;
+   GLuint i;
 
-   for (a = ctx->Texture.env_fp_cache; a; a = tmp) {
-      tmp = a->next;
-      FREE(a->key);
-      FREE(a->data);
-      FREE(a);
-   }
+   for (i = 0; i < ctx->Texture.env_fp_cache.size; i++)
+      for (c = ctx->Texture.env_fp_cache.items[i]; c; c = next) {
+	 next = c->next;
+	 FREE(c->key);
+	 FREE(c->data);
+	 FREE(c);
+      }
+
+   FREE(ctx->Texture.env_fp_cache.items);
 }
 

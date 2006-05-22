@@ -1435,11 +1435,16 @@ struct gl_texture_unit
    GLboolean ColorTableEnabled;
 };
 
-struct texenvprog_cache {
+struct texenvprog_cache_item {
    GLuint hash;
    void *key;
    void *data;
-   struct texenvprog_cache *next;
+   struct texenvprog_cache_item *next;
+};
+
+struct texenvprog_cache {
+   struct texenvprog_cache_item **items;
+   GLuint size, n_items;
 };
 
 /**
@@ -1472,7 +1477,7 @@ struct gl_texture_attrib
    struct gl_color_table Palette;
    
    /** Cached texenv fragment programs */
-   struct texenvprog_cache *env_fp_cache;
+   struct texenvprog_cache env_fp_cache;
 };
 
 
