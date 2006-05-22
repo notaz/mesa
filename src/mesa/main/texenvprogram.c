@@ -925,9 +925,12 @@ static void load_texture( struct texenv_fragment_program *p, GLuint unit )
 			  
       /* TODO: Use D0_MASK_XY where possible.
        */
-      p->src_texture[unit] = emit_texld( p, FP_OPCODE_TXP,
-					 tmp, WRITEMASK_XYZW, 
-					 unit, dim, texcoord );
+      if (p->state->unit[unit].enabled) 
+	 p->src_texture[unit] = emit_texld( p, FP_OPCODE_TXP,
+					    tmp, WRITEMASK_XYZW, 
+					    unit, dim, texcoord );
+      else
+	 p->src_texture[unit] = get_zero(p);
    }
 }
 
@@ -947,8 +950,6 @@ static GLboolean load_texenv_source( struct texenv_fragment_program *p,
    case SRC_TEXTURE5:
    case SRC_TEXTURE6:
    case SRC_TEXTURE7:       
-      if (!p->state->unit[src - SRC_TEXTURE0].enabled) 
-	 return GL_FALSE;
       load_texture(p, src - SRC_TEXTURE0);
       break;
       
@@ -962,12 +963,16 @@ static GLboolean load_texenv_source( struct texenv_fragment_program *p,
 static GLboolean load_texunit_sources( struct texenv_fragment_program *p, int unit )
 {
    struct state_key *key = p->state;
-   int i, nr = key->unit[unit].NumArgsRGB;
-   for (i = 0; i < nr; i++) {
-      if (!load_texenv_source( p, key->unit[unit].OptRGB[i].Source, unit) ||
-	  !load_texenv_source( p, key->unit[unit].OptA[i].Source, unit ))
-	 return GL_FALSE;
+   GLuint i;
+
+   for (i = 0; i < key->unit[unit].NumArgsRGB; i++) {
+      load_texenv_source( p, key->unit[unit].OptRGB[i].Source, unit);
    }
+
+   for (i = 0; i < key->unit[unit].NumArgsA; i++) {
+      load_texenv_source( p, key->unit[unit].OptA[i].Source, unit );
+   }
+
    return GL_TRUE;
 }
 
@@ -1013,8 +1018,8 @@ static void create_new_program(struct state_key *key, GLcontext *ctx,
        */
       for (unit = 0 ; unit < ctx->Const.MaxTextureUnits ; unit++)
 	 if (key->unit[unit].enabled) {
-	    if (load_texunit_sources( &p, unit ))
-	       p.last_tex_stage = unit;
+	    load_texunit_sources( &p, unit );
+	    p.last_tex_stage = unit;
 	 }
 
       /* Second pass - emit combine instructions to build final color:
@@ -1034,6 +1039,7 @@ static void create_new_program(struct state_key *key, GLcontext *ctx,
        */
       struct ureg s = register_input(&p, FRAG_ATTRIB_COL1);
       emit_arith( &p, FP_OPCODE_ADD, out, WRITEMASK_XYZ, 0, cf, s, undef );
+      emit_arith( &p, FP_OPCODE_MOV, out, WRITEMASK_W, 0, cf, undef, undef );
    }
    else if (memcmp(&cf, &out, sizeof(cf)) != 0) {
       /* Will wind up in here if no texture enabled or a couple of
@@ -1177,7 +1183,6 @@ void _mesa_UpdateTexEnvProgram( GLcontext *ctx )
       FREE(key);
       if (0) _mesa_printf("Found existing texenv program for key %x\n", hash);
    }
-	
 }
 
 void _mesa_TexEnvProgramCacheInit( GLcontext *ctx )
