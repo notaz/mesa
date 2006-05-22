@@ -207,7 +207,7 @@ static struct state_key *make_state_key( GLcontext *ctx )
 	 translate_mode(texUnit->_CurrentCombine->ModeA);
 		
       key->unit[i].ScaleShiftRGB = texUnit->_CurrentCombine->ScaleShiftRGB;
-      key->unit[i].ScaleShiftA = texUnit->_CurrentCombine->ScaleShiftRGB;
+      key->unit[i].ScaleShiftA = texUnit->_CurrentCombine->ScaleShiftA;
 
       for (j=0;j<3;j++) {
          key->unit[i].OptRGB[j].Operand =
