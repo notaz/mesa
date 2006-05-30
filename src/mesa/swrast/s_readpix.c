@@ -440,6 +440,7 @@ read_rgba_pixels( GLcontext *ctx,
                                     transferOps & IMAGE_POST_CONVOLUTION_BITS);
          src += readWidth * 4;
       }
+      _mesa_free(convImage);
    }
    else {
       /* no convolution */
