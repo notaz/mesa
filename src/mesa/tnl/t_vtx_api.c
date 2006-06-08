@@ -735,6 +735,11 @@ static void GLAPIENTRY _tnl_Begin( GLenum mode )
 {
    GET_CURRENT_CONTEXT( ctx ); 
 
+   if (mode > GL_POLYGON) {
+      _mesa_error(ctx, GL_INVALID_ENUM, "glBegin(mode)");
+      return;
+   }
+
    if (ctx->Driver.CurrentExecPrimitive == GL_POLYGON+1) {
       TNLcontext *tnl = TNL_CONTEXT(ctx); 
       GLuint i;
