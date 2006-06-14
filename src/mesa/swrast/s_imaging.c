@@ -38,6 +38,7 @@ _swrast_CopyColorTable( GLcontext *ctx,
 			GLenum target, GLenum internalformat,
 			GLint x, GLint y, GLsizei width)
 {
+   SWcontext *swrast = SWRAST_CONTEXT(ctx);
    GLchan data[MAX_WIDTH][4];
    struct gl_buffer_object *bufferSave;
 
@@ -52,9 +53,13 @@ _swrast_CopyColorTable( GLcontext *ctx,
    if (width > MAX_WIDTH)
       width = MAX_WIDTH;
 
+   RENDER_START( swrast, ctx );
+
    /* read the data from framebuffer */
    _swrast_read_rgba_span( ctx, ctx->ReadBuffer->_ColorReadBuffer,
                            width, x, y, data );
+
+   RENDER_FINISH(swrast,ctx);
 
    /* Restore reading from draw buffer (the default) */
    _swrast_use_draw_buffer(ctx);
@@ -74,6 +79,7 @@ void
 _swrast_CopyColorSubTable( GLcontext *ctx,GLenum target, GLsizei start,
 			   GLint x, GLint y, GLsizei width)
 {
+   SWcontext *swrast = SWRAST_CONTEXT(ctx);
    GLchan data[MAX_WIDTH][4];
    struct gl_buffer_object *bufferSave;
 
@@ -88,9 +94,13 @@ _swrast_CopyColorSubTable( GLcontext *ctx,GLenum target, GLsizei start,
    if (width > MAX_WIDTH)
       width = MAX_WIDTH;
 
+   RENDER_START( swrast, ctx );
+
    /* read the data from framebuffer */
    _swrast_read_rgba_span( ctx, ctx->ReadBuffer->_ColorReadBuffer,
                            width, x, y, data );
+
+   RENDER_FINISH(swrast,ctx);
 
    /* Restore reading from draw buffer (the default) */
    _swrast_use_draw_buffer(ctx);
