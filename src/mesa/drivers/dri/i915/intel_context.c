@@ -512,6 +512,8 @@ void intelSetBackClipRects( intelContextPtr intel )
 
 void intelWindowMoved( intelContextPtr intel )
 {
+   __DRIdrawablePrivate *dPriv = intel->driDrawable;
+
    if (!intel->ctx.DrawBuffer) {
       intelSetFrontClipRects( intel );
    }
@@ -527,6 +529,23 @@ void intelWindowMoved( intelContextPtr intel )
 	 /* glDrawBuffer(GL_NONE or GL_FRONT_AND_BACK): software fallback */
 	 intelSetFrontClipRects( intel );
       }
+   }
+
+   _mesa_resize_framebuffer(&intel->ctx,
+			    (GLframebuffer*)dPriv->driverPrivate,
+			    dPriv->w, dPriv->h);
+   
+   /* Set state we know depends on drawable parameters:
+    */
+   {
+      GLcontext *ctx = &intel->ctx;
+
+      ctx->Driver.Scissor( ctx, ctx->Scissor.X, ctx->Scissor.Y,
+			   ctx->Scissor.Width, ctx->Scissor.Height );
+      
+      ctx->Driver.DepthRange( ctx, 
+			      ctx->Viewport.Near,
+			      ctx->Viewport.Far );
    }
 }
 
@@ -601,6 +620,11 @@ void intelGetLock( intelContextPtr intel, GLuint flags )
 
    if (dPriv && intel->lastStamp != dPriv->lastStamp) {
       intelWindowMoved( intel );
+
+      _mesa_resize_framebuffer(&intel->ctx,
+			       (GLframebuffer*)dPriv->driverPrivate,
+			       dPriv->w, dPriv->h);
+
       intel->lastStamp = dPriv->lastStamp;
    }
 }
