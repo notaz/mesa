@@ -1,8 +1,8 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.5
+ * Version:  6.4.3
  *
- * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2006  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -1409,7 +1409,6 @@ texture_error_check( GLcontext *ctx, GLenum target,
 
    /* additional checks for depth textures */
    if (_mesa_base_tex_format(ctx, internalFormat) == GL_DEPTH_COMPONENT) {
-      /* Only 1D and 2D textures supported */
       /* Only 1D, 2D and rectangular textures supported, not 3D or cubes */
       if (target != GL_TEXTURE_1D &&
           target != GL_PROXY_TEXTURE_1D &&
@@ -1984,15 +1983,18 @@ _mesa_GetTexImage( GLenum target, GLint level, GLenum format,
 
    if (!ctx->Extensions.EXT_paletted_texture && is_index_format(format)) {
       _mesa_error(ctx, GL_INVALID_ENUM, "glGetTexImage(format)");
+      return;
    }
 
    if (!ctx->Extensions.SGIX_depth_texture &&
        !ctx->Extensions.ARB_depth_texture && is_depth_format(format)) {
       _mesa_error(ctx, GL_INVALID_ENUM, "glGetTexImage(format)");
+      return;
    }
 
    if (!ctx->Extensions.MESA_ycbcr_texture && is_ycbcr_format(format)) {
       _mesa_error(ctx, GL_INVALID_ENUM, "glGetTexImage(format)");
+      return;
    }
 
    if (!pixels)
