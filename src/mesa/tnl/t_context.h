@@ -1,8 +1,8 @@
 /*
  * mesa 3-D graphics library
- * Version:  6.3
+ * Version:  6.4.3
  *
- * Copyright (C) 1999-2005  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2006  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -201,7 +201,8 @@ enum {
 			      _TNL_BIT_SEVEN  |		\
 			      _TNL_BITS_TEX_ANY)
 
-
+/* Number of attributes used for evaluators */
+#define _TNL_NUM_EVAL 16
 
 #define PRIM_BEGIN     0x10
 #define PRIM_END       0x20
@@ -230,8 +231,8 @@ struct tnl_eval2_map {
 
 struct tnl_eval {
    GLuint new_state;
-   struct tnl_eval1_map map1[_TNL_ATTRIB_INDEX + 1];
-   struct tnl_eval2_map map2[_TNL_ATTRIB_INDEX + 1];
+   struct tnl_eval1_map map1[_TNL_NUM_EVAL];
+   struct tnl_eval2_map map2[_TNL_NUM_EVAL];
 };
 
 
