@@ -738,7 +738,10 @@ static GLboolean enable_tex_common( GLcontext *ctx, GLuint unit )
    }
 
    /* Fallback if there's a texture border */
-   if ( tObj->Image[0][tObj->BaseLevel]->Border > 0 ) {
+   if ( tObj->Image[0][tObj->BaseLevel]->Border > 0 ||
+        ((tObj->Image[0][tObj->BaseLevel]->_BaseFormat == GL_DEPTH_COMPONENT) &&
+         ((tObj->WrapS == GL_CLAMP_TO_BORDER) ||
+          (tObj->WrapT == GL_CLAMP_TO_BORDER)))) {
       return GL_FALSE;
    }
 

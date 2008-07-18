@@ -176,7 +176,10 @@ GLuint intel_finalize_mipmap_tree( struct intel_context *intel,
 
    /* Fallback case:
     */
-   if (firstImage->Border) {
+   if (firstImage->Border ||
+       ((firstImage->_BaseFormat == GL_DEPTH_COMPONENT) &&
+        ((tObj->WrapS == GL_CLAMP_TO_BORDER) ||
+         (tObj->WrapT == GL_CLAMP_TO_BORDER)))) {
       if (intelObj->mt) {
 	 intel_miptree_destroy(intel, intelObj->mt);
 	 intelObj->mt = NULL;
