@@ -361,13 +361,17 @@ static void r300SetTexImages(r300ContextPtr rmesa,
 	if (tObj->Target == GL_TEXTURE_CUBE_MAP) {
 		ASSERT(log2Width == log2Height);
 		t->format |= R300_TX_FORMAT_CUBIC_MAP;
+	} else if (tObj->Target == GL_TEXTURE_3D) {
+		t->format |= R300_TX_FORMAT_3D;
 	}
 
 	t->size =
 	    (((tObj->Image[0][t->base.firstLevel]->Width -
 	       1) << R300_TX_WIDTHMASK_SHIFT)
 	     | ((tObj->Image[0][t->base.firstLevel]->Height - 1) <<
-		R300_TX_HEIGHTMASK_SHIFT))
+		R300_TX_HEIGHTMASK_SHIFT)
+	     | ((tObj->Image[0][t->base.firstLevel]->DepthLog2) <<
+		R300_TX_DEPTHMASK_SHIFT))
 	    | ((numLevels - 1) << R300_TX_MAX_MIP_LEVEL_SHIFT);
 
 	/* Only need to round to nearest 32 for textures, but the blitter

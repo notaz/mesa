@@ -881,8 +881,8 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 #	define R300_TX_FORMAT_B8G8_B8G8	    	    0x14     /* no swizzle */
 #	define R300_TX_FORMAT_G8R8_G8B8	    	    0x15     /* no swizzle */
 	/* 0x16 - some 16 bit green format.. ?? */
-#	define R300_TX_FORMAT_UNK25		   (1 << 25) /* no swizzle */
-#	define R300_TX_FORMAT_CUBIC_MAP		   (1 << 26)
+#	define R300_TX_FORMAT_3D		   (1 << 25)
+#	define R300_TX_FORMAT_CUBIC_MAP		   (2 << 25)
 
 	/* gap */
 	/* Floating point formats */
