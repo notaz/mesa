@@ -333,6 +333,7 @@ SGI_GLU_FILES = \
 	$(DIRECTORY)/src/glu/sgi/Makefile.win				\
 	$(DIRECTORY)/src/glu/sgi/Makefile.DJ				\
 	$(DIRECTORY)/src/glu/sgi/glu.def				\
+	$(DIRECTORY)/src/glu/sgi/glu.exports				\
 	$(DIRECTORY)/src/glu/sgi/dummy.cc				\
 	$(DIRECTORY)/src/glu/sgi/descrip.mms				\
 	$(DIRECTORY)/src/glu/sgi/mesaglu.opt				\
