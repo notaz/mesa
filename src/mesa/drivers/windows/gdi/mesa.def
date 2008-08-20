@@ -917,6 +917,7 @@ EXPORTS
 	_mesa_get_shader_source
 	_mesa_get_teximage
 	_mesa_get_uniformfv
+	_mesa_get_uniformiv
 	_mesa_get_uniform_location
 	_mesa_init_driver_functions
 	_mesa_init_renderbuffer
