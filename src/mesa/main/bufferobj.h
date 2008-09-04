@@ -1,8 +1,8 @@
 /*
  * Mesa 3-D graphics library
- * Version:  6.3
+ * Version:  7.2
  *
- * Copyright (C) 1999-2004  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2008  Brian Paul   All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -52,10 +52,9 @@ _mesa_initialize_buffer_object( struct gl_buffer_object *obj,
 				GLuint name, GLenum target );
 
 extern void
-_mesa_save_buffer_object( GLcontext *ctx, struct gl_buffer_object *obj );
-
-extern void
-_mesa_remove_buffer_object( GLcontext *ctx, struct gl_buffer_object *bufObj );
+_mesa_reference_buffer_object(GLcontext *ctx,
+                              struct gl_buffer_object **ptr,
+                              struct gl_buffer_object *bufObj);
 
 extern void
 _mesa_buffer_data( GLcontext *ctx, GLenum target, GLsizeiptrARB size,
@@ -86,8 +85,6 @@ _mesa_validate_pbo_access(GLuint dimensions,
                           GLsizei width, GLsizei height, GLsizei depth,
                           GLenum format, GLenum type, const GLvoid *ptr);
 
-extern void
-_mesa_unbind_buffer_object( GLcontext *ctx, struct gl_buffer_object *bufObj );
 
 /*
  * API functions
