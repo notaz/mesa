@@ -853,7 +853,8 @@
 #define BRW_IS_GM45(brw)                ((brw)->intel.intelScreen->deviceID == PCI_CHIP_GM45_GM)
 #define BRW_IS_G4X(brw)                 (((brw)->intel.intelScreen->deviceID == PCI_CHIP_IGD_E_G) || \
                                          ((brw)->intel.intelScreen->deviceID == PCI_CHIP_G45_G) || \
-                                         ((brw)->intel.intelScreen->deviceID == PCI_CHIP_Q45_G))
+                                         ((brw)->intel.intelScreen->deviceID == PCI_CHIP_Q45_G) || \
+                                         ((brw)->intel.intelScreen->deviceID == PCI_CHIP_G41_G))
 #define CMD_PIPELINE_SELECT(brw)       ((BRW_IS_GM45(brw) || BRW_IS_G4X(brw)) ? CMD_PIPELINE_SELECT_GM45 : CMD_PIPELINE_SELECT_965)
 #define CMD_VF_STATISTICS(brw)         ((BRW_IS_GM45(brw) || BRW_IS_G4X(brw)) ? CMD_VF_STATISTICS_GM45 : CMD_VF_STATISTICS_965)
 #define URB_SIZES(brw)                 ((BRW_IS_GM45(brw) || BRW_IS_G4X(brw)) ? 384 : 256)  /* 512 bit unit */
