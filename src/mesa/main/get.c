@@ -3989,7 +3989,7 @@ _mesa_GetIntegerv( GLenum pname, GLint *params )
          params[0] = ctx->DrawBuffer->Visual.depthBits;
          break;
       case GL_DEPTH_CLEAR_VALUE:
-         params[0] = IROUND(ctx->Depth.Clear);
+         params[0] = FLOAT_TO_INT(ctx->Depth.Clear);
          break;
       case GL_DEPTH_FUNC:
          params[0] = ENUM_TO_INT(ctx->Depth.Func);
