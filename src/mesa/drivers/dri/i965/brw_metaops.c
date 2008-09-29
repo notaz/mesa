@@ -145,8 +145,8 @@ static const char *fp_prog =
 static const char *fp_tex_prog =
       "!!ARBfp1.0\n"
       "TEMP a;\n"
-      "ADD a, fragment.position, program.local[0];\n"
-      "MUL a, a, program.local[1];\n"
+      "MUL a, fragment.position, program.local[0];\n"
+      "ADD a, a, program.local[1];\n"
       "TEX result.color, a, texture[0], 2D;\n"
       "MOV result.depth.z, fragment.position;\n"
       "END\n";
@@ -339,16 +339,20 @@ static void meta_frame_buffer_texture( struct intel_context *intel,
       instead of brw->attribs.FragmentProgram. */
    intel->ctx.FragmentProgram.Current = brw->metaops.fp_tex;
 
-   brw->metaops.fp_tex->Base.LocalParams[ 0 ][ 0 ] = xoff;
-   brw->metaops.fp_tex->Base.LocalParams[ 0 ][ 1 ] = yoff;
-   brw->metaops.fp_tex->Base.LocalParams[ 0 ][ 2 ] = 0.0;
-   brw->metaops.fp_tex->Base.LocalParams[ 0 ][ 3 ] = 0.0;
-   brw->metaops.fp_tex->Base.LocalParams[ 1 ][ 0 ] =
+   brw->metaops.fp_tex->Base.LocalParams[ 0 ][ 0 ] =
       1.0 / region->pitch;
-   brw->metaops.fp_tex->Base.LocalParams[ 1 ][ 1 ] =
+   brw->metaops.fp_tex->Base.LocalParams[ 0 ][ 1 ] =
       -1.0 / region->height;
+   brw->metaops.fp_tex->Base.LocalParams[ 0 ][ 2 ] = 0.0;
+   brw->metaops.fp_tex->Base.LocalParams[ 0 ][ 3 ] = 1.0;
+   
+   brw->metaops.fp_tex->Base.LocalParams[ 1 ][ 0 ] =
+      ( intel->driDrawable->x + xoff + 0.5 ) / region->pitch;
+   brw->metaops.fp_tex->Base.LocalParams[ 1 ][ 1 ] =
+      ( intel->driDrawable->y + intel->driDrawable->h - yoff - 0.5 ) /
+      region->height;
    brw->metaops.fp_tex->Base.LocalParams[ 1 ][ 2 ] = 0.0;
-   brw->metaops.fp_tex->Base.LocalParams[ 1 ][ 3 ] = 1.0;
+   brw->metaops.fp_tex->Base.LocalParams[ 1 ][ 3 ] = 0.0;
    
    brw->state.dirty.mesa |= _NEW_PROGRAM;
 }
