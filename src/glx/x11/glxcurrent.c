@@ -354,7 +354,7 @@ static Bool MakeContextCurrent(Display *dpy, GLXDrawable draw,
     const CARD8 oldOpcode = ((gc == oldGC) || (oldGC == &dummyContext))
       ? opcode : __glXSetupForCommand(oldGC->currentDpy);
     Bool bindReturnValue;
-
+    __GLXattribute *state;
 
     if (!opcode || !oldOpcode) {
 	return GL_FALSE;
@@ -475,7 +475,7 @@ static Bool MakeContextCurrent(Display *dpy, GLXDrawable draw,
                } while (0);
 #endif
 
-		__GLXattribute *state = 
+		state = 
 		  (__GLXattribute *)(gc->client_state_private);
 
 		gc->currentContextTag = reply.contextTag;
