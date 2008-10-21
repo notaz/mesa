@@ -444,7 +444,8 @@ i830_emit_state(struct intel_context *intel)
    ret = 0;
    if (dirty & I830_UPLOAD_BUFFERS) {
      ret |= dri_bufmgr_check_aperture_space(state->draw_region->buffer);
-     ret |= dri_bufmgr_check_aperture_space(state->depth_region->buffer);
+     if (state->depth_region)
+         ret |= dri_bufmgr_check_aperture_space(state->depth_region->buffer);
    }
    
    for (i = 0; i < I830_TEX_UNITS; i++)
