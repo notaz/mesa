@@ -3032,9 +3032,6 @@ _mesa_CopyTexSubImage1D( GLenum target, GLint level,
    if (ctx->NewState & _IMAGE_NEW_TRANSFER_STATE)
       _mesa_update_state(ctx);
 
-   /* XXX should test internal format */
-   _mesa_adjust_image_for_convolution(ctx, 1, &postConvWidth, NULL);
-
    if (copytexsubimage_error_check1(ctx, 1, target, level))
       return;
 
@@ -3044,6 +3041,10 @@ _mesa_CopyTexSubImage1D( GLenum target, GLint level,
    _mesa_lock_texture(ctx, texObj);
    {
       texImage = _mesa_select_tex_image(ctx, texObj, target, level);
+
+      if (texImage && _mesa_is_color_format(texImage->InternalFormat)) {
+         _mesa_adjust_image_for_convolution(ctx, 1, &postConvWidth, NULL);
+      }
 
       if (copytexsubimage_error_check2(ctx, 1, target, level,
 				       xoffset, 0, 0, postConvWidth, 1,
@@ -3079,9 +3080,6 @@ _mesa_CopyTexSubImage2D( GLenum target, GLint level,
    if (ctx->NewState & _IMAGE_NEW_TRANSFER_STATE)
       _mesa_update_state(ctx);
 
-   /* XXX should test internal format */
-   _mesa_adjust_image_for_convolution(ctx, 2, &postConvWidth, &postConvHeight);
-
    if (copytexsubimage_error_check1(ctx, 2, target, level))
       return;
 
@@ -3091,6 +3089,11 @@ _mesa_CopyTexSubImage2D( GLenum target, GLint level,
    _mesa_lock_texture(ctx, texObj);
    {
       texImage = _mesa_select_tex_image(ctx, texObj, target, level);
+
+      if (texImage && _mesa_is_color_format(texImage->InternalFormat)) {
+         _mesa_adjust_image_for_convolution(ctx, 2,
+                                            &postConvWidth, &postConvHeight);
+      }
 
       if (copytexsubimage_error_check2(ctx, 2, target, level, xoffset, yoffset, 0,
 				       postConvWidth, postConvHeight, texImage))
@@ -3126,9 +3129,6 @@ _mesa_CopyTexSubImage3D( GLenum target, GLint level,
    if (ctx->NewState & _IMAGE_NEW_TRANSFER_STATE)
       _mesa_update_state(ctx);
 
-   /* XXX should test internal format */
-   _mesa_adjust_image_for_convolution(ctx, 2, &postConvWidth, &postConvHeight);
-
    if (copytexsubimage_error_check1(ctx, 3, target, level))
       return;
 
@@ -3138,6 +3138,11 @@ _mesa_CopyTexSubImage3D( GLenum target, GLint level,
    _mesa_lock_texture(ctx, texObj);
    {
       texImage = _mesa_select_tex_image(ctx, texObj, target, level);
+
+      if (texImage && _mesa_is_color_format(texImage->InternalFormat)) {
+         _mesa_adjust_image_for_convolution(ctx, 2,
+                                            &postConvWidth, &postConvHeight);
+      }
 
       if (copytexsubimage_error_check2(ctx, 3, target, level, xoffset, yoffset,
 				       zoffset, postConvWidth, postConvHeight,
