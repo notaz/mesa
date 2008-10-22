@@ -387,9 +387,10 @@ _mesa_base_tex_format( GLcontext *ctx, GLint internalFormat )
  * index, depth, stencil, etc).
  * \param format  the image format value (may by an internal texture format)
  * \return GL_TRUE if its a color/RGBA format, GL_FALSE otherwise.
+ * XXX maybe move this func to image.c
  */
-static GLboolean
-is_color_format(GLenum format)
+GLboolean
+_mesa_is_color_format(GLenum format)
 {
    switch (format) {
       case GL_RED:
@@ -490,6 +491,7 @@ is_color_format(GLenum format)
 #endif /* FEATURE_EXT_texture_sRGB */
          return GL_TRUE;
       case GL_YCBCR_MESA:  /* not considered to be RGB */
+         /* fall-through */
       default:
          return GL_FALSE;
    }
@@ -1569,9 +1571,9 @@ texture_error_check( GLcontext *ctx, GLenum target,
    }
 
    /* make sure internal format and format basically agree */
-   colorFormat = is_color_format(format);
+   colorFormat = _mesa_is_color_format(format);
    indexFormat = is_index_format(format);
-   if ((is_color_format(internalFormat) && !colorFormat && !indexFormat) ||
+   if ((_mesa_is_color_format(internalFormat) && !colorFormat && !indexFormat) ||
        (is_index_format(internalFormat) && !indexFormat) ||
        (is_depth_format(internalFormat) != is_depth_format(format)) ||
        (is_ycbcr_format(internalFormat) != is_ycbcr_format(format)) ||
@@ -2319,8 +2321,8 @@ _mesa_GetTexImage( GLenum target, GLint level, GLenum format,
        * texture's format.  Note that a color index texture can be converted
        * to RGBA so that combo is allowed.
        */
-      if (is_color_format(format)
-	  && !is_color_format(texImage->TexFormat->BaseFormat)
+      if (_mesa_is_color_format(format)
+	  && !_mesa_is_color_format(texImage->TexFormat->BaseFormat)
 	  && !is_index_format(texImage->TexFormat->BaseFormat)) {
 	 _mesa_error(ctx, GL_INVALID_OPERATION, "glGetTexImage(format mismatch)");
 	 goto out;
@@ -2412,7 +2414,7 @@ _mesa_TexImage1D( GLenum target, GLint level, GLint internalFormat,
    GET_CURRENT_CONTEXT(ctx);
    ASSERT_OUTSIDE_BEGIN_END_AND_FLUSH(ctx);
 
-   if (is_color_format(internalFormat)) {
+   if (_mesa_is_color_format(internalFormat)) {
       _mesa_adjust_image_for_convolution(ctx, 1, &postConvWidth, NULL);
    }
 
@@ -2507,7 +2509,7 @@ _mesa_TexImage2D( GLenum target, GLint level, GLint internalFormat,
    GET_CURRENT_CONTEXT(ctx);
    ASSERT_OUTSIDE_BEGIN_END_AND_FLUSH(ctx);
 
-   if (is_color_format(internalFormat)) {
+   if (_mesa_is_color_format(internalFormat)) {
       _mesa_adjust_image_for_convolution(ctx, 2, &postConvWidth,
 					 &postConvHeight);
    }
@@ -2730,7 +2732,7 @@ _mesa_TexSubImage1D( GLenum target, GLint level,
       _mesa_update_state(ctx);
 
    /* XXX should test internal format */
-   if (is_color_format(format)) {
+   if (_mesa_is_color_format(format)) {
       _mesa_adjust_image_for_convolution(ctx, 1, &postConvWidth, NULL);
    }
 
@@ -2788,7 +2790,7 @@ _mesa_TexSubImage2D( GLenum target, GLint level,
       _mesa_update_state(ctx);
 
    /* XXX should test internal format */
-   if (is_color_format(format)) {
+   if (_mesa_is_color_format(format)) {
       _mesa_adjust_image_for_convolution(ctx, 2, &postConvWidth,
                                          &postConvHeight);
    }
@@ -2901,7 +2903,7 @@ _mesa_CopyTexImage1D( GLenum target, GLint level,
    if (ctx->NewState & _IMAGE_NEW_TRANSFER_STATE)
       _mesa_update_state(ctx);
 
-   if (is_color_format(internalFormat)) {
+   if (_mesa_is_color_format(internalFormat)) {
       _mesa_adjust_image_for_convolution(ctx, 1, &postConvWidth, NULL);
    }
 
@@ -2964,7 +2966,7 @@ _mesa_CopyTexImage2D( GLenum target, GLint level, GLenum internalFormat,
    if (ctx->NewState & _IMAGE_NEW_TRANSFER_STATE)
       _mesa_update_state(ctx);
 
-   if (is_color_format(internalFormat)) {
+   if (_mesa_is_color_format(internalFormat)) {
       _mesa_adjust_image_for_convolution(ctx, 2, &postConvWidth,
                                          &postConvHeight);
    }

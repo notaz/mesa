@@ -107,6 +107,10 @@ _mesa_test_proxy_teximage(GLcontext *ctx, GLenum target, GLint level,
                          GLint width, GLint height, GLint depth, GLint border);
 
 
+extern GLboolean
+_mesa_is_color_format(GLenum format);
+
+
 /**
  * Lock a texture for updating.  See also _mesa_lock_context_textures().
  */
