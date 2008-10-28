@@ -82,7 +82,7 @@ dnl Compiler macros
 DEFINES=""
 AC_SUBST([DEFINES])
 case "$host_os" in
-linux*)
+*-gnu)
 if test "x$GCC" = xyes; then
     DEFINES="$DEFINES -D_POSIX_SOURCE -D_POSIX_C_SOURCE=199309L -D_BSD_SOURCE"
 fi
@@ -270,14 +270,14 @@ if test "x$enable_asm" = xyes; then
     case "$host_cpu" in
     i?86)
         case "$host_os" in
-        linux* | freebsd* | dragonfly*)
+        linux* | *freebsd* | dragonfly*)
             test "x$enable_64bit" = xyes && asm_arch=x86_64 || asm_arch=x86
             ;;
         esac
         ;;
     x86_64)
         case "$host_os" in
-        linux* | freebsd* | dragonfly*)
+        linux* | *freebsd* | dragonfly*)
             test "x$enable_32bit" = xyes && asm_arch=x86 || asm_arch=x86_64
             ;;
         esac
@@ -367,7 +367,7 @@ linux*)
     i*86|x86_64|powerpc*) default_driver="dri";;
     esac
     ;;
-freebsd* | dragonfly*)
+*freebsd* | dragonfly*)
     case "$host_cpu" in
     i*86|x86_64) default_driver="dri";;
     esac
