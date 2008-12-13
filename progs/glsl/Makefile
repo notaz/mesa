@@ -16,6 +16,7 @@ PROGS = \
 	convolutions \
 	deriv \
 	mandelbrot \
+	multinoise \
 	multitex \
 	noise \
 	points \
