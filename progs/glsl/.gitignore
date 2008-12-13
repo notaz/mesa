@@ -4,6 +4,7 @@ bump
 deriv
 extfuncs.h
 mandelbrot
+multinoise
 noise
 points
 readtex.c

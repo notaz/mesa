@@ -14,6 +14,7 @@ PROGS = \
 	bump \
 	deriv \
 	mandelbrot \
+	multinoise \
 	noise \
 	toyball \
 	texdemo1
