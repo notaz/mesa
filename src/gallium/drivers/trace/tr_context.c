@@ -1891,6 +1891,6 @@ error1:
 void
 trace_context_check(const struct pipe_context *pipe)
 {
-   struct trace_context *tr_ctx = (struct trace_context *) pipe;
+   __maybe_unused struct trace_context *tr_ctx = (struct trace_context *) pipe;
    assert(tr_ctx->base.destroy == trace_context_destroy);
 }
