@@ -31,7 +31,7 @@ struct lower_push_constants_state {
 static bool
 lower_push_constants_block(nir_block *block, void *void_state)
 {
-   struct lower_push_constants_state *state = void_state;
+   __maybe_unused struct lower_push_constants_state *state = void_state;
 
    nir_foreach_instr(block, instr) {
       if (instr->type != nir_instr_type_intrinsic)
