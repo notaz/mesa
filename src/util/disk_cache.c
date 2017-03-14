@@ -158,29 +158,6 @@ concatenate_and_mkdir(void *ctx, const char *path, const char *name)
       return NULL;
 }
 
-static char *
-create_mesa_cache_dir(void *mem_ctx, const char *path, const char *gpu_name)
-{
-   char *new_path = concatenate_and_mkdir(mem_ctx, path, "mesa");
-   if (new_path == NULL)
-      return NULL;
-
-   /* Create a parent architecture directory so that we don't remove cache
-    * files for other architectures. In theory we could share the cache
-    * between architectures but we have no way of knowing if they were created
-    * by a compatible Mesa version.
-    */
-   new_path = concatenate_and_mkdir(mem_ctx, new_path, get_arch_bitness_str());
-   if (new_path == NULL)
-      return NULL;
-
-   new_path = concatenate_and_mkdir(mem_ctx, new_path, gpu_name);
-   if (new_path == NULL)
-      return NULL;
-
-   return new_path;
-}
-
 struct disk_cache *
 disk_cache_create(const char *gpu_name, const void *version_blob,
                   size_t version_blob_size)
@@ -218,7 +195,7 @@ disk_cache_create(const char *gpu_name, const void *version_blob,
       if (mkdir_if_needed(path) == -1)
          goto fail;
 
-      path = create_mesa_cache_dir(local, path, gpu_name);
+      path = concatenate_and_mkdir(local, path, "mesa");
       if (path == NULL)
          goto fail;
    }
@@ -230,7 +207,7 @@ disk_cache_create(const char *gpu_name, const void *version_blob,
          if (mkdir_if_needed(xdg_cache_home) == -1)
             goto fail;
 
-         path = create_mesa_cache_dir(local, xdg_cache_home, gpu_name);
+         path = concatenate_and_mkdir(local, xdg_cache_home, "mesa");
          if (path == NULL)
             goto fail;
       }
@@ -266,7 +243,7 @@ disk_cache_create(const char *gpu_name, const void *version_blob,
       if (path == NULL)
          goto fail;
 
-      path = create_mesa_cache_dir(local, path, gpu_name);
+      path = concatenate_and_mkdir(local, path, "mesa");
       if (path == NULL)
          goto fail;
    }
@@ -275,11 +252,25 @@ disk_cache_create(const char *gpu_name, const void *version_blob,
    if (cache == NULL)
       goto fail;
 
-   cache->key_blob_size = version_blob_size;
+   /* Prepare the blob to hash into the cache keys */
+   uint8_t pointer_size = sizeof(void *);
+   cache->key_blob_size = version_blob_size + sizeof(pointer_size);
+   if (gpu_name != NULL)
+      cache->key_blob_size += strlen(gpu_name);
    cache->key_blob = ralloc_size(cache, cache->key_blob_size);
    if (cache->key_blob == NULL)
       goto fail;
-   memcpy(cache->key_blob, version_blob, version_blob_size);
+
+   char *pos = cache->key_blob;
+   memcpy(pos, version_blob, version_blob_size);
+   pos += version_blob_size;
+   memcpy(pos, &pointer_size, sizeof(pointer_size));
+   pos += sizeof(pointer_size);
+   if (gpu_name != NULL) {
+      memcpy(pos, gpu_name, strlen(gpu_name));
+      pos += strlen(gpu_name);
+   }
+   assert(pos == (char *)cache->key_blob + cache->key_blob_size);
 
    cache->path = ralloc_strdup(cache, path);
    if (cache->path == NULL)
