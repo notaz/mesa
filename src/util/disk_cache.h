@@ -110,7 +110,8 @@ disk_cache_get_function_timestamp(void *ptr, uint32_t* timestamp)
  * assistance in computing SHA-1 signatures.
  */
 struct disk_cache *
-disk_cache_create(const char *gpu_name, const char *timestamp);
+disk_cache_create(const char *gpu_name, const void *version_blob,
+                  size_t version_blob_size);
 
 /**
  * Destroy a cache object, (freeing all associated resources).
@@ -188,7 +189,8 @@ disk_cache_compute_key(struct disk_cache *cache, const void *data, size_t size,
 #else
 
 static inline struct disk_cache *
-disk_cache_create(const char *gpu_name, const char *timestamp)
+disk_cache_create(const char *gpu_name, const void *version_blob,
+                  size_t version_blob_size)
 {
    return NULL;
 }

@@ -790,31 +790,26 @@ static void r600_disk_cache_create(struct r600_common_screen *rscreen)
 	    (DBG_FS | DBG_VS | DBG_TCS | DBG_TES | DBG_GS | DBG_PS | DBG_CS))
 		return;
 
-	uint32_t mesa_timestamp;
-	if (disk_cache_get_function_timestamp(r600_disk_cache_create,
-					      &mesa_timestamp)) {
-		char *timestamp_str;
-		int res = -1;
-		if (rscreen->chip_class < SI) {
-			res = asprintf(&timestamp_str, "%u",mesa_timestamp);
-		}
+	struct {
+		uint32_t mesa;
+		uint32_t llvm;
+	} timestamps = {};
+	size_t size;
+	if (!disk_cache_get_function_timestamp(r600_disk_cache_create,
+					       &timestamps.mesa))
+		return;
+	size = sizeof(timestamps.mesa);
+
 #if HAVE_LLVM
-		else {
-			uint32_t llvm_timestamp;
-			if (disk_cache_get_function_timestamp(LLVMInitializeAMDGPUTargetInfo,
-							      &llvm_timestamp)) {
-				res = asprintf(&timestamp_str, "%u_%u",
-					       mesa_timestamp, llvm_timestamp);
-			}
-		}
-#endif
-		if (res != -1) {
-			rscreen->disk_shader_cache =
-				disk_cache_create(r600_get_chip_name(rscreen),
-						  timestamp_str);
-			free(timestamp_str);
-		}
+	if (rscreen->chip_class >= SI) {
+		if (!disk_cache_get_function_timestamp(LLVMInitializeAMDGPUTargetInfo,
+						       &timestamps.llvm))
+			return;
+		size = sizeof(timestamps);
 	}
+#endif
+	rscreen->disk_shader_cache = disk_cache_create(r600_get_chip_name(rscreen),
+						       &timestamps, size);
 }
 
 static struct disk_cache *r600_get_disk_shader_cache(struct pipe_screen *pscreen)

@@ -182,7 +182,8 @@ create_mesa_cache_dir(void *mem_ctx, const char *path, const char *gpu_name)
 }
 
 struct disk_cache *
-disk_cache_create(const char *gpu_name, const char *timestamp)
+disk_cache_create(const char *gpu_name, const void *version_blob,
+                  size_t version_blob_size)
 {
    void *local;
    struct disk_cache *cache = NULL;
@@ -274,11 +275,11 @@ disk_cache_create(const char *gpu_name, const char *timestamp)
    if (cache == NULL)
       goto fail;
 
-   cache->key_blob_size = strlen(timestamp);
+   cache->key_blob_size = version_blob_size;
    cache->key_blob = ralloc_size(cache, cache->key_blob_size);
    if (cache->key_blob == NULL)
       goto fail;
-   memcpy(cache->key_blob, timestamp, cache->key_blob_size);
+   memcpy(cache->key_blob, version_blob, version_blob_size);
 
    cache->path = ralloc_strdup(cache, path);
    if (cache->path == NULL)
