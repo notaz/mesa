@@ -753,6 +753,7 @@ destroy_put_job(void *job, int thread_index)
 struct cache_entry_file_data {
    uint32_t crc32;
    uint32_t uncompressed_size;
+   uint32_t key_blob_size;
 };
 
 static void
@@ -828,9 +829,20 @@ cache_put(void *job, int thread_index)
    struct cache_entry_file_data cf_data;
    cf_data.crc32 = util_hash_crc32(dc_job->data, dc_job->size);
    cf_data.uncompressed_size = dc_job->size;
+   cf_data.key_blob_size = dc_job->cache->key_blob_size;
 
    size_t cf_data_size = sizeof(cf_data);
    ret = write_all(fd, &cf_data, cf_data_size);
+   if (ret == -1) {
+      unlink(filename_tmp);
+      goto done;
+   }
+
+   /* Write the key_blob, this can be used find information about the
+    * mesa version that produced the entry or deal with hash collisions,
+    * should that ever become a real problem.
+    */
+   ret = write_all(fd, dc_job->cache->key_blob, dc_job->cache->key_blob_size);
    if (ret == -1) {
       unlink(filename_tmp);
       goto done;
@@ -852,7 +864,7 @@ cache_put(void *job, int thread_index)
       goto done;
    }
 
-   file_size += cf_data_size;
+   file_size += cf_data_size + dc_job->cache->key_blob_size;
    p_atomic_add(dc_job->cache->size, file_size);
 
  done:
@@ -959,8 +971,16 @@ disk_cache_get(struct disk_cache *cache, const cache_key key, size_t *size)
          goto fail;
    }
 
+   if (cf_data.key_blob_size != cache->key_blob_size)
+      goto fail;
+
+   /* Right now we don't use the key_blob, just skip it */
+   ret = lseek(fd, cache->key_blob_size, SEEK_CUR);
+   if (ret == -1)
+      goto fail;
+
    /* Load the actual cache data. */
-   size_t cache_data_size = sb.st_size - cf_data_size;
+   size_t cache_data_size = sb.st_size - cf_data_size - cache->key_blob_size;
    for (len = 0; len < cache_data_size; len += ret) {
       ret = read(fd, data + len, cache_data_size - len);
       if (ret == -1)
